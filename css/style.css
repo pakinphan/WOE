@@ -7,10 +7,15 @@
     box-sizing: border-box;
 }
 
+@font-face {
+    font-family: Issara;
+    src: url(/asset/Font/FC\ Issara\ Rounded\ Non-commercial.ttf);
+  }
+
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Kanit', sans-serif;
+    font-family: Issara;
     background-color: #000;
     color: #fff;
     display: flex;
@@ -137,46 +142,91 @@ body {
 
 /* Room Scene */
 #room-scene {
-    background-color: #222;
+    width: 100%;
+    height: 100%;
     position: relative;
-    overflow: hidden;
+    background-image: url('/asset/image/background/BigRoomNelly/BG.PNG');
+    
+    background-size: cover;      /* Cover the entire div, may crop */
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#foreground-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-image: url('/asset/image/background/BigRoomNelly/Reserve/DecoCorner.png'); /* example foreground image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    pointer-events: none; /* allows clicking through foreground if needed */
+    z-index: 15;
 }
 
 #player {
     position: absolute;
-    bottom: 50px;
-    left: 50%;
-    width: 50px;
-    height: 100px;
-    background-color: red;
-    transform: translateX(-50%);
+    bottom: -100px;
+    left: 0;
+
+    width: 400px;
+    height: 800px;
     z-index: 10;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    
+    /* transition: left 0.2s ease-in-out; <-- REMOVE this */
 }
 
 .item {
     position: absolute;
     width: 50px;
     height: 50px;
-    background-color: yellow;
     cursor: pointer;
 }
 
 #item1 {
-    top: 100px;
-    left: 200px;
-    background-color: blue;
+    position: absolute; /* <-- THIS IS MISSING */
+    top: 150px;
+    left: 46%;
+    width: 300px;
+    height: 300px;
+    background-image: url('/asset/image/background/BigRoomNelly/Item/Hang-pic.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 16;
+
 }
 
 #item2 {
-    top: 200px;
-    left: 400px;
-    background-color: green;
+    position: absolute; /* <-- THIS IS MISSING */
+    top: 700px;
+    left: 13%;
+    width: 300px;
+    height: 300px;
+    background-image: url('/asset/image/background/BigRoomNelly/Item/Board.PNG');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 9;
+
 }
 
 #item3.box {
-    top: 150px;
-    left: 600px;
-    background-color: #8D6E63;
+    position: absolute; /* <-- THIS IS MISSING */
+    top: 650px;
+    left: 70%;
+    width: 400px;
+    height: 400px;
+    background-image: url('/asset/image/background/BigRoomNelly/Item/Toy.PNG');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 9;
 }
 
 #door {

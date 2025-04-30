@@ -104,20 +104,54 @@
         });
 
         // Player movement
+        let keys = { ArrowLeft: false, ArrowRight: false };
+        let playerSpeed = 4; // Your speed
+        let animationFrameId = null;
+        
         document.addEventListener('keydown', (e) => {
             if (currentScene !== 'room-scene') return;
-            
-            const playerPos = parseInt(getComputedStyle(player).left);
-            const moveDistance = 30;
-            const gameWidth = document.body.clientWidth;
-            const playerWidth = 50;
-            
-            if (e.key === 'ArrowLeft' && playerPos > moveDistance) {
-                player.style.left = (playerPos - moveDistance) + 'px';
-            } else if (e.key === 'ArrowRight' && playerPos < gameWidth - moveDistance - playerWidth) {
-                player.style.left = (playerPos + moveDistance) + 'px';
+        
+            if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !keys[e.key]) {
+                keys[e.key] = true;
+                if (!animationFrameId) movePlayer();
             }
         });
+        
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                keys[e.key] = false;
+        
+                // Stop movement if both keys are up
+                if (!keys.ArrowLeft && !keys.ArrowRight) {
+                    cancelAnimationFrame(animationFrameId);
+                    animationFrameId = null;
+                }
+            }
+        });
+        
+        function movePlayer() {
+            const playerPos = parseInt(getComputedStyle(player).left);
+            const gameWidth = document.body.clientWidth;
+            const playerWidth = player.offsetWidth;
+            let newLeft = playerPos;
+        
+            if (keys.ArrowLeft) {
+                newLeft = Math.max(0, playerPos - playerSpeed);
+            }
+            if (keys.ArrowRight) {
+                newLeft = Math.min(gameWidth - playerWidth, playerPos + playerSpeed);
+            }
+        
+            player.style.left = newLeft + 'px';
+        
+            // Continue if any key is held
+            if (keys.ArrowLeft || keys.ArrowRight) {
+                animationFrameId = requestAnimationFrame(movePlayer);
+            } else {
+                animationFrameId = null;
+            }
+        }
+        
 
         // Item click events
         items.forEach((item) => {
