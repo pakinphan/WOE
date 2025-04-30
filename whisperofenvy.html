@@ -1,55 +1,68 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Whisper Of Envy</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
     <div id="container">
-    <!-- Home Scene -->
-    <div id="home-scene" class="scene active">
-        Welcome to Adventure Game - Click to Start
-    </div>
-    
-    <!-- Cutscene 1 - Video -->
-    <div id="cutscene-1" class="scene">
-        <div id="video-container">
-            <video id="video-player"></video> 
-            <div id="next-button">
-                <span class="next-button-text">ไปต่อ</span>
-                <img src="/asset/image/Button/next yellow.png" alt="Next" />
-
-            </div>
+        <!-- Home Scene -->
+        <div id="home-scene" class="scene active">
+            Welcome to Adventure Game - Click to Start
         </div>
-    </div>
 
-    
-    <!-- Room Scene -->
-    <div id="room-scene" class="scene">
-        <div id="foreground-layer"></div>
-        <div id="player" style="background-image: url('/asset/image/character/Nelly/Nelly.PNG');"></div>
-        <div class="item" id="item1"></div>
-        <div class="item" id="item2"></div>
-        <div class="item box" id="item3"></div>
-        <div id="door"></div>
-        
-        <!-- Item overlay -->
-        <div id="item-overlay">
-            <div id="item-display">
-                <button id="close-item">X</button>
-                <div id="current-item"></div>
-                <div id="box-content">
-                    <div id="key-item"></div>
+        <!-- Cutscene 1 - Video -->
+        <div id="cutscene-1" class="scene">
+            <div id="video-container">
+                <video id="video-player" muted></video>
+                <div id="next-button">
+                    <span class="next-button-text">ไปต่อ</span>
+                    <img src="/asset/image/Button/next yellow.png" alt="Next" />
+
                 </div>
             </div>
         </div>
-        
-        <div id="game-message"></div>
+
+
+        <!-- Room Scene -->
+        <div id="room-scene" class="scene">
+            <div id="foreground-layer"></div>
+            <div id="foreground-layer2"></div>
+            <div id="player" style="background-image: url('/asset/image/character/Nelly/Nelly.PNG');"></div>
+            <div class="item" id="item1"></div>
+            <div class="item" id="item2"></div>
+            <div class="item box" id="item3"></div>
+            <div id="door"></div>
+
+            <!-- Item overlay -->
+            <div id="item-overlay">
+                <div id="item-display">
+                    <button id="close-item">X</button>
+                    <div id="current-item"></div>
+                    <div id="box-content">
+                        <img id="key-image" src="asset/image/background/BigRoomNelly/Item/picinbox1.PNG" alt="key image" style="cursor: pointer;" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image overlay -->
+            <div id="image-overlay" style="display:none;">
+                <div id="image-popup">
+                    <img id="overlay-image" src="asset/image/background/BigRoomNelly/Item/picinbox2.PNG" alt="image detail" />
+                </div>
+            </div>
+
+
+
+            <div id="game-message"></div>
+        </div>
     </div>
-</div>
-    
+
     <script src="/js/game.js"></script>
 </body>
+
 </html>

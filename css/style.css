@@ -6,6 +6,9 @@
     padding: 0;
     box-sizing: border-box;
 }
+/* สี Theme
+#347bd3
+#e7ad47 */
 
 @font-face {
     font-family: Issara;
@@ -168,13 +171,29 @@ body {
     z-index: 15;
 }
 
+#foreground-layer2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-image: url('/asset/image/background/BigRoomNelly/Reserve/Floor.png'); /* example foreground image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    pointer-events: none; /* allows clicking through foreground if needed */
+    z-index: 8;
+}
+
 #player {
     position: absolute;
-    bottom: -100px;
+    bottom: 50px;
     left: 0;
 
-    width: 400px;
-    height: 800px;
+    width: 450px;
+    height: 450px;
     z-index: 10;
 
     background-size: contain;
@@ -193,10 +212,10 @@ body {
 
 #item1 {
     top: 10%;    /* Vertical position as percentage */
-    left: 46%;
+    left: 52%;
     aspect-ratio: 1 / 1;
-    width: 12%;
-    height: 25%;
+    width: 16%;
+    height: 30%;
     background-image: url('/asset/image/background/BigRoomNelly/Item/Hang-pic.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -206,11 +225,11 @@ body {
 }
 
 #item2 {
-    position: absolute; /* <-- THIS IS MISSING */
-    top: 700px;
+    top: 70%;    /* Vertical position as percentage */
     left: 13%;
-    width: 300px;
-    height: 300px;
+    aspect-ratio: 1 / 1;
+    width: 15%;
+    height: 30%;
     background-image: url('/asset/image/background/BigRoomNelly/Item/Board.PNG');
     background-size: cover;
     background-repeat: no-repeat;
@@ -219,11 +238,11 @@ body {
 }
 
 #item3.box {
-    position: absolute; /* <-- THIS IS MISSING */
-    top: 650px;
-    left: 70%;
-    width: 400px;
-    height: 400px;
+    top: 67%;    /* Vertical position as percentage */
+    left: 65%;
+    aspect-ratio: 1 / 1;
+    width: 20%;
+    height: 35%;
     background-image: url('/asset/image/background/BigRoomNelly/Item/Toy.PNG');
     background-size: cover;
     background-repeat: no-repeat;
@@ -232,12 +251,17 @@ body {
 
 #door {
     position: absolute;
-    top: 100px;
-    right: 100px;
-    width: 80px;
-    height: 150px;
-    background-color: brown;
+    top: 6%;    /* Vertical position as percentage */
+    left: 15%;
+    aspect-ratio: 1 / 1;
+    width: 40%;
+    height: 80%;
+    background-image: url('/asset/image/background/BigRoomNelly/Item/Door.PNG');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 7;
     cursor: pointer;
+
 }
 
 /* Item Overlay */
@@ -256,10 +280,11 @@ body {
 
 #item-display {
     position: relative;
-    width: 400px;
-    height: 400px;
-    background-color: #333;
-    border-radius: 10px;
+    width: 50%;
+    height: 60%;
+
+    background-size: cover;
+    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -267,21 +292,48 @@ body {
 
 #close-item {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: red;
+    top: 10%;
+    right: 10%;
+    background-color: #347bd38c;
+    font-family: Issara;
+    font-size: 14pt;
     color: white;
     border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: 20%;
     cursor: pointer;
+    padding-bottom: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #current-item {
-    width: 300px;
-    height: 300px;
-    background-color: yellow;
+    width: 800px;
+    height: 600px;
+
+}
+
+#image-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+#image-popup img {
+    max-width: 90%;
+    max-height: 90%;
+    cursor: pointer;
+
+    border-radius: 8px;
 }
 
 #box-content {
@@ -299,6 +351,24 @@ body {
     height: 30px;
     background-color: gold;
     cursor: pointer;
+}
+
+#key-image {
+    width: 1000px; /* ปรับขนาดตามต้องการ */
+    height: auto; /* รักษาสัดส่วนภาพ */
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    transition: transform 0.2s ease;
+}
+
+#overlay-image {
+    width: 1000px; /* ปรับขนาดตามต้องการ */
+    height: auto; /* รักษาสัดส่วนภาพ */
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    transition: transform 0.2s ease;
 }
 
 /* Game Message */
