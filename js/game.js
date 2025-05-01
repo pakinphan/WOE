@@ -165,12 +165,12 @@ items.forEach((item) => {
         if (item.id === 'item3') { // กล่อง
             currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomNelly/Item/ToyOpen.PNG')"; // เปลี่ยนภาพกล่อง
             currentItem.style.backgroundSize = 'cover';
-            currentItem.style.width = '800px';
-            currentItem.style.height = '800px';
+            currentItem.style.width = '80%';
+            currentItem.style.height = '100%';
 
             currentItem.onclick = () => {
                 boxContent.style.display = 'flex';
-                showMessage('โอ๊ะ!! มีของอยู่ข้างใน');
+                showMessage('โอ๊ะ!! เจอรูปภาพข้างใน');
             };
         } else if (item.id === 'item2') { // ไอเทม 2
             currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomNelly/Item/Board2.PNG')"; // เปลี่ยนภาพเฉพาะใน overlay
@@ -179,7 +179,7 @@ items.forEach((item) => {
             currentItem.style.height = '500px';
             currentItem.onclick = null;
             boxContent.style.display = 'none';
-            showMessage('คุณพบไอเทม 2');
+            showMessage('คุณพบกระดาน');
         } else {
             currentItem.style.backgroundImage = getComputedStyle(item).backgroundImage;
             currentItem.style.backgroundSize = 'cover';
@@ -197,7 +197,7 @@ keyImage.addEventListener('click', () => {
     imageOverlay.style.display = 'flex';
     overlayImage.src = "asset/image/background/BigRoomNelly/Item/picinbox2.PNG";
     imageToggled = false;
-    showMessage('คลิกภาพเพื่อดูให้ชัดเจน');
+    showMessage('โอ๊ะ!! มีอีกภาพนึง');
 });
 
 // คลิกภาพใหญ่เพื่อสลับภาพและปลดล็อค
