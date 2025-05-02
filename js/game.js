@@ -1,13 +1,19 @@
 
+
 // Game variables
 let currentScene = 'home-scene';
 let hasKey = false;
 let doorUnlocked = false;
+let hasSecondKey = false;
+let secondDoorUnlocked = false;
 
 // Scene elements
 const homeScene = document.getElementById('home-scene');
 const cutscene1 = document.getElementById('cutscene-1');
 const roomScene = document.getElementById('room-scene');
+const comicScene = document.getElementById('comic-scene');
+const secondRoomScene = document.getElementById('second-room-scene'); // Make sure this exists
+
 
 // Video elements
 const videoPlayer = document.getElementById('video-player');
@@ -15,8 +21,11 @@ const nextButton = document.getElementById('next-button');
 
 // Room elements
 const player = document.getElementById('player');
+const secondPlayer = document.getElementById('second-player'); // Player in the second room
 const items = document.querySelectorAll('.item');
+const secondRoomItems = document.querySelectorAll('.second-room-item'); // Items in the second room
 const door = document.getElementById('door');
+const secondDoor = document.getElementById('second-door'); // Door in the second room
 const itemOverlay = document.getElementById('item-overlay');
 const itemDisplay = document.getElementById('item-display');
 const closeItem = document.getElementById('close-item');
@@ -28,10 +37,23 @@ const keyImage = document.getElementById('key-image');        // ภาพใน
 const imageOverlay = document.getElementById('image-overlay'); // overlay ที่โชว์ภาพเต็ม
 const overlayImage = document.getElementById('overlay-image'); // <img> ที่โชว์ภาพเต็ม
 let imageToggled = false;     
-const comicScene = document.getElementById('comic-scene');
+
+
+//comin Scene
 const comicPanels = document.querySelectorAll('.comic-panel');
 const comicInstruction = document.querySelector('.comic-instruction');
 let currentPanelIndex = 0;
+
+function checkElements() {
+    console.log('Checking critical elements:');
+    console.log('secondRoomScene:', secondRoomScene ? 'exists' : 'missing');
+    console.log('secondPlayer:', secondPlayer ? 'exists' : 'missing');
+    console.log('secondRoomItems count:', secondRoomItems.length);
+    console.log('secondDoor:', secondDoor ? 'exists' : 'missing');
+    console.log('comicScene:', comicScene ? 'exists' : 'missing');
+    console.log('comicPanels count:', comicPanels.length);
+}
+
 // Make sure all scenes are hidden except the home scene at startup
 document.addEventListener('DOMContentLoaded', () => {
     // Hide all scenes first
@@ -136,10 +158,12 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
-function movePlayer() {
-    const playerPos = parseInt(getComputedStyle(player).left);
+function movePlayer() { 
+    // Select the correct player based on the current scene
+    const activePlayer = currentScene === 'room-scene' ? player : secondPlayer;
+    const playerPos = parseInt(getComputedStyle(activePlayer).left);
     const gameWidth = document.body.clientWidth;
-    const playerWidth = player.offsetWidth;
+    const playerWidth = activePlayer.offsetWidth;
     let newLeft = playerPos;
 
     if (keys.ArrowLeft) {
@@ -149,7 +173,7 @@ function movePlayer() {
         newLeft = Math.min(gameWidth - playerWidth, playerPos + playerSpeed);
     }
 
-    player.style.left = newLeft + 'px';
+    activePlayer.style.left = newLeft + 'px';
 
     // Continue if any key is held
     if (keys.ArrowLeft || keys.ArrowRight) {
@@ -195,6 +219,59 @@ items.forEach((item) => {
     });
 });
 
+// Item click events for second room
+secondRoomItems.forEach((item) => {
+    item.addEventListener('click', () => {
+        itemOverlay.style.display = 'flex';
+
+        if (item.id === 'second-item1') { // กระจกเงา
+            currentItem.style.backgroundImage = "url('/asset/image/background/SecondRoom/Item/Mirror.PNG')";
+            currentItem.style.backgroundSize = 'cover';
+            currentItem.style.width = '500px';
+            currentItem.style.height = '500px';
+            currentItem.onclick = null;
+            boxContent.style.display = 'none';
+            showMessage('คุณพบกระจกเงาแตกร้าว');
+        } else if (item.id === 'second-item2') { // หนังสือ
+            currentItem.style.backgroundImage = "url('/asset/image/background/SecondRoom/Item/Book.PNG')";
+            currentItem.style.backgroundSize = 'cover';
+            currentItem.style.width = '500px';
+            currentItem.style.height = '500px';
+            
+            currentItem.onclick = () => {
+                boxContent.style.display = 'flex';
+                keyImage.src = "asset/image/background/SecondRoom/Item/BookPage.PNG";
+                showMessage('คุณเปิดหนังสือและพบบางอย่าง');
+            };
+        } else if (item.id === 'second-item3') { // โต๊ะทำงาน
+            currentItem.style.backgroundImage = "url('/asset/image/background/SecondRoom/Item/Desk.PNG')";
+            currentItem.style.backgroundSize = 'cover';
+            currentItem.style.width = '60vw';
+            currentItem.style.height = '85vh';
+            currentItem.onclick = null;
+            
+            if (!hasSecondKey) {
+                currentItem.onclick = () => {
+                    hasSecondKey = true;
+                    secondDoorUnlocked = true;
+                    showMessage('คุณพบกุญแจ! ประตูปลดล็อคแล้ว');
+                };
+            } else {
+                boxContent.style.display = 'none';
+                showMessage('คุณตรวจสอบโต๊ะทำงานแล้ว ไม่มีอะไรอีก');
+            }
+        } else {
+            currentItem.style.backgroundImage = getComputedStyle(item).backgroundImage;
+            currentItem.style.backgroundSize = 'cover';
+            currentItem.style.width = '500px';
+            currentItem.style.height = '500px';
+            currentItem.onclick = null;
+            boxContent.style.display = 'none';
+            showMessage('คุณพบไอเทม แต่ไม่มีอะไรพิเศษ');
+        }
+    });
+});
+
 // คลิกที่ภาพในกล่องเพื่อเปิดภาพใหญ่
 keyImage.addEventListener('click', () => {
     imageOverlay.style.display = 'flex';
@@ -210,7 +287,7 @@ overlayImage.addEventListener('click', () => {
         imageToggled = true;
         hasKey = true;
         doorUnlocked = true;
-        showMessage('คุณเจอรหัสลับ! ประตูปลดล็อคแล้ว');
+        showMessage('คุณเจอรูปพิเศษ! ประตูปลดล็อคแล้ว');
         imageOverlay.style.display = 'none';
         itemOverlay.style.display = 'none';
     }
@@ -238,22 +315,42 @@ door.addEventListener('click', () => {
     }
 });
 
-// Comic panel reveal logic
-comicScene.addEventListener('click', () => {
+// Door click event for second room
+secondDoor.addEventListener('click', () => {
+    if (secondDoorUnlocked) {
+        showMessage('ยินดีด้วย! คุณผ่านเกมแล้ว!');
+        setTimeout(() => {
+            // Add your end game logic here, like showing an ending scene
+            changeScene('ending-scene'); // You'll need to create this scene
+        }, 2000);
+    } else {
+        showMessage('ประตูล็อกอยู่ คุณต้องหาบางอย่างเพื่อปลดล็อค');
+    }
+});
+
+// Improved comic panel reveal logic
+comicScene.addEventListener('click', (e) => {
+    console.log('Comic scene clicked, currentPanelIndex:', currentPanelIndex);
+    
     if (currentPanelIndex < comicPanels.length) {
         const nextPanel = document.querySelector(`.comic-panel[data-panel="${currentPanelIndex + 1}"]`);
+        
         if (nextPanel) {
             nextPanel.classList.add('revealed');
             currentPanelIndex++;
-
+            
+            // Check if all panels are revealed
             if (currentPanelIndex === comicPanels.length) {
-                comicInstruction.textContent = 'คลิกที่ไหนก็ได้เพื่อเริ่มเกม';
-
-                comicScene.addEventListener('click', () => {
-                    comicScene.style.display = 'none';
-                    gameSection.style.display = 'block';
-                    fullscreenBtn.style.display = 'block';
-                }, { once: true }); // <== this ensures it's only triggered once
+                if (comicInstruction) comicInstruction.textContent = 'คลิกที่ไหนก็ได้เพื่อไปต่อ';
+                
+                // Force transition after a small delay to avoid click conflicts
+                setTimeout(() => {
+                    comicScene.onclick = function(event) {
+                        event.stopPropagation();
+                        console.log('Final click detected, transitioning to second room');
+                        changeScene('second-room-scene');
+                    };
+                }, 500);
             }
         }
     }
