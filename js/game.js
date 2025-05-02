@@ -28,7 +28,10 @@ const keyImage = document.getElementById('key-image');        // ภาพใน
 const imageOverlay = document.getElementById('image-overlay'); // overlay ที่โชว์ภาพเต็ม
 const overlayImage = document.getElementById('overlay-image'); // <img> ที่โชว์ภาพเต็ม
 let imageToggled = false;     
-
+const comicScene = document.getElementById('comic-scene');
+const comicPanels = document.querySelectorAll('.comic-panel');
+const comicInstruction = document.querySelector('.comic-instruction');
+let currentPanelIndex = 0;
 // Make sure all scenes are hidden except the home scene at startup
 document.addEventListener('DOMContentLoaded', () => {
     // Hide all scenes first
@@ -165,8 +168,8 @@ items.forEach((item) => {
         if (item.id === 'item3') { // กล่อง
             currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomNelly/Item/ToyOpen.PNG')"; // เปลี่ยนภาพกล่อง
             currentItem.style.backgroundSize = 'cover';
-            currentItem.style.width = '80%';
-            currentItem.style.height = '100%';
+            currentItem.style.width = '60vw';
+            currentItem.style.height = '85vh';
 
             currentItem.onclick = () => {
                 boxContent.style.display = 'flex';
@@ -226,9 +229,32 @@ door.addEventListener('click', () => {
         // Add code to transition to next level
         // For now, just reset to home for demonstration
         setTimeout(() => {
-            changeScene('home-scene');
+            changeScene('comic-scene');
+            comicScene.style.display = 'flex';
+            comicScene.classList.add('fade-in');
         }, 2000);
     } else {
         showMessage('ประตูล็อกอยู่ คุณต้องหาบางอย่างเพื่อปลดล็อค');
+    }
+});
+
+// Comic panel reveal logic
+comicScene.addEventListener('click', () => {
+    if (currentPanelIndex < comicPanels.length) {
+        const nextPanel = document.querySelector(`.comic-panel[data-panel="${currentPanelIndex + 1}"]`);
+        if (nextPanel) {
+            nextPanel.classList.add('revealed');
+            currentPanelIndex++;
+
+            if (currentPanelIndex === comicPanels.length) {
+                comicInstruction.textContent = 'คลิกที่ไหนก็ได้เพื่อเริ่มเกม';
+
+                comicScene.addEventListener('click', () => {
+                    comicScene.style.display = 'none';
+                    gameSection.style.display = 'block';
+                    fullscreenBtn.style.display = 'block';
+                }, { once: true }); // <== this ensures it's only triggered once
+            }
+        }
     }
 });
