@@ -91,50 +91,51 @@
                 <div class="comic-panel" data-panel="4">
                     <img src="/asset/image/comic/4.png" alt="Comic panel 4">
                 </div>
+
+                <button id="comic-next-button" style="display: none;">
+                    <span class="comic-next-button-text">ไปต่อ</span>
+                    <img src="/asset/image/Button/next yellow.png" alt="Next" />
+
+                </button>
+
             </div>
             <div class="comic-instruction">คลิกเพื่อเปิดเผยเรื่องราว</div>
         </div>
 
-        <!-- Make sure to have this complete structure for the second room scene -->
+        <!-- Second Room Scene -->
         <div id="second-room-scene" class="scene">
             <div id="second-player" style="background-image: url('/asset/image/character/Oceana/Oceana.png');"></div>
-
+            
             <!-- Items in the second room -->
             <div id="second-item1" class="second-room-item"></div>
             <div id="second-item2" class="second-room-item"></div>
             <div id="second-item3" class="second-room-item"></div>
-
+            
             <!-- Door in the second room -->
             <div id="second-door"></div>
         </div>
 
-
         <!-- Item Examination Overlay -->
-        <div id="item-overlay" style="display: none;">
+        <div id="item-overlay">
             <div id="item-display">
-                <div id="current-item"></div>
                 <button id="close-item">X</button>
-
-                <!-- Box content for special items -->
-                <div id="box-content" style="display: none;">
-                    <div id="key-item">
-                        <img id="key-image" src="/asset/image/background/BigRoomNelly/Item/picinbox1.PNG"
-                            alt="Key Image">
-                    </div>
+                <div id="current-item"></div>
+                <div id="box-content">
+                    <img id="key-image" src="asset/image/background/BigRoomNelly/Item/picinbox1.PNG" alt="key image"
+                        style="cursor: pointer;" />
                 </div>
             </div>
         </div>
 
-        <!-- Image Overlay for full-screen images -->
-        <div id="image-overlay" style="display: none;">
-            <img id="overlay-image" src="" alt="Fullscreen Image">
+        <!-- Image overlay -->
+        <div id="image-overlay" style="display:none;">
+            <div id="image-popup">
+                <img id="overlay-image" src="" alt="image detail" />
+            </div>
         </div>
 
         <!-- Game Message -->
-        <div id="game-message" style="display: none;">Message placeholder</div>
-
-
-    </div>
+        <div id="game-message"></div>
     </div>
 
     <script src="/js/game.js"></script>

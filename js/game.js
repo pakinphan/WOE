@@ -39,7 +39,8 @@ const overlayImage = document.getElementById('overlay-image'); // <img> ที�
 let imageToggled = false;     
 
 
-//comin Scene
+//comic Scene
+const comicNextButton = document.getElementById('comic-next-button');
 const comicPanels = document.querySelectorAll('.comic-panel');
 const comicInstruction = document.querySelector('.comic-instruction');
 let currentPanelIndex = 0;
@@ -93,17 +94,20 @@ function changeScene(sceneId) {
     // Hide all scenes
     document.querySelectorAll('.scene').forEach(scene => {
         scene.classList.remove('active');
+        scene.style.display = 'none'; // Fallback safety
     });
 
     // Show the requested scene
-    document.getElementById(sceneId).classList.add('active');
-    currentScene = sceneId;
+    const newScene = document.getElementById(sceneId);
+    newScene.classList.add('active');
+    newScene.style.display = 'flex'; // Fallback safety
 
+    currentScene = sceneId;
     console.log('Changed to scene:', sceneId);
 
     if (sceneId === 'cutscene-1') {
         videoPlayer.play();
-        nextButton.style.display = 'none'; // Hide next button until video ends
+        nextButton.style.display = 'none';
     }
 }
 
@@ -328,30 +332,27 @@ secondDoor.addEventListener('click', () => {
     }
 });
 
-// Improved comic panel reveal logic
 comicScene.addEventListener('click', (e) => {
     console.log('Comic scene clicked, currentPanelIndex:', currentPanelIndex);
-    
+
     if (currentPanelIndex < comicPanels.length) {
         const nextPanel = document.querySelector(`.comic-panel[data-panel="${currentPanelIndex + 1}"]`);
-        
+
         if (nextPanel) {
             nextPanel.classList.add('revealed');
             currentPanelIndex++;
-            
-            // Check if all panels are revealed
+
             if (currentPanelIndex === comicPanels.length) {
-                if (comicInstruction) comicInstruction.textContent = 'คลิกที่ไหนก็ได้เพื่อไปต่อ';
+                if (comicInstruction) comicInstruction.textContent = 'คลิก "ไปต่อ" เพื่อดำเนินเรื่องต่อ';
                 
-                // Force transition after a small delay to avoid click conflicts
-                setTimeout(() => {
-                    comicScene.onclick = function(event) {
-                        event.stopPropagation();
-                        console.log('Final click detected, transitioning to second room');
-                        changeScene('second-room-scene');
-                    };
-                }, 500);
+                // 👇 Show the button after all panels are revealed
+                comicNextButton.style.display = 'block';
             }
         }
     }
+});
+
+comicNextButton.addEventListener('click', () => {
+    changeScene('second-room-scene');
+    
 });
