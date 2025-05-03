@@ -185,6 +185,11 @@ document.addEventListener('keyup', (e) => {
         if (!keys.ArrowLeft && !keys.ArrowRight) {
             cancelAnimationFrame(animationFrameId);
             animationFrameId = null;
+
+            const activePlayer = currentScene === 'room-scene' ? player : secondPlayer;
+            if (activePlayer) {
+                activePlayer.classList.remove('wiggle');
+            }
         }
     }
 });
@@ -215,6 +220,10 @@ function movePlayer() {
     }
 
     activePlayer.style.left = newLeft + 'px';
+
+    if (!activePlayer.classList.contains('wiggle')) {
+        activePlayer.classList.add('wiggle');
+    }
 
     // Debug player position
     console.log('Player position:', newLeft);
