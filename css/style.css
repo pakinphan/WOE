@@ -119,11 +119,11 @@ body {
 
 #comic-next-button {
     position: absolute;
-    top: 90%;
-    left: 50%;
+    top: 110%;
+    left: 90%;
     transform: translate(-50%, -50%);
-
-
+    border: none;
+    background-color: #33333300;
     padding: 8px 16px;
     border-radius: 12px;
     cursor: pointer;
@@ -146,6 +146,7 @@ body {
     text-shadow: 1px 1px 2px black;
     display: inline-block;
     vertical-align: middle;
+    font-family: Issara;
     
 }
 
@@ -667,25 +668,17 @@ body {
 
 #door-code-container {
     width: 320px;
-    background-color: #222;
+    background-color: #22222200;
     border-radius: 12px;
-    border: 2px solid #347bd3;
-    box-shadow: 0 0 15px rgba(52, 123, 211, 0.5);
+    border: none;
+    box-shadow: #347bd344;
     overflow: hidden;
-    animation: glow 2s infinite alternate;
+
 }
 
-@keyframes glow {
-    from {
-        box-shadow: 0 0 5px rgba(52, 123, 211, 0.5);
-    }
-    to {
-        box-shadow: 0 0 20px rgba(52, 123, 211, 0.9);
-    }
-}
 
 #door-code-header {
-    background-color: #347bd3;
+    background-color: #347bd300;
     color: white;
     padding: 8px 15px;
     display: flex;
@@ -714,11 +707,11 @@ body {
 }
 
 #close-door-code:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0);
 }
 
 #door-code-display {
-    background-color: #111;
+    background-color: #11111100;
     padding: 20px;
     text-align: center;
 }
@@ -736,7 +729,7 @@ body {
 
 #door-keypad {
     padding: 15px;
-    background-color: #333;
+    background-color: #33333300;
 }
 
 .keypad-row {
@@ -754,7 +747,7 @@ body {
     height: 60px;
     font-family: Issara;
     font-size: 1.5rem;
-    background-color: #444;
+    background-color: #347bd344;
     color: white;
     border: none;
     border-radius: 8px;
@@ -763,7 +756,7 @@ body {
 }
 
 .keypad-btn:hover {
-    background-color: #555;
+    background-color: #347bd377;
 }
 
 .keypad-btn:active {
@@ -772,15 +765,15 @@ body {
 }
 
 .clear-btn {
-    background-color: #e74c3c;
+    background-color: #e7ad47;
 }
 
 .clear-btn:hover {
-    background-color: #c0392b;
+    background-color: #cf9228;
 }
 
 .enter-btn {
-    background-color: #2ecc71;
+    background-color: #1e462f;
 }
 
 .enter-btn:hover {

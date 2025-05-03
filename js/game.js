@@ -48,6 +48,13 @@ const doorCodeDisplay = document.getElementById('door-code-display');
 const doorCodeSubmit = document.getElementById('door-code-submit');
 const doorCodeCancel = document.getElementById('door-code-cancel');
 
+
+const codeInput = document.getElementById('code-input');
+const keypadButtons = document.querySelectorAll('.keypad-btn');
+const closeDoorCode = document.getElementById('close-door-code');
+const doorCodeContainer = document.getElementById('door-code-container');
+
+
 //comic Scene
 const comicNextButton = document.getElementById('comic-next-button');
 const comicPanels = document.querySelectorAll('.comic-panel');
@@ -73,6 +80,7 @@ function checkElements() {
 
 // Make sure all scenes are hidden except the home scene at startup
 document.addEventListener('DOMContentLoaded', () => {
+
     // Hide all scenes first
     document.querySelectorAll('.scene').forEach(scene => {
         scene.classList.remove('active');
@@ -262,8 +270,8 @@ secondRoomItems.forEach((item) => {
         if (item.id === 'second-item1') {
             currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomOceana/Pic.PNG')";
             currentItem.style.backgroundSize = 'cover';
-            currentItem.style.width = '60vw';
-            currentItem.style.height = '85vh';
+
+            currentItem.style.height = '500px';
             currentItem.onclick = null;
             boxContent.style.display = 'none';
             showMessage('โอ๊ะ!! ในภาพมีตัวเลข 5 ช่างแปลกจัง');
@@ -272,8 +280,7 @@ secondRoomItems.forEach((item) => {
             diaryPageCount = 0;
             currentItem.style.backgroundImage = `url('${diaryPages[diaryPageCount]}')`;
             currentItem.style.backgroundSize = 'cover';
-            currentItem.style.width = '60vw';
-            currentItem.style.height = '85vh';
+            currentItem.style.height = '500px';
             currentItem.onclick = handleDiaryClick;
             boxContent.style.display = 'none';
             showMessage('คุณพบไดอารี่ ลองคลิกเพื่ออ่านต่อ');
@@ -293,14 +300,14 @@ secondRoomItems.forEach((item) => {
 function handleDiaryClick() {
     diaryPageCount = (diaryPageCount + 1) % diaryPages.length;
     currentItem.style.backgroundImage = `url('${diaryPages[diaryPageCount]}')`;
-    
+
     // Show message about what's found on each page
     if (diaryPageCount === 0) {
-        showMessage('หน้าแรกของไดอารี่... คลิกเพื่ออ่านต่อ');
+        showMessage('หน้าแรกของไดอารี่...');
     } else if (diaryPageCount === 1) {
-        showMessage('ดูเหมือนจะมีตัวเลข 6 ในหน้านี้...');
+        showMessage('');
     } else if (diaryPageCount === 2) {
-        showMessage('ตัวเลข 5 อีกตัว? อาจจะเป็นรหัสอะไรสักอย่าง');
+        showMessage('เลข 565 งั้นหรอ??');
     }
 }
 
@@ -348,22 +355,6 @@ door.addEventListener('click', () => {
     }
 });
 
-// Door click event for second room
-secondDoor.addEventListener('click', () => {
-    if (secondDoorUnlocked) {
-        showMessage('ยินดีด้วย! คุณผ่านเกมแล้ว!');
-        setTimeout(() => {
-            // Add your end game logic here, like showing an ending scene
-            changeScene('home-scene'); // For now, go back to home scene
-            hasKey = false;
-            doorUnlocked = false;
-            hasSecondKey = false;
-            secondDoorUnlocked = false;
-        }, 2000);
-    } else {
-        showMessage('ประตูล็อกอยู่ คุณต้องหาบางอย่างเพื่อปลดล็อค');
-    }
-});
 
 comicScene.addEventListener('click', (e) => {
     console.log('Comic scene clicked, currentPanelIndex:', currentPanelIndex);
@@ -428,44 +419,68 @@ secondDoor.addEventListener('click', () => {
 });
 
 // Door code button click handlers
-doorCodeButtons.forEach(button => {
+keypadButtons.forEach(button => {
     button.addEventListener('click', () => {
-        if (doorCodeAttempt.length < 3) {
-            const digit = button.textContent;
-            doorCodeAttempt += digit;
+        // Clear button
+        if (button.classList.contains('clear-btn')) {
+            doorCodeAttempt = "";
             updateDoorCodeDisplay();
+            return;
+        }
+
+        // Enter button
+        if (button.classList.contains('enter-btn')) {
+            checkDoorCode();
+            return;
+        }
+
+        // Number buttons - only add if we have less than 3 digits
+        if (doorCodeAttempt.length < 3) {
+            const digit = button.getAttribute('data-num');
+            if (digit) {
+                doorCodeAttempt += digit;
+                updateDoorCodeDisplay();
+            }
         }
     });
 });
 
-// Update door code display
+// Function to update the display of the door code
 function updateDoorCodeDisplay() {
-    let displayText = "";
+    let display = "";
+
     for (let i = 0; i < 3; i++) {
         if (i < doorCodeAttempt.length) {
-            displayText += doorCodeAttempt[i] + " ";
+            display += doorCodeAttempt[i] + " ";
         } else {
-            displayText += "_ ";
+            display += "_ ";
         }
     }
-    doorCodeDisplay.textContent = displayText.trim();
+
+    doorCodeDisplay.textContent = display.trim();
 }
 
-// Door code submit handler
-doorCodeSubmit.addEventListener('click', () => {
+// Check if the door code is correct
+function checkDoorCode() {
     if (doorCodeAttempt === "565") {
         secondDoorUnlocked = true;
         doorCodeOverlay.style.display = 'none';
         showMessage('รหัสผ่านถูกต้อง! ประตูปลดล็อคแล้ว');
+        doorCodeContainer.classList.remove('shake');
     } else {
-        doorCodeAttempt = "";
-        doorCodeDisplay.textContent = "_ _ _";
+        doorCodeContainer.classList.add('shake');
+        setTimeout(() => {
+            doorCodeContainer.classList.remove('shake');
+            doorCodeAttempt = "";
+            updateDoorCodeDisplay();
+        }, 500);
         showMessage('รหัสผ่านไม่ถูกต้อง ลองอีกครั้ง');
     }
-});
+}
 
-// Door code cancel handler
-doorCodeCancel.addEventListener('click', () => {
+
+// Close door code overlay
+closeDoorCode.addEventListener('click', () => {
     doorCodeOverlay.style.display = 'none';
 });
 
@@ -495,6 +510,7 @@ function switchRoom(roomNumber) {
 document.addEventListener('DOMContentLoaded', function () {
     // Setup first room by default
     setupFirstRoomItems();
+
 
     // Setup room transition events if they exist
     const roomTransitionButtons = document.querySelectorAll('.room-transition');
