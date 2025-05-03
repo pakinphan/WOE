@@ -38,29 +38,7 @@
             <div class="item box" id="item3"></div>
             <div id="door"></div>
 
-            <!-- Item overlay -->
-            <div id="item-overlay">
-                <div id="item-display">
-                    <button id="close-item">X</button>
-                    <div id="current-item"></div>
-                    <div id="box-content">
-                        <img id="key-image" src="asset/image/background/BigRoomNelly/Item/picinbox1.PNG" alt="key image"
-                            style="cursor: pointer;" />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Image overlay -->
-            <div id="image-overlay" style="display:none;">
-                <div id="image-popup">
-                    <img id="overlay-image" src="asset/image/background/BigRoomNelly/Item/picinbox2.PNG"
-                        alt="image detail" />
-                </div>
-            </div>
-
-
-
-            <div id="game-message"></div>
+            
         </div>
 
         <!-- Dressing Room Scene (Placeholder) วิคมาทำตรงนี้ -->
@@ -117,30 +95,65 @@
 
             <!-- Door in the second room -->
             <div id="second-door"></div>
+
+            
+        </div>
+        <!-- Item overlay -->
+        <div id="item-overlay">
+            <div id="item-display">
+                <button id="close-item">X</button>
+                <div id="current-item"></div>
+                <div id="box-content">
+                    <img id="key-image" src="asset/image/background/BigRoomNelly/Item/picinbox1.PNG" alt="key image"
+                        style="cursor: pointer;" />
+                </div>
+            </div>
         </div>
 
-            <!-- Item overlay -->
-            <div id="item-overlay">
-                <div id="item-display">
-                    <button id="close-item">X</button>
-                    <div id="current-item"></div>
-                    <div id="box-content">
-                        <img id="key-image" src="asset/image/background/BigRoomNelly/Item/picinbox1.PNG" alt="key image"
-                            style="cursor: pointer;" />
+        <!-- Image overlay -->
+        <div id="image-overlay" style="display:none;">
+            <div id="image-popup">
+                <img id="overlay-image" src="asset/image/background/BigRoomNelly/Item/picinbox2.PNG"
+                    alt="image detail" />
+            </div>
+        </div>
+        <div id="door-code-overlay" class="overlay">
+            <div id="door-code-container">
+                <div id="door-code-header">
+                    <h2>ป้อนรหัสประตู</h2>
+                    <button id="close-door-code">X</button>
+                </div>
+                <div id="door-code-display">
+                    <div id="code-input">____</div>
+                </div>
+                <div id="door-keypad">
+                    <div class="keypad-row">
+                        <button class="keypad-btn" data-num="1">1</button>
+                        <button class="keypad-btn" data-num="2">2</button>
+                        <button class="keypad-btn" data-num="3">3</button>
+                    </div>
+                    <div class="keypad-row">
+                        <button class="keypad-btn" data-num="4">4</button>
+                        <button class="keypad-btn" data-num="5">5</button>
+                        <button class="keypad-btn" data-num="6">6</button>
+                    </div>
+                    <div class="keypad-row">
+                        <button class="keypad-btn" data-num="7">7</button>
+                        <button class="keypad-btn" data-num="8">8</button>
+                        <button class="keypad-btn" data-num="9">9</button>
+                    </div>
+                    <div class="keypad-row">
+                        <button class="keypad-btn clear-btn">C</button>
+                        <button class="keypad-btn" data-num="0">0</button>
+                        <button class="keypad-btn enter-btn">↵</button>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Image overlay -->
-            <div id="image-overlay" style="display:none;">
-                <div id="image-popup">
-                    <img id="overlay-image" src="asset/image/background/BigRoomNelly/Item/picinbox2.PNG"
-                        alt="image detail" />
-                </div>
-            </div>
 
-        <!-- Game Message -->
         <div id="game-message"></div>
+
     </div>
 
     <script src="/js/game.js"></script>

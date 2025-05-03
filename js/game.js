@@ -7,6 +7,7 @@ let doorUnlocked = false;
 let hasSecondKey = false;
 let secondDoorUnlocked = false;
 let diaryPageCount = 0; // Track which diary page is shown
+let doorCodeAttempt = ""; // Track door code input
 
 // Scene elements
 const homeScene = document.getElementById('home-scene');
@@ -37,8 +38,15 @@ const gameMessage = document.getElementById('game-message');
 const keyImage = document.getElementById('key-image');        // ภาพในกล่อง
 const imageOverlay = document.getElementById('image-overlay'); // overlay ที่โชว์ภาพเต็ม
 const overlayImage = document.getElementById('overlay-image'); // <img> ที่โชว์ภาพเต็ม
-let imageToggled = false;     
+let imageToggled = false;
 
+// Door code elements
+const doorCodeOverlay = document.getElementById('door-code-overlay');
+const doorCodeInput = document.getElementById('door-code-input');
+const doorCodeButtons = document.querySelectorAll('.code-button');
+const doorCodeDisplay = document.getElementById('door-code-display');
+const doorCodeSubmit = document.getElementById('door-code-submit');
+const doorCodeCancel = document.getElementById('door-code-cancel');
 
 //comic Scene
 const comicNextButton = document.getElementById('comic-next-button');
@@ -53,7 +61,15 @@ const diaryPages = [
     "asset/image/background/BigRoomOceana/Diary3.PNG"
 ];
 
-
+function checkElements() {
+    console.log('Checking critical elements:');
+    console.log('secondRoomScene:', secondRoomScene ? 'exists' : 'missing');
+    console.log('secondPlayer:', secondPlayer ? 'exists' : 'missing');
+    console.log('secondRoomItems count:', secondRoomItems.length);
+    console.log('secondDoor:', secondDoor ? 'exists' : 'missing');
+    console.log('comicScene:', comicScene ? 'exists' : 'missing');
+    console.log('comicPanels count:', comicPanels.length);
+}
 
 // Make sure all scenes are hidden except the home scene at startup
 document.addEventListener('DOMContentLoaded', () => {
@@ -85,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     itemOverlay.style.display = 'none';
     boxContent.style.display = 'none';
     gameMessage.style.display = 'none';
+    doorCodeOverlay.style.display = 'none';
 
     console.log('Game initialized, current scene:', currentScene);
 });
@@ -164,19 +181,19 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
-function movePlayer() { 
+function movePlayer() {
     // Select the correct player based on the current scene
     const activePlayer = currentScene === 'room-scene' ? player : secondPlayer;
-    
+
     // Debug to check if activePlayer is correctly selected
     console.log('Current scene:', currentScene);
     console.log('Active player:', activePlayer ? activePlayer.id : 'not found');
-    
+
     if (!activePlayer) {
         console.error('Active player not found!');
         return;
     }
-    
+
     const playerPos = parseInt(getComputedStyle(activePlayer).left);
     const gameWidth = document.body.clientWidth;
     const playerWidth = activePlayer.offsetWidth;
@@ -190,7 +207,7 @@ function movePlayer() {
     }
 
     activePlayer.style.left = newLeft + 'px';
-    
+
     // Debug player position
     console.log('Player position:', newLeft);
 
@@ -238,29 +255,28 @@ items.forEach((item) => {
     });
 });
 
-// Item click events for second room
-secondRoomItems.forEach((item) => {  // <-- Use a different variable name like "item"
+secondRoomItems.forEach((item) => {
     item.addEventListener('click', () => {
         itemOverlay.style.display = 'flex';
 
         if (item.id === 'second-item1') {
-            currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomNelly/Item/ToyOpen.PNG')";
+            currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomOceana/Pic.PNG')";
             currentItem.style.backgroundSize = 'cover';
             currentItem.style.width = '60vw';
             currentItem.style.height = '85vh';
-
-            currentItem.onclick = () => {
-                boxContent.style.display = 'flex';
-                showMessage('โอ๊ะ!! เจอรูปภาพข้างใน');
-            };
-        } else if (item.id === 'second-item2') {
-            currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomNelly/Item/Board2.PNG')";
-            currentItem.style.backgroundSize = 'cover';
-            currentItem.style.width = '500px';
-            currentItem.style.height = '500px';
             currentItem.onclick = null;
             boxContent.style.display = 'none';
-            showMessage('คุณพบกระดาน');
+            showMessage('โอ๊ะ!! ในภาพมีตัวเลข 5 ช่างแปลกจัง');
+        } else if (item.id === 'second-item2') {
+            // Initialize diary viewing
+            diaryPageCount = 0;
+            currentItem.style.backgroundImage = `url('${diaryPages[diaryPageCount]}')`;
+            currentItem.style.backgroundSize = 'cover';
+            currentItem.style.width = '60vw';
+            currentItem.style.height = '85vh';
+            currentItem.onclick = handleDiaryClick;
+            boxContent.style.display = 'none';
+            showMessage('คุณพบไดอารี่ ลองคลิกเพื่ออ่านต่อ');
         } else {
             currentItem.style.backgroundImage = getComputedStyle(item).backgroundImage;
             currentItem.style.backgroundSize = 'cover';
@@ -272,6 +288,21 @@ secondRoomItems.forEach((item) => {  // <-- Use a different variable name like "
         }
     });
 });
+
+// Handle diary click to cycle through pages
+function handleDiaryClick() {
+    diaryPageCount = (diaryPageCount + 1) % diaryPages.length;
+    currentItem.style.backgroundImage = `url('${diaryPages[diaryPageCount]}')`;
+    
+    // Show message about what's found on each page
+    if (diaryPageCount === 0) {
+        showMessage('หน้าแรกของไดอารี่... คลิกเพื่ออ่านต่อ');
+    } else if (diaryPageCount === 1) {
+        showMessage('ดูเหมือนจะมีตัวเลข 6 ในหน้านี้...');
+    } else if (diaryPageCount === 2) {
+        showMessage('ตัวเลข 5 อีกตัว? อาจจะเป็นรหัสอะไรสักอย่าง');
+    }
+}
 
 
 // คลิกที่ภาพในกล่องเพื่อเปิดภาพใหญ่
@@ -346,7 +377,7 @@ comicScene.addEventListener('click', (e) => {
 
             if (currentPanelIndex === comicPanels.length) {
                 if (comicInstruction) comicInstruction.textContent = 'คลิก "ไปต่อ" เพื่อดำเนินเรื่องต่อ';
-                
+
                 // 👇 Show the button after all panels are revealed
                 comicNextButton.style.display = 'block';
             }
@@ -356,16 +387,99 @@ comicScene.addEventListener('click', (e) => {
 
 comicNextButton.addEventListener('click', () => {
     changeScene('second-room-scene');
-    
+
 });
 
+// Door click event
+door.addEventListener('click', () => {
+    if (doorUnlocked) {
+        showMessage('ไปด่านต่อไปได้เลย!');
+        // Add code to transition to next level
+        // For now, just reset to home for demonstration
+        setTimeout(() => {
+            changeScene('comic-scene');
+            comicScene.style.display = 'flex';
+            comicScene.classList.add('fade-in');
+        }, 2000);
+    } else {
+        showMessage('ประตูล็อกอยู่ คุณต้องหาบางอย่างเพื่อปลดล็อค');
+    }
+});
 
+// Door click event for second room
+secondDoor.addEventListener('click', () => {
+    if (secondDoorUnlocked) {
+        showMessage('ยินดีด้วย! คุณผ่านเกมแล้ว!');
+        setTimeout(() => {
+            // Add your end game logic here, like showing an ending scene
+            changeScene('home-scene'); // For now, go back to home scene
+            hasKey = false;
+            doorUnlocked = false;
+            hasSecondKey = false;
+            secondDoorUnlocked = false;
+        }, 2000);
+    } else {
+        // Show door code input overlay
+        doorCodeOverlay.style.display = 'flex';
+        doorCodeAttempt = "";
+        doorCodeDisplay.textContent = "_ _ _";
+        showMessage('ประตูล็อกอยู่ กรุณาใส่รหัสผ่าน');
+    }
+});
+
+// Door code button click handlers
+doorCodeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        if (doorCodeAttempt.length < 3) {
+            const digit = button.textContent;
+            doorCodeAttempt += digit;
+            updateDoorCodeDisplay();
+        }
+    });
+});
+
+// Update door code display
+function updateDoorCodeDisplay() {
+    let displayText = "";
+    for (let i = 0; i < 3; i++) {
+        if (i < doorCodeAttempt.length) {
+            displayText += doorCodeAttempt[i] + " ";
+        } else {
+            displayText += "_ ";
+        }
+    }
+    doorCodeDisplay.textContent = displayText.trim();
+}
+
+// Door code submit handler
+doorCodeSubmit.addEventListener('click', () => {
+    if (doorCodeAttempt === "565") {
+        secondDoorUnlocked = true;
+        doorCodeOverlay.style.display = 'none';
+        showMessage('รหัสผ่านถูกต้อง! ประตูปลดล็อคแล้ว');
+    } else {
+        doorCodeAttempt = "";
+        doorCodeDisplay.textContent = "_ _ _";
+        showMessage('รหัสผ่านไม่ถูกต้อง ลองอีกครั้ง');
+    }
+});
+
+// Door code cancel handler
+doorCodeCancel.addEventListener('click', () => {
+    doorCodeOverlay.style.display = 'none';
+});
+
+// Clear button handler
+document.getElementById('door-code-clear').addEventListener('click', () => {
+    doorCodeAttempt = "";
+    doorCodeDisplay.textContent = "_ _ _";
+});
 
 // Function to handle room switching
 function switchRoom(roomNumber) {
     const firstRoom = document.getElementById('firstRoom');
     const secondRoom = document.getElementById('secondRoom');
-    
+
     if (roomNumber === 1) {
         firstRoom.style.display = 'block';
         secondRoom.style.display = 'none';
@@ -378,10 +492,10 @@ function switchRoom(roomNumber) {
 }
 
 // Call this when the page loads
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Setup first room by default
     setupFirstRoomItems();
-    
+
     // Setup room transition events if they exist
     const roomTransitionButtons = document.querySelectorAll('.room-transition');
     roomTransitionButtons.forEach(button => {
@@ -390,7 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
             switchRoom(targetRoom);
         });
     });
-    
+
     // Alternatively, set up both rooms' items right away
     setupFirstRoomItems();
     setupSecondRoomItems();

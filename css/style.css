@@ -645,3 +645,155 @@ body {
     pointer-events: none; /* allows clicking through foreground if needed */
     z-index: 15;
 }
+
+
+/* Door Code Entry UI Styles */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+#door-code-overlay {
+    font-family: Issara;
+}
+
+#door-code-container {
+    width: 320px;
+    background-color: #222;
+    border-radius: 12px;
+    border: 2px solid #347bd3;
+    box-shadow: 0 0 15px rgba(52, 123, 211, 0.5);
+    overflow: hidden;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 5px rgba(52, 123, 211, 0.5);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(52, 123, 211, 0.9);
+    }
+}
+
+#door-code-header {
+    background-color: #347bd3;
+    color: white;
+    padding: 8px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#door-code-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+#close-door-code {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+#close-door-code:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#door-code-display {
+    background-color: #111;
+    padding: 20px;
+    text-align: center;
+}
+
+#code-input {
+    font-family: monospace;
+    font-size: 2rem;
+    color: #e7ad47;
+    letter-spacing: 10px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#door-keypad {
+    padding: 15px;
+    background-color: #333;
+}
+
+.keypad-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.keypad-row:last-child {
+    margin-bottom: 0;
+}
+
+.keypad-btn {
+    width: 60px;
+    height: 60px;
+    font-family: Issara;
+    font-size: 1.5rem;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.keypad-btn:hover {
+    background-color: #555;
+}
+
+.keypad-btn:active {
+    transform: scale(0.95);
+    background-color: #666;
+}
+
+.clear-btn {
+    background-color: #e74c3c;
+}
+
+.clear-btn:hover {
+    background-color: #c0392b;
+}
+
+.enter-btn {
+    background-color: #2ecc71;
+}
+
+.enter-btn:hover {
+    background-color: #27ae60;
+}
+
+/* Animation for incorrect code */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-10px); }
+    40%, 80% { transform: translateX(10px); }
+}
+
+.shake {
+    animation: shake 0.5s;
+}
