@@ -6,6 +6,7 @@ let hasKey = false;
 let doorUnlocked = false;
 let hasSecondKey = false;
 let secondDoorUnlocked = false;
+let diaryPageCount = 0; // Track which diary page is shown
 
 // Scene elements
 const homeScene = document.getElementById('home-scene');
@@ -44,6 +45,13 @@ const comicNextButton = document.getElementById('comic-next-button');
 const comicPanels = document.querySelectorAll('.comic-panel');
 const comicInstruction = document.querySelector('.comic-instruction');
 let currentPanelIndex = 0;
+
+// Array of diary pages
+const diaryPages = [
+    "asset/image/background/BigRoomOceana/Diary1.PNG",
+    "asset/image/background/BigRoomOceana/Diary2.PNG",
+    "asset/image/background/BigRoomOceana/Diary3.PNG"
+];
 
 function checkElements() {
     console.log('Checking critical elements:');
@@ -136,13 +144,15 @@ nextButton.addEventListener('click', () => {
     changeScene('room-scene');
 });
 
+
 // Player movement
 let keys = { ArrowLeft: false, ArrowRight: false };
 let playerSpeed = 4; // Your speed
 let animationFrameId = null;
 
 document.addEventListener('keydown', (e) => {
-    if (currentScene !== 'room-scene') return;
+    // Allow movement in both room scenes
+    if (currentScene !== 'room-scene' && currentScene !== 'second-room-scene') return;
 
     if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !keys[e.key]) {
         keys[e.key] = true;
@@ -165,6 +175,16 @@ document.addEventListener('keyup', (e) => {
 function movePlayer() { 
     // Select the correct player based on the current scene
     const activePlayer = currentScene === 'room-scene' ? player : secondPlayer;
+    
+    // Debug to check if activePlayer is correctly selected
+    console.log('Current scene:', currentScene);
+    console.log('Active player:', activePlayer ? activePlayer.id : 'not found');
+    
+    if (!activePlayer) {
+        console.error('Active player not found!');
+        return;
+    }
+    
     const playerPos = parseInt(getComputedStyle(activePlayer).left);
     const gameWidth = document.body.clientWidth;
     const playerWidth = activePlayer.offsetWidth;
@@ -178,6 +198,9 @@ function movePlayer() {
     }
 
     activePlayer.style.left = newLeft + 'px';
+    
+    // Debug player position
+    console.log('Player position:', newLeft);
 
     // Continue if any key is held
     if (keys.ArrowLeft || keys.ArrowRight) {
@@ -227,32 +250,31 @@ items.forEach((item) => {
 secondRoomItems.forEach((item) => {
     item.addEventListener('click', () => {
         itemOverlay.style.display = 'flex';
+        boxContent.style.display = 'none'; // Reset box content display
 
-        if (item.id === 'second-item1') { // กระจกเงา
-            currentItem.style.backgroundImage = "url('/asset/image/background/SecondRoom/Item/Mirror.PNG')";
+        if (item.id === 'second-item1') { // Mirror
+            currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomOceana/Item/Mirror.PNG')";
             currentItem.style.backgroundSize = 'cover';
             currentItem.style.width = '500px';
             currentItem.style.height = '500px';
             currentItem.onclick = null;
-            boxContent.style.display = 'none';
             showMessage('คุณพบกระจกเงาแตกร้าว');
-        } else if (item.id === 'second-item2') { // หนังสือ
-            currentItem.style.backgroundImage = "url('/asset/image/background/SecondRoom/Item/Book.PNG')";
+        } else if (item.id === 'second-item2') { // Book
+            currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomOceana/Item/Book.PNG')";
             currentItem.style.backgroundSize = 'cover';
             currentItem.style.width = '500px';
             currentItem.style.height = '500px';
             
             currentItem.onclick = () => {
                 boxContent.style.display = 'flex';
-                keyImage.src = "asset/image/background/SecondRoom/Item/BookPage.PNG";
+                keyImage.src = "/asset/image/background/BigRoomOceana/Item/BookPage.PNG";
                 showMessage('คุณเปิดหนังสือและพบบางอย่าง');
             };
-        } else if (item.id === 'second-item3') { // โต๊ะทำงาน
-            currentItem.style.backgroundImage = "url('/asset/image/background/SecondRoom/Item/Desk.PNG')";
+        } else if (item.id === 'second-item3') { // Desk
+            currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomOceana/Item/Desk.PNG')";
             currentItem.style.backgroundSize = 'cover';
             currentItem.style.width = '60vw';
             currentItem.style.height = '85vh';
-            currentItem.onclick = null;
             
             if (!hasSecondKey) {
                 currentItem.onclick = () => {
@@ -261,7 +283,7 @@ secondRoomItems.forEach((item) => {
                     showMessage('คุณพบกุญแจ! ประตูปลดล็อคแล้ว');
                 };
             } else {
-                boxContent.style.display = 'none';
+                currentItem.onclick = null;
                 showMessage('คุณตรวจสอบโต๊ะทำงานแล้ว ไม่มีอะไรอีก');
             }
         } else {
@@ -270,7 +292,6 @@ secondRoomItems.forEach((item) => {
             currentItem.style.width = '500px';
             currentItem.style.height = '500px';
             currentItem.onclick = null;
-            boxContent.style.display = 'none';
             showMessage('คุณพบไอเทม แต่ไม่มีอะไรพิเศษ');
         }
     });
@@ -325,7 +346,11 @@ secondDoor.addEventListener('click', () => {
         showMessage('ยินดีด้วย! คุณผ่านเกมแล้ว!');
         setTimeout(() => {
             // Add your end game logic here, like showing an ending scene
-            changeScene('ending-scene'); // You'll need to create this scene
+            changeScene('home-scene'); // For now, go back to home scene
+            hasKey = false;
+            doorUnlocked = false;
+            hasSecondKey = false;
+            secondDoorUnlocked = false;
         }, 2000);
     } else {
         showMessage('ประตูล็อกอยู่ คุณต้องหาบางอย่างเพื่อปลดล็อค');
@@ -355,4 +380,106 @@ comicScene.addEventListener('click', (e) => {
 comicNextButton.addEventListener('click', () => {
     changeScene('second-room-scene');
     
+});
+
+// Function to ensure all event listeners are properly attached
+function bindAllEventListeners() {
+    console.log("Binding all event listeners");
+    
+    // Rebind the close button event
+    closeItem.addEventListener('click', () => {
+        itemOverlay.style.display = 'none';
+        boxContent.style.display = 'none';
+    });
+
+    // Rebind item events for second room
+    document.querySelectorAll('.second-room-item').forEach((item) => {
+        console.log(`Binding event for ${item.id}`);
+        item.addEventListener('click', (e) => {
+            console.log(`Clicked on ${item.id}`);
+            e.stopPropagation(); // Prevent event bubbling
+            
+            // Make sure overlay is visible and positioned correctly
+            itemOverlay.style.display = 'flex';
+            
+            // Handle different items
+            if (item.id === 'second-item1') {
+                currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomOceana/Item/Mirror.PNG')";
+                currentItem.style.backgroundSize = 'contain';
+                currentItem.style.backgroundPosition = 'center';
+                currentItem.style.width = '500px';
+                currentItem.style.height = '500px';
+                currentItem.onclick = null;
+                boxContent.style.display = 'none';
+                showMessage('คุณพบกระจกเงาแตกร้าว');
+            } else if (item.id === 'second-item2') {
+                currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomOceana/Item/Book.PNG')";
+                currentItem.style.backgroundSize = 'contain';
+                currentItem.style.backgroundPosition = 'center';
+                currentItem.style.width = '500px';
+                currentItem.style.height = '500px';
+                
+                currentItem.onclick = () => {
+                    boxContent.style.display = 'flex';
+                    keyImage.src = "/asset/image/background/BigRoomOceana/Item/BookPage.PNG";
+                    showMessage('คุณเปิดหนังสือและพบบางอย่าง');
+                };
+            } else if (item.id === 'second-item3') {
+                currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomOceana/Item/Desk.PNG')";
+                currentItem.style.backgroundSize = 'contain';
+                currentItem.style.backgroundPosition = 'center';
+                currentItem.style.width = '60vw';
+                currentItem.style.height = '85vh';
+                
+                if (!hasSecondKey) {
+                    currentItem.onclick = () => {
+                        hasSecondKey = true;
+                        secondDoorUnlocked = true;
+                        showMessage('คุณพบกุญแจ! ประตูปลดล็อคแล้ว');
+                    };
+                } else {
+                    currentItem.onclick = null;
+                    boxContent.style.display = 'none';
+                    showMessage('คุณตรวจสอบโต๊ะทำงานแล้ว ไม่มีอะไรอีก');
+                }
+            }
+        });
+    });
+}
+
+// Modify the changeScene function to call bindAllEventListeners
+function changeScene(sceneId) {
+    // Hide all scenes
+    document.querySelectorAll('.scene').forEach(scene => {
+        scene.classList.remove('active');
+        scene.style.display = 'none'; // Fallback safety
+    });
+
+    // Show the requested scene
+    const newScene = document.getElementById(sceneId);
+    newScene.classList.add('active');
+    newScene.style.display = 'flex'; // Fallback safety
+
+    currentScene = sceneId;
+    console.log('Changed to scene:', sceneId);
+
+    if (sceneId === 'cutscene-1') {
+        videoPlayer.play();
+        nextButton.style.display = 'none';
+    }
+    
+    // If this is the second room, ensure event listeners are attached
+    if (sceneId === 'second-room-scene') {
+        console.log("Switched to second room scene, binding event listeners");
+        // Wait a brief moment to ensure DOM is updated
+        setTimeout(bindAllEventListeners, 100);
+    }
+}
+
+// Call this when document is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Your existing initialization code
+    
+    // Also bind all event listeners initially
+    bindAllEventListeners();
 });

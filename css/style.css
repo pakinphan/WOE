@@ -310,46 +310,48 @@ body {
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    z-index: 1000; /* Very high z-index to ensure it appears above all scene elements */
 }
 
 #item-display {
     position: relative;
-    width: 50%;
-    height: 60%;
-
+    width: 50%; /* Increased width for better visibility */
+    height: 60%; /* Increased height for better visibility */
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1001; /* Higher than the overlay */
 }
 
 #close-item {
     position: absolute;
-    top: 10%;
-    right: 10%;
+    top: 20px;
+    right: 20px;
     background-color: #347bd38c;
     font-family: Issara;
-    font-size: 14pt;
+    font-size: 16pt;
     color: white;
     border: none;
     width: 40px;
     height: 40px;
-    border-radius: 20%;
+    border-radius: 50%; /* Make it round */
     cursor: pointer;
-    padding-bottom: 5px;
-
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1002; /* Higher than the item display */
+    transition: background-color 0.2s ease;
 }
 
 #current-item {
-    width: 60vw;
-    height: 70vh;
-
-
+    width: 80%;
+    height: 80%;
+    background-size: contain; /* Changed from cover to contain to show full images */
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1001;
 }
 
 #image-overlay {
@@ -526,7 +528,7 @@ body {
     height: 100%;
     position: relative;
     background-color: #222; /* Temporary background color */
-    background-image: url('/asset/image/background/BigRoomOceana/BG.PNG');
+    background-image: url('/asset/image/background/BigRoomOceana/BG.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -553,21 +555,23 @@ body {
 }
 
 #second-item1 {
-    top: 30%;
-    left: 20%;
-    width: 200px;
-    height: 300px;
-    background-image: url('/asset/image/background/SecondRoom/Item/Mirror.PNG');
+    top: 50%;
+    left: 80%;
+    aspect-ratio: 1 / 1;
+    width: 18%;
+    height: 30%;
+    background-image: url('/asset/image/background/BigRoomOceana/Pic.PNG');
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 #second-item2 {
-    top: 60%;
-    left: 50%;
-    width: 150px;
-    height: 200px;
-    background-image: url('/asset/image/background/SecondRoom/Item/Book.PNG');
+    top: 72%;
+    left: 16%;
+    width: 20%;
+    height: 25%;
+    background-image: url('/asset/image/background/BigRoomOceana/Diary.PNG');
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -575,8 +579,8 @@ body {
 #second-item3 {
     top: 40%;
     right: 15%;
-    width: 300px;
-    height: 250px;
+    width: 0px;
+    height: 0px;
     background-image: url('/asset/image/background/SecondRoom/Item/Desk.PNG');
     background-size: cover;
     background-repeat: no-repeat;
@@ -584,13 +588,62 @@ body {
 
 #second-door {
     position: absolute;
-    top: 10%;
-    right: 10%;
-    width: 200px;
-    height: 400px;
-    background-image: url('/asset/image/background/BigRoomNelly/Item/Door.PNG');
+    top: 7%;
+    left: 55%;
+    aspect-ratio: 1 / 1;
+    width: 28%;
+    height: 56%;
+    background-image: url('/asset/image/background/BigRoomOceana/Door.PNG');
     background-size: cover;
     background-repeat: no-repeat;
     cursor: pointer;
     z-index: 7;
+}
+
+#second-foreground-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-image: url('/asset/image/background/BigRoomOceana/foreGround.PNG'); /* example foreground image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    pointer-events: none; /* allows clicking through foreground if needed */
+    z-index: 15;
+}
+
+#second-foreground-layer2 {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 90%;
+    height: 100%;
+
+    background-image: url('/asset/image/background/BigRoomOceana/Floor.png'); /* example foreground image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    pointer-events: none; /* allows clicking through foreground if needed */
+    z-index: 8;
+}
+
+#second-foreground-layer3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-image: url('/asset/image/background/BigRoomOceana/Particle.png'); /* example foreground image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    pointer-events: none; /* allows clicking through foreground if needed */
+    z-index: 15;
 }

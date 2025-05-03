@@ -104,35 +104,39 @@
 
         <!-- Second Room Scene -->
         <div id="second-room-scene" class="scene">
-            <div id="second-player" style="background-image: url('/asset/image/character/Oceana/Oceana.png');"></div>
-            
+            <div id="second-player"
+                style="background-image: url('/asset/image/character/Oceana/Oceana.png'); left: 50px; bottom: 50px;">
+            </div>
+            <div id="second-foreground-layer"></div>
+            <div id="second-foreground-layer2"></div>
+            <div id="second-foreground-layer3"></div>
             <!-- Items in the second room -->
             <div id="second-item1" class="second-room-item"></div>
             <div id="second-item2" class="second-room-item"></div>
             <div id="second-item3" class="second-room-item"></div>
-            
+
             <!-- Door in the second room -->
             <div id="second-door"></div>
         </div>
 
-        <!-- Item Examination Overlay -->
-        <div id="item-overlay">
-            <div id="item-display">
-                <button id="close-item">X</button>
-                <div id="current-item"></div>
-                <div id="box-content">
-                    <img id="key-image" src="asset/image/background/BigRoomNelly/Item/picinbox1.PNG" alt="key image"
-                        style="cursor: pointer;" />
-                </div>
+        <!-- Item overlay - now placed OUTSIDE of any specific scene for better visibility -->
+    <div id="item-overlay">
+        <div id="item-display">
+            <button id="close-item">X</button>
+            <div id="current-item"></div>
+            <div id="box-content">
+                <img id="key-image" src="/asset/image/background/BigRoomNelly/Item/picinbox1.PNG" alt="key image"
+                    style="cursor: pointer;" />
             </div>
         </div>
+    </div>
 
-        <!-- Image overlay -->
-        <div id="image-overlay" style="display:none;">
-            <div id="image-popup">
-                <img id="overlay-image" src="" alt="image detail" />
-            </div>
+    <!-- Image overlay - also outside scenes -->
+    <div id="image-overlay" style="display:none;">
+        <div id="image-popup">
+            <img id="overlay-image" src="" alt="image detail" />
         </div>
+    </div>
 
         <!-- Game Message -->
         <div id="game-message"></div>
