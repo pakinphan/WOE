@@ -9,6 +9,7 @@ let doorCodeAttempt = ""; // Track door code input
 let imageToggled = false;
 let currentPanelIndex = 0;
 
+
 // ===== SCENE ELEMENTS =====
 const homeScene = document.getElementById('home-scene');
 const cutscene1 = document.getElementById('cutscene-1');
@@ -132,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Initialize video
-    videoPlayer.src = "/asset/video/Repo.mp4";
+    videoPlayer.src = "./asset/video/Repo.mp4";
 
     // For testing only - simulate video end after 2 seconds
     // Remove this in production
@@ -281,7 +282,7 @@ items.forEach((item) => {
         itemOverlay.style.display = 'flex';
 
         if (item.id === 'item3') { // กล่อง
-            currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomNelly/Item/ToyOpen.PNG')"; // เปลี่ยนภาพกล่อง
+            currentItem.style.backgroundImage = "url('./asset/image/background/BigRoomNelly/Item/ToyOpen.PNG')"; // เปลี่ยนภาพกล่อง
             currentItem.style.backgroundSize = 'cover';
             currentItem.style.width = '60vw';
             currentItem.style.height = '85vh';
@@ -291,7 +292,7 @@ items.forEach((item) => {
                 showMessage('โอ๊ะ!! เจอรูปภาพข้างใน');
             };
         } else if (item.id === 'item2') { // ไอเทม 2
-            currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomNelly/Item/Board2.PNG')"; // เปลี่ยนภาพเฉพาะใน overlay
+            currentItem.style.backgroundImage = "url('./asset/image/background/BigRoomNelly/Item/Board2.PNG')"; // เปลี่ยนภาพเฉพาะใน overlay
             currentItem.style.backgroundSize = 'cover';
             currentItem.style.width = '500px';
             currentItem.style.height = '500px';
@@ -316,7 +317,7 @@ secondRoomItems.forEach((item) => {
         itemOverlay.style.display = 'flex';
 
         if (item.id === 'second-item1') {
-            currentItem.style.backgroundImage = "url('/asset/image/background/BigRoomOceana/Pic.PNG')";
+            currentItem.style.backgroundImage = "url('./asset/image/background/BigRoomOceana/Pic.PNG')";
             currentItem.style.backgroundSize = 'cover';
 
             currentItem.style.height = '500px';
@@ -560,8 +561,8 @@ function switchRoom(roomNumber) {
 function initDressingRoom() {
     console.log('Initializing dressing room');
     // Set default character
-    characterBody.src = '/asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png';
-    characterHead.src = '/asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png';
+    characterBody.src = './asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png';
+    characterHead.src = './asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png';
 
     // Reset selections
     selectedHead = '';
@@ -697,3 +698,4 @@ document.addEventListener('DOMContentLoaded', function () {
     // Alternatively, set up both rooms' items right away
     setupSecondRoomItems();
 });
+
