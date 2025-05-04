@@ -184,7 +184,7 @@ body {
     width: 100%;
     height: 100%;
     position: relative;
-    background-image: url('../asset/image/background/BigRoomNelly/BG.PNG');
+    background-image: url('/WOE/asset/image/background/DressingRoomNelly/BG.PNG');
     
     background-size: cover;      /* Cover the entire div, may crop */
     background-repeat: no-repeat;
@@ -824,7 +824,7 @@ body {
 /* Dressing Room Styles */
 #dressing-room-scene {
     background-color: #1a1a1a00;
-    background-image: url('./asset/image/background/DressingRoomNelly/BG.PNG');
+    background-image: url('.../asset/image/background/DressingRoomNelly/BG.PNG');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -903,7 +903,7 @@ body {
     width: 90%;
     height: 90%;
 
-    background-image: url('./asset/image/background/DressingRoomNelly/Deco1.PNG'); /* example foreground image */
+    background-image: url('/asset/image/background/DressingRoomNelly/Deco1.PNG'); /* example foreground image */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
