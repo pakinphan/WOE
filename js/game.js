@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make sure dressing room is explicitly hidden
     const dressingRoomScene = document.getElementById('dressing-room-scene');
     if (dressingRoomScene) {
+        setupDressingRoom();
         dressingRoomScene.classList.remove('active');
         dressingRoomScene.style.display = 'none';
         console.log('Dressing room explicitly hidden');
@@ -550,8 +551,9 @@ function switchRoom(roomNumber) {
     }
 }
 
-// Initialize dressing room function
+// Modify the initDressingRoom function to properly set up the button event listener
 function initDressingRoom() {
+    console.log('Initializing dressing room');
     // Set default character
     characterBody.src = 'asset/image/background/DressingRoomNelly/Dress/Nelly_dress-01.png';
     characterHead.style.display = 'none';
@@ -564,11 +566,39 @@ function initDressingRoom() {
     document.querySelectorAll('.clothing-item.selected').forEach(item => {
         item.classList.remove('selected');
     });
+    
+    // Make sure the next button is visible
+    if (dressingNextButton) {
+        dressingNextButton.style.display = 'block';
+        console.log('Dressing room next button is visible');
+    } else {
+        console.error('Dressing next button not found!');
+    }
+    
+    // Add event listener directly here to ensure it's set when the scene initializes
+    dressingNextButton.addEventListener('click', function() {
+        console.log('Dressing room next button clicked');
+        showMessage('Moving to comic scene...');
+        
+        // Use changeScene function directly instead of setTimeout + manual style changes
+        setTimeout(() => {
+            changeScene('comic-scene');
+            // Reset comic panels for a fresh start
+            currentPanelIndex = 0;
+            comicPanels.forEach(panel => {
+                if (panel.dataset.panel !== "0") {
+                    panel.classList.remove('revealed');
+                }
+            });
+            comicNextButton.style.display = 'none';
+        }, 1000);
+    });
 }
 
 
 // Add this function to set up the dressing room interactions
 function setupDressingRoom() {
+    // Tab switching functionality
     // Tab switching functionality
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -601,6 +631,7 @@ function setupDressingRoom() {
                 selectedHead = headPath;
                 characterHead.src = headPath;
                 characterHead.style.display = 'block';
+                console.log("Updated head to:", headPath); // Debug logging
             } else if (bodyPath) {
                 // Deselect previously selected body items
                 document.querySelectorAll('.clothing-item[data-body].selected').forEach(elem => {
@@ -611,6 +642,7 @@ function setupDressingRoom() {
                 item.classList.add('selected');
                 selectedBody = bodyPath;
                 characterBody.src = bodyPath;
+                console.log("Updated body to:", bodyPath); // Debug logging
             }
         });
     });
@@ -624,6 +656,22 @@ function setupDressingRoom() {
             dressingRoomScene.style.display = 'none';
         }, 2000);
     });
+        // Initialize with default items if needed
+        if (characterBody.src === "asset/image/background/DressingRoomNelly/Dress/Nelly_dress-01.png" || characterBody.src === window.location.href) {
+            // Set default body if none is set
+            const defaultBody = document.querySelector('.clothing-item[data-body]');
+            if (defaultBody) {
+                defaultBody.click();
+            }
+        }
+        
+        if (characterHead.src === "asset/image/background/DressingRoomNelly/Head/Nelly_head-01.png" || characterHead.src === window.location.href) {
+            // Set default head if none is set
+            const defaultHead = document.querySelector('.clothing-item[data-head]');
+            if (defaultHead) {
+                defaultHead.click();
+            }
+        }
 }
 
 // Call this when the page loads

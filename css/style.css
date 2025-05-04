@@ -823,7 +823,7 @@ body {
 
 /* Dressing Room Styles */
 #dressing-room-scene {
-    background-color: #1a1a1a;
+    background-color: #1a1a1a00;
     background-image: url('/asset/image/background/DressingRoomNelly/BG.PNG');
     background-size: cover;
     background-position: center;
@@ -839,20 +839,22 @@ body {
     display: flex;
     width: 90%;
     height: 80%;
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 2px solid #347bd3;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid #347bd300;
     border-radius: 15px;
     overflow: hidden;
+    z-index: 4;
 }
 
 /* Character Display Section */
 .character-display {
     width: 50%;
     height: 100%;
-    background-color: rgba(52, 123, 211, 0.2);
+    background-color: rgba(52, 123, 211, 0);
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 4;
 }
 
 .character-preview {
@@ -862,39 +864,70 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 6;
 }
 
 #character-body {
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 400px;
+
     position: absolute;
+    z-index: 6;
 }
 
 #character-head {
-    max-width: 60%;
-    max-height: 60%;
+    max-width: 400px;
+
     position: absolute;
-    top: 10%;
-    z-index: 2;
+    z-index: 5;
 }
 
 /* Clothing Selection Section */
 .clothing-selection {
-    width: 50%;
-    height: 100%;
-    background-color: rgba(231, 173, 71, 0.2);
+    position: absolute;
+    top: 25%;
+    left: 45%;
+    width: 46%;
+    height: 62%;
+    background-color: rgba(231, 172, 71, 0);
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
+
+}
+
+.cloth-foreground {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 90%;
+    height: 90%;
+
+    background-image: url('/asset/image/background/DressingRoomNelly/Deco1.PNG'); /* example foreground image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    pointer-events: none; /* allows clicking through foreground if needed */
+    z-index: 1;
+}
+
+#body-tab {
+    width: 75%;
+    height: 100%;
+    display: grid;
+    place-items: center;
 }
 
 .tabs {
     display: flex;
-    background-color: #333;
-    border-bottom: 2px solid #e7ad47;
+    background-color: #333333;
+    border-bottom: 2px solid #e7ac47;
+    width: 70%;
 }
 
 .tab-button {
-    background-color: #333;
+    background-color: #333333;
     color: white;
     border: none;
     padding: 15px 20px;
@@ -906,15 +939,17 @@ body {
 }
 
 .tab-button.active {
-    background-color: #e7ad47;
-    color: #333;
+    background-color: #e7ac47;
+    color: #ffffffb0;
+    border-radius: 12px;
 }
 
 .tab-content {
     display: none;
-    padding: 20px;
+    padding: 10px;
     height: calc(100% - 60px);
     overflow-y: auto;
+    
 }
 
 .tab-content.active {
@@ -923,15 +958,17 @@ body {
 
 .items-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 80%;
+    max-height: 80%;
+    gap:    0px;
 }
 
 .clothing-item {
-    background-color: rgba(0, 0, 0, 0.3);
-    border: 2px solid #347bd3;
+    background-color: rgba(0, 0, 0, 0);
     border-radius: 10px;
     overflow: hidden;
+
     cursor: pointer;
     transition: transform 0.2s, border-color 0.2s;
     aspect-ratio: 1;
@@ -942,18 +979,18 @@ body {
 
 .clothing-item:hover {
     transform: scale(1.05);
-    border-color: #e7ad47;
+    border-color: #e7ac4700;
 }
 
 .clothing-item.selected {
     border-color: #e7ad47;
     border-width: 3px;
-    box-shadow: 0 0 10px rgba(231, 173, 71, 0.7);
+    box-shadow: 0 0 10px rgba(231, 172, 71, 0);
 }
 
 .clothing-item img {
-    max-width: 80%;
-    max-height: 80%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 /* Next Button in Dressing Room */
