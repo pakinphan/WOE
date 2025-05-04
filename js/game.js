@@ -70,9 +70,9 @@ const characterHead = document.getElementById('character-head');
 // ===== CONTENT DATA =====
 // Array of diary pages
 const diaryPages = [
-    "asset/image/background/BigRoomOceana/Diary1.PNG",
-    "asset/image/background/BigRoomOceana/Diary2.PNG",
-    "asset/image/background/BigRoomOceana/Diary3.PNG"
+    "./asset/image/background/BigRoomOceana/Diary1.PNG",
+    "./asset/image/background/BigRoomOceana/Diary2.PNG",
+    "./asset/image/background/BigRoomOceana/Diary3.PNG"
 ];
 
 // ===== MOVEMENT CONTROLS =====
@@ -365,7 +365,7 @@ function handleDiaryClick() {
 // คลิกที่ภาพในกล่องเพื่อเปิดภาพใหญ่
 keyImage.addEventListener('click', () => {
     imageOverlay.style.display = 'flex';
-    overlayImage.src = "asset/image/background/BigRoomNelly/Item/picinbox2.PNG";
+    overlayImage.src = "./asset/image/background/BigRoomNelly/Item/picinbox2.PNG";
     imageToggled = false;
     showMessage('โอ๊ะ!! มีอีกภาพนึง');
 });
@@ -373,7 +373,7 @@ keyImage.addEventListener('click', () => {
 // คลิกภาพใหญ่เพื่อสลับภาพและปลดล็อค
 overlayImage.addEventListener('click', () => {
     if (!imageToggled) {
-        overlayImage.src = "asset/image/background/BigRoomNelly/Item/picinbox2.PNG";
+        overlayImage.src = "./asset/image/background/BigRoomNelly/Item/picinbox2.PNG";
         imageToggled = true;
         hasKey = true;
         doorUnlocked = true;
@@ -662,7 +662,7 @@ function setupDressingRoom() {
         }, 2000);
     });
         // Initialize with default items if needed
-        if (characterBody.src === "asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png" || characterBody.src === window.location.href) {
+        if (characterBody.src === "./asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png" || characterBody.src === window.location.href) {
             // Set default body if none is set
             const defaultBody = document.querySelector('.clothing-item[data-body]');
             if (defaultBody) {
@@ -670,7 +670,7 @@ function setupDressingRoom() {
             }
         }
         
-        if (characterHead.src === "asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png" || characterHead.src === window.location.href) {
+        if (characterHead.src === "./asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png" || characterHead.src === window.location.href) {
             // Set default head if none is set
             const defaultHead = document.querySelector('.clothing-item[data-head]');
             if (defaultHead) {
