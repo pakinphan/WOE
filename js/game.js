@@ -555,8 +555,8 @@ function switchRoom(roomNumber) {
 function initDressingRoom() {
     console.log('Initializing dressing room');
     // Set default character
-    characterBody.src = 'asset/image/background/DressingRoomNelly/Dress/Nelly_dress-01.png';
-    characterHead.style.display = 'none';
+    characterBody.src = 'asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png';
+    characterHead.src = 'asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png';
 
     // Reset selections
     selectedHead = '';
@@ -578,7 +578,7 @@ function initDressingRoom() {
     // Add event listener directly here to ensure it's set when the scene initializes
     dressingNextButton.addEventListener('click', function() {
         console.log('Dressing room next button clicked');
-        showMessage('Moving to comic scene...');
+
         
         // Use changeScene function directly instead of setTimeout + manual style changes
         setTimeout(() => {
@@ -657,7 +657,7 @@ function setupDressingRoom() {
         }, 2000);
     });
         // Initialize with default items if needed
-        if (characterBody.src === "asset/image/background/DressingRoomNelly/Dress/Nelly_dress-01.png" || characterBody.src === window.location.href) {
+        if (characterBody.src === "asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png" || characterBody.src === window.location.href) {
             // Set default body if none is set
             const defaultBody = document.querySelector('.clothing-item[data-body]');
             if (defaultBody) {
@@ -665,7 +665,7 @@ function setupDressingRoom() {
             }
         }
         
-        if (characterHead.src === "asset/image/background/DressingRoomNelly/Head/Nelly_head-01.png" || characterHead.src === window.location.href) {
+        if (characterHead.src === "asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png" || characterHead.src === window.location.href) {
             // Set default head if none is set
             const defaultHead = document.querySelector('.clothing-item[data-head]');
             if (defaultHead) {
