@@ -1,6 +1,4 @@
-
-
-// Game variables
+// ===== GAME VARIABLES =====
 let currentScene = 'home-scene';
 let hasKey = false;
 let doorUnlocked = false;
@@ -8,26 +6,30 @@ let hasSecondKey = false;
 let secondDoorUnlocked = false;
 let diaryPageCount = 0; // Track which diary page is shown
 let doorCodeAttempt = ""; // Track door code input
+let imageToggled = false;
+let currentPanelIndex = 0;
 
-// Scene elements
+// ===== SCENE ELEMENTS =====
 const homeScene = document.getElementById('home-scene');
 const cutscene1 = document.getElementById('cutscene-1');
 const roomScene = document.getElementById('room-scene');
 const comicScene = document.getElementById('comic-scene');
 const secondRoomScene = document.getElementById('second-room-scene'); // Make sure this exists
+const dressingRoomScene = document.getElementById('dressing-room-scene');
 
-
-// Video elements
+// ===== VIDEO ELEMENTS =====
 const videoPlayer = document.getElementById('video-player');
 const nextButton = document.getElementById('next-button');
 
-// Room elements
+// ===== ROOM ELEMENTS =====
 const player = document.getElementById('player');
 const secondPlayer = document.getElementById('second-player'); // Player in the second room
 const items = document.querySelectorAll('.item');
 const secondRoomItems = document.querySelectorAll('.second-room-item'); // Items in the second room
 const door = document.getElementById('door');
 const secondDoor = document.getElementById('second-door'); // Door in the second room
+
+// ===== OVERLAY ELEMENTS =====
 const itemOverlay = document.getElementById('item-overlay');
 const itemDisplay = document.getElementById('item-display');
 const closeItem = document.getElementById('close-item');
@@ -38,29 +40,33 @@ const gameMessage = document.getElementById('game-message');
 const keyImage = document.getElementById('key-image');        // ภาพในกล่อง
 const imageOverlay = document.getElementById('image-overlay'); // overlay ที่โชว์ภาพเต็ม
 const overlayImage = document.getElementById('overlay-image'); // <img> ที่โชว์ภาพเต็ม
-let imageToggled = false;
 
-// Door code elements
+// ===== DOOR CODE ELEMENTS =====
 const doorCodeOverlay = document.getElementById('door-code-overlay');
 const doorCodeInput = document.getElementById('door-code-input');
 const doorCodeButtons = document.querySelectorAll('.code-button');
 const doorCodeDisplay = document.getElementById('door-code-display');
 const doorCodeSubmit = document.getElementById('door-code-submit');
 const doorCodeCancel = document.getElementById('door-code-cancel');
-
-
 const codeInput = document.getElementById('code-input');
 const keypadButtons = document.querySelectorAll('.keypad-btn');
 const closeDoorCode = document.getElementById('close-door-code');
 const doorCodeContainer = document.getElementById('door-code-container');
 
-
-//comic Scene
+// ===== COMIC SCENE ELEMENTS =====
 const comicNextButton = document.getElementById('comic-next-button');
 const comicPanels = document.querySelectorAll('.comic-panel');
 const comicInstruction = document.querySelector('.comic-instruction');
-let currentPanelIndex = 0;
 
+// ===== DRESSING ROOM ELEMENTS =====
+const dressingNextButton = document.getElementById('dressing-next-button');
+const tabButtons = document.querySelectorAll('.tab-button');
+const tabContents = document.querySelectorAll('.tab-content');
+const clothingItems = document.querySelectorAll('.clothing-item');
+const characterBody = document.getElementById('character-body');
+const characterHead = document.getElementById('character-head');
+
+// ===== CONTENT DATA =====
 // Array of diary pages
 const diaryPages = [
     "asset/image/background/BigRoomOceana/Diary1.PNG",
@@ -68,22 +74,18 @@ const diaryPages = [
     "asset/image/background/BigRoomOceana/Diary3.PNG"
 ];
 
-// Add this to the top of game.js where the other scene elements are declared
-const dressingRoomScene = document.getElementById('dressing-room-scene');
-const dressingNextButton = document.getElementById('dressing-next-button');
+// ===== MOVEMENT CONTROLS =====
+// Player movement
+let keys = { ArrowLeft: false, ArrowRight: false };
+let playerSpeed = 4; // Your speed
+let animationFrameId = null;
 
-// Add these variables for the dressing room functionality
-const tabButtons = document.querySelectorAll('.tab-button');
-const tabContents = document.querySelectorAll('.tab-content');
-const clothingItems = document.querySelectorAll('.clothing-item');
-const characterBody = document.getElementById('character-body');
-const characterHead = document.getElementById('character-head');
-
+// ===== CHARACTER CUSTOMIZATION =====
 // Selected items tracking
 let selectedHead = '';
 let selectedBody = '';
 
-
+// ===== INITIALIZATION FUNCTIONS =====
 function checkElements() {
     console.log('Checking critical elements:');
     console.log('secondRoomScene:', secondRoomScene ? 'exists' : 'missing');
@@ -130,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Initialize video
-    // In real code, replace with the actual video URL
     videoPlayer.src = "/asset/video/Repo.mp4";
 
     // For testing only - simulate video end after 2 seconds
@@ -153,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Game initialized, current scene:', currentScene);
 });
 
+// ===== SCENE MANAGEMENT =====
 // Change scene function
 function changeScene(sceneId) {
     // Hide all scenes
@@ -175,6 +177,7 @@ function changeScene(sceneId) {
     }
 }
 
+// ===== UI FEEDBACK =====
 // Show message function
 function showMessage(message, duration = 3000) {
     gameMessage.textContent = message;
@@ -185,6 +188,7 @@ function showMessage(message, duration = 3000) {
     }, duration);
 }
 
+// ===== SCENE EVENT LISTENERS =====
 // Home scene click event
 homeScene.addEventListener('click', () => {
     changeScene('cutscene-1');
@@ -200,12 +204,7 @@ nextButton.addEventListener('click', () => {
     changeScene('room-scene');
 });
 
-
-// Player movement
-let keys = { ArrowLeft: false, ArrowRight: false };
-let playerSpeed = 4; // Your speed
-let animationFrameId = null;
-
+// ===== PLAYER MOVEMENT =====
 document.addEventListener('keydown', (e) => {
     // Allow movement in both room scenes
     if (currentScene !== 'room-scene' && currentScene !== 'second-room-scene') return;
@@ -275,7 +274,7 @@ function movePlayer() {
     }
 }
 
-
+// ===== ITEM INTERACTIONS - FIRST ROOM =====
 // Item click events
 items.forEach((item) => {
     item.addEventListener('click', () => {
@@ -311,6 +310,7 @@ items.forEach((item) => {
     });
 });
 
+// ===== ITEM INTERACTIONS - SECOND ROOM =====
 secondRoomItems.forEach((item) => {
     item.addEventListener('click', () => {
         itemOverlay.style.display = 'flex';
@@ -344,6 +344,7 @@ secondRoomItems.forEach((item) => {
     });
 });
 
+// ===== DIARY INTERACTION =====
 // Handle diary click to cycle through pages
 function handleDiaryClick() {
     diaryPageCount = (diaryPageCount + 1) % diaryPages.length;
@@ -359,7 +360,7 @@ function handleDiaryClick() {
     }
 }
 
-
+// ===== IMAGE INTERACTIONS =====
 // คลิกที่ภาพในกล่องเพื่อเปิดภาพใหญ่
 keyImage.addEventListener('click', () => {
     imageOverlay.style.display = 'flex';
@@ -381,12 +382,14 @@ overlayImage.addEventListener('click', () => {
     }
 });
 
+// ===== OVERLAY CONTROLS =====
 // Close item overlay
 closeItem.addEventListener('click', () => {
     itemOverlay.style.display = 'none';
     boxContent.style.display = 'none';
 });
 
+// ===== DOOR INTERACTIONS =====
 // Door click event
 door.addEventListener('click', () => {
     if (doorUnlocked) {
@@ -402,7 +405,7 @@ door.addEventListener('click', () => {
     }
 });
 
-
+// ===== COMIC SCENE INTERACTIONS =====
 comicScene.addEventListener('click', (e) => {
     console.log('Comic scene clicked, currentPanelIndex:', currentPanelIndex);
 
@@ -425,10 +428,9 @@ comicScene.addEventListener('click', (e) => {
 
 comicNextButton.addEventListener('click', () => {
     changeScene('second-room-scene');
-
 });
 
-// Door click event
+// Second door click event - duplicate but kept for compatibility
 door.addEventListener('click', () => {
     if (doorUnlocked) {
         showMessage('ไปด่านต่อไปได้เลย!');
@@ -442,6 +444,7 @@ door.addEventListener('click', () => {
     }
 });
 
+// ===== SECOND ROOM DOOR INTERACTION =====
 // Door click event for second room
 secondDoor.addEventListener('click', () => {
     if (secondDoorUnlocked) {
@@ -463,6 +466,7 @@ secondDoor.addEventListener('click', () => {
     }
 });
 
+// ===== DOOR CODE INTERACTIONS =====
 // Door code button click handlers
 keypadButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -523,7 +527,6 @@ function checkDoorCode() {
     }
 }
 
-
 // Close door code overlay
 closeDoorCode.addEventListener('click', () => {
     doorCodeOverlay.style.display = 'none';
@@ -535,6 +538,7 @@ document.getElementById('door-code-clear').addEventListener('click', () => {
     doorCodeDisplay.textContent = "_ _ _";
 });
 
+// ===== ROOM SWITCHING =====
 // Function to handle room switching
 function switchRoom(roomNumber) {
     const firstRoom = document.getElementById('firstRoom');
@@ -551,12 +555,13 @@ function switchRoom(roomNumber) {
     }
 }
 
+// ===== DRESSING ROOM SETUP =====
 // Modify the initDressingRoom function to properly set up the button event listener
 function initDressingRoom() {
     console.log('Initializing dressing room');
     // Set default character
-    characterBody.src = 'asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png';
-    characterHead.src = 'asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png';
+    characterBody.src = '/asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png';
+    characterHead.src = '/asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png';
 
     // Reset selections
     selectedHead = '';
@@ -595,10 +600,9 @@ function initDressingRoom() {
     });
 }
 
-
+// ===== DRESSING ROOM FUNCTIONALITY =====
 // Add this function to set up the dressing room interactions
 function setupDressingRoom() {
-    // Tab switching functionality
     // Tab switching functionality
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -674,6 +678,7 @@ function setupDressingRoom() {
         }
 }
 
+// ===== INITIALIZATION =====
 // Call this when the page loads
 document.addEventListener('DOMContentLoaded', function () {
     // Setup first room by default
@@ -692,7 +697,3 @@ document.addEventListener('DOMContentLoaded', function () {
     // Alternatively, set up both rooms' items right away
     setupSecondRoomItems();
 });
-
-
-
-
