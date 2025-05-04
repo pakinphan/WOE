@@ -38,7 +38,7 @@ const gameMessage = document.getElementById('game-message');
 const keyImage = document.getElementById('key-image');        // ภาพในกล่อง
 const imageOverlay = document.getElementById('image-overlay'); // overlay ที่โชว์ภาพเต็ม
 const overlayImage = document.getElementById('overlay-image'); // <img> ที่โชว์ภาพเต็ม
-let imageToggled = false;     
+let imageToggled = false;
 
 // Door code elements
 const doorCodeOverlay = document.getElementById('door-code-overlay');
@@ -96,15 +96,37 @@ function checkElements() {
 
 // Make sure all scenes are hidden except the home scene at startup
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM fully loaded");
 
-    // Hide all scenes first
+    // First, hide ALL scenes by both removing active class and setting display none
     document.querySelectorAll('.scene').forEach(scene => {
         scene.classList.remove('active');
+        scene.style.display = 'none';
     });
 
-    // Then show only the home scene
-    homeScene.classList.add('active');
-    currentScene = 'home-scene';
+    // Explicitly set home scene to be visible and active
+    const homeScene = document.getElementById('home-scene');
+    if (homeScene) {
+        homeScene.classList.add('active');
+        homeScene.style.display = 'flex';
+        currentScene = 'home-scene';
+        console.log('Home scene activated');
+    } else {
+        console.error('Home scene element not found!');
+    }
+
+    // Make sure dressing room is explicitly hidden
+    const dressingRoomScene = document.getElementById('dressing-room-scene');
+    if (dressingRoomScene) {
+        dressingRoomScene.classList.remove('active');
+        dressingRoomScene.style.display = 'none';
+        console.log('Dressing room explicitly hidden');
+    }
+
+    // Log all scenes and their display states
+    document.querySelectorAll('.scene').forEach(scene => {
+        console.log(`Scene ${scene.id}: display=${getComputedStyle(scene).display}, classList=${scene.classList}`);
+    });
 
     // Initialize video
     // In real code, replace with the actual video URL
@@ -298,13 +320,13 @@ secondRoomItems.forEach((item) => {
 
             currentItem.style.height = '500px';
             currentItem.onclick = null;
-            boxContent.style.display = 'none';  
+            boxContent.style.display = 'none';
             showMessage('โอ๊ะ!! ในภาพมีตัวเลข 5 ช่างแปลกจัง');
         } else if (item.id === 'second-item2') {
             // Initialize diary viewing
             diaryPageCount = 0;
             currentItem.style.backgroundImage = `url('${diaryPages[diaryPageCount]}')`;
-            currentItem.style.backgroundSize = 'cover'; 
+            currentItem.style.backgroundSize = 'cover';
             currentItem.style.height = '500px';
             currentItem.onclick = handleDiaryClick;
             boxContent.style.display = 'none';
@@ -371,9 +393,8 @@ door.addEventListener('click', () => {
         // Add code to transition to next level
         // For now, just reset to home for demonstration
         setTimeout(() => {
-            changeScene('comic-scene');
-            comicScene.style.display = 'flex';
-            comicScene.classList.add('fade-in');
+            changeScene('dressing-room-scene');
+            initDressingRoom();
         }, 2000);
     } else {
         showMessage('ประตูล็อกอยู่ คุณต้องหาบางอย่างเพื่อปลดล็อค');
@@ -414,8 +435,6 @@ door.addEventListener('click', () => {
         // For now, just reset to home for demonstration
         setTimeout(() => {
             changeScene('dressing-room-scene');
-            comicScene.style.display = 'flex';
-            comicScene.classList.add('fade-in');
         }, 2000);
     } else {
         showMessage('ประตูล็อกอยู่ คุณต้องหาบางอย่างเพื่อปลดล็อค');
@@ -536,11 +555,11 @@ function initDressingRoom() {
     // Set default character
     characterBody.src = 'asset/image/background/DressingRoomNelly/Dress/Nelly_dress-01.png';
     characterHead.style.display = 'none';
-    
+
     // Reset selections
     selectedHead = '';
     selectedBody = '';
-    
+
     // Remove selected class from all items
     document.querySelectorAll('.clothing-item.selected').forEach(item => {
         item.classList.remove('selected');
@@ -556,7 +575,7 @@ function setupDressingRoom() {
             // Remove active class from all buttons and contents
             tabButtons.forEach(btn => btn.classList.remove('active'));
             tabContents.forEach(content => content.classList.remove('active'));
-            
+
             // Add active class to clicked button and its content
             button.classList.add('active');
             const tabId = button.getAttribute('data-tab');
@@ -570,13 +589,13 @@ function setupDressingRoom() {
             // Check if it's a head or body item
             const headPath = item.getAttribute('data-head');
             const bodyPath = item.getAttribute('data-body');
-            
+
             if (headPath) {
                 // Deselect previously selected head items
                 document.querySelectorAll('.clothing-item[data-head].selected').forEach(elem => {
                     elem.classList.remove('selected');
                 });
-                
+
                 // Select this item and update character
                 item.classList.add('selected');
                 selectedHead = headPath;
@@ -587,7 +606,7 @@ function setupDressingRoom() {
                 document.querySelectorAll('.clothing-item[data-body].selected').forEach(elem => {
                     elem.classList.remove('selected');
                 });
-                
+
                 // Select this item and update character
                 item.classList.add('selected');
                 selectedBody = bodyPath;
@@ -596,9 +615,14 @@ function setupDressingRoom() {
         });
     });
 
-    // Next button in dressing room
+    // Update the dressing room next button to transition to comic scene
     dressingNextButton.addEventListener('click', () => {
-        changeScene('comic-scene');
+        setTimeout(() => {
+            changeScene('comic-scene');
+            comicScene.style.display = 'flex';
+            comicScene.classList.add('fade-in');
+            dressingRoomScene.style.display = 'none';
+        }, 2000);
     });
 }
 
