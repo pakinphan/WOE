@@ -38,7 +38,7 @@ const gameMessage = document.getElementById('game-message');
 const keyImage = document.getElementById('key-image');        // ภาพในกล่อง
 const imageOverlay = document.getElementById('image-overlay'); // overlay ที่โชว์ภาพเต็ม
 const overlayImage = document.getElementById('overlay-image'); // <img> ที่โชว์ภาพเต็ม
-let imageToggled = false;
+let imageToggled = false;     
 
 // Door code elements
 const doorCodeOverlay = document.getElementById('door-code-overlay');
@@ -67,6 +67,22 @@ const diaryPages = [
     "asset/image/background/BigRoomOceana/Diary2.PNG",
     "asset/image/background/BigRoomOceana/Diary3.PNG"
 ];
+
+// Add this to the top of game.js where the other scene elements are declared
+const dressingRoomScene = document.getElementById('dressing-room-scene');
+const dressingNextButton = document.getElementById('dressing-next-button');
+
+// Add these variables for the dressing room functionality
+const tabButtons = document.querySelectorAll('.tab-button');
+const tabContents = document.querySelectorAll('.tab-content');
+const clothingItems = document.querySelectorAll('.clothing-item');
+const characterBody = document.getElementById('character-body');
+const characterHead = document.getElementById('character-head');
+
+// Selected items tracking
+let selectedHead = '';
+let selectedBody = '';
+
 
 function checkElements() {
     console.log('Checking critical elements:');
@@ -282,13 +298,13 @@ secondRoomItems.forEach((item) => {
 
             currentItem.style.height = '500px';
             currentItem.onclick = null;
-            boxContent.style.display = 'none';
+            boxContent.style.display = 'none';  
             showMessage('โอ๊ะ!! ในภาพมีตัวเลข 5 ช่างแปลกจัง');
         } else if (item.id === 'second-item2') {
             // Initialize diary viewing
             diaryPageCount = 0;
             currentItem.style.backgroundImage = `url('${diaryPages[diaryPageCount]}')`;
-            currentItem.style.backgroundSize = 'cover';
+            currentItem.style.backgroundSize = 'cover'; 
             currentItem.style.height = '500px';
             currentItem.onclick = handleDiaryClick;
             boxContent.style.display = 'none';
@@ -397,7 +413,7 @@ door.addEventListener('click', () => {
         // Add code to transition to next level
         // For now, just reset to home for demonstration
         setTimeout(() => {
-            changeScene('comic-scene');
+            changeScene('dressing-room-scene');
             comicScene.style.display = 'flex';
             comicScene.classList.add('fade-in');
         }, 2000);
@@ -515,11 +531,82 @@ function switchRoom(roomNumber) {
     }
 }
 
+// Initialize dressing room function
+function initDressingRoom() {
+    // Set default character
+    characterBody.src = 'asset/image/background/DressingRoomNelly/Dress/Nelly_dress-01.png';
+    characterHead.style.display = 'none';
+    
+    // Reset selections
+    selectedHead = '';
+    selectedBody = '';
+    
+    // Remove selected class from all items
+    document.querySelectorAll('.clothing-item.selected').forEach(item => {
+        item.classList.remove('selected');
+    });
+}
+
+
+// Add this function to set up the dressing room interactions
+function setupDressingRoom() {
+    // Tab switching functionality
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button and its content
+            button.classList.add('active');
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Clothing item selection
+    clothingItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // Check if it's a head or body item
+            const headPath = item.getAttribute('data-head');
+            const bodyPath = item.getAttribute('data-body');
+            
+            if (headPath) {
+                // Deselect previously selected head items
+                document.querySelectorAll('.clothing-item[data-head].selected').forEach(elem => {
+                    elem.classList.remove('selected');
+                });
+                
+                // Select this item and update character
+                item.classList.add('selected');
+                selectedHead = headPath;
+                characterHead.src = headPath;
+                characterHead.style.display = 'block';
+            } else if (bodyPath) {
+                // Deselect previously selected body items
+                document.querySelectorAll('.clothing-item[data-body].selected').forEach(elem => {
+                    elem.classList.remove('selected');
+                });
+                
+                // Select this item and update character
+                item.classList.add('selected');
+                selectedBody = bodyPath;
+                characterBody.src = bodyPath;
+            }
+        });
+    });
+
+    // Next button in dressing room
+    dressingNextButton.addEventListener('click', () => {
+        changeScene('comic-scene');
+    });
+}
+
 // Call this when the page loads
 document.addEventListener('DOMContentLoaded', function () {
     // Setup first room by default
     setupFirstRoomItems();
-
+    setupDressingRoom();
 
     // Setup room transition events if they exist
     const roomTransitionButtons = document.querySelectorAll('.room-transition');
@@ -531,6 +618,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Alternatively, set up both rooms' items right away
-    setupFirstRoomItems();
     setupSecondRoomItems();
 });
+
+
+
+
