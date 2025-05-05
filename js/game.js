@@ -97,67 +97,112 @@ function checkElements() {
     console.log('comicPanels count:', comicPanels.length);
 }
 
+// ===== SLIDING SCENE ELEMENTS =====
+const slidingScene = document.getElementById('sliding-scene');
+const slidingPlayer = document.getElementById('sliding-player');
+const slidingBackground = document.getElementById('sliding-background');
+const slidingForeground = document.getElementById('sliding-foreground');
+const slidingNPCs = document.getElementById('sliding-npcs');
+
+// ===== DIALOGUE ELEMENTS =====
+const dialogueOverlay = document.getElementById('dialogue-overlay');
+const dialogueBox = document.getElementById('dialogue-box');
+const npcPortrait = document.getElementById('npc-portrait');
+const npcName = document.getElementById('npc-name');
+const dialogueText = document.getElementById('dialogue-text');
+const dialogueNext = document.getElementById('dialogue-next');
+
+// ===== ITEM RECEIVED ELEMENTS =====
+const itemReceivedOverlay = document.getElementById('item-received-overlay');
+const itemImage = document.getElementById('item-image');
+const itemDescription = document.getElementById('item-description');
+const itemReceivedClose = document.getElementById('item-received-close');
+
+// ===== SLIDING SCENE VARIABLES =====
+let isPlayerCentered = false;
+let backgroundPosition = 0;
+let playerPosition = 0;
+let screenMiddle;
+const playerOffset = 50; // Half the player width to center properly
+let npcsCompleted = {
+    npc1: false,
+    npc2: false,
+    npc3: false
+};
+let currentDialogueIndex = 0;
+let currentNPC = null;
+
+// NPC dialogue data
+const npcDialogues = {
+    npc1: [
+        { name: "Village Elder", text: "Welcome, traveler! Our village has been waiting for someone like you." },
+        { name: "Village Elder", text: "We need your help to solve an ancient puzzle that protects our sacred treasure." },
+        { name: "Village Elder", text: "Here is the first piece of the jigsaw. Find the other two to unlock the secret." }
+    ],
+    npc2: [
+        { name: "Mysterious Merchant", text: "Ah, a seeker of the ancient puzzle, I see..." },
+        { name: "Mysterious Merchant", text: "Many have tried to collect all the pieces, but failed." },
+        { name: "Mysterious Merchant", text: "Take this piece. May fortune favor your quest." }
+    ],
+    npc3: [
+        { name: "Guardian of Secrets", text: "Halt! Only those worthy may proceed beyond this point." },
+        { name: "Guardian of Secrets", text: "You've proven your determination by finding me." },
+        { name: "Guardian of Secrets", text: "The final piece is yours. Complete the puzzle to reveal the truth." }
+    ]
+};
+
 // Make sure all scenes are hidden except the home scene at startup
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded");
-
+    
     // First, hide ALL scenes by both removing active class and setting display none
     document.querySelectorAll('.scene').forEach(scene => {
-        scene.classList.remove('active');
-        scene.style.display = 'none';
+      scene.classList.remove('active');
+      scene.style.display = 'none';
     });
-
+    
     // Explicitly set home scene to be visible and active
     const homeScene = document.getElementById('home-scene');
     if (homeScene) {
-        homeScene.classList.add('active');
-        homeScene.style.display = 'flex';
-        currentScene = 'home-scene';
-        console.log('Home scene activated');
+      homeScene.classList.add('active');
+      homeScene.style.display = 'flex';
+      currentScene = 'home-scene';
+      console.log('Home scene activated');
     } else {
-        console.error('Home scene element not found!');
+      console.error('Home scene element not found!');
     }
-
-    // Make sure dressing room is explicitly hidden
-    const dressingRoomScene = document.getElementById('dressing-room-scene');
-    if (dressingRoomScene) {
-        setupDressingRoom();
-        dressingRoomScene.classList.remove('active');
-        dressingRoomScene.style.display = 'none';
-        console.log('Dressing room explicitly hidden');
-    }
-
-    // Log all scenes and their display states
-    document.querySelectorAll('.scene').forEach(scene => {
-        console.log(`Scene ${scene.id}: display=${getComputedStyle(scene).display}, classList=${scene.classList}`);
-    });
-
+    
+    // Verify all scene elements are available
+    checkElements();
+    
     // Initialize video
     videoPlayer.src = "./asset/video/Repo.mp4";
-
+    
     // For testing only - simulate video end after 2 seconds
     // Remove this in production
     setTimeout(() => {
-        const videoEndedEvent = new Event('ended');
-        videoPlayer.dispatchEvent(videoEndedEvent);
+      const videoEndedEvent = new Event('ended');
+      videoPlayer.dispatchEvent(videoEndedEvent);
     }, 2000);
-
+    
     // Show key in the box
     keyItem.style.display = 'block';
-
+    
     // Hide elements that should be hidden initially
     nextButton.style.display = 'none';
     itemOverlay.style.display = 'none';
     boxContent.style.display = 'none';
     gameMessage.style.display = 'none';
     doorCodeOverlay.style.display = 'none';
-
+    
     console.log('Game initialized, current scene:', currentScene);
-});
+  });
 
 // ===== SCENE MANAGEMENT =====
 // Change scene function
 function changeScene(sceneId) {
+    console.log('Attempting to change to scene:', sceneId);
+    
     // Hide all scenes
     document.querySelectorAll('.scene').forEach(scene => {
         scene.classList.remove('active');
@@ -166,15 +211,22 @@ function changeScene(sceneId) {
 
     // Show the requested scene
     const newScene = document.getElementById(sceneId);
-    newScene.classList.add('active');
-    newScene.style.display = 'flex'; // Fallback safety
-
-    currentScene = sceneId;
-    console.log('Changed to scene:', sceneId);
-
-    if (sceneId === 'cutscene-1') {
-        videoPlayer.play();
-        nextButton.style.display = 'none';
+    if (newScene) {
+        newScene.classList.add('active');
+        newScene.style.display = 'flex'; // Fallback safety
+        currentScene = sceneId;
+        console.log('Successfully changed to scene:', sceneId);
+        
+        // Call specific initialization functions when needed
+        if (sceneId === 'sliding-scene') {
+            console.log('Initializing sliding scene');
+            initSlidingScene();
+        } else if (sceneId === 'cutscene-1') {
+            videoPlayer.play();
+            nextButton.style.display = 'none';
+        }
+    } else {
+        console.error('Scene not found:', sceneId);
     }
 }
 
@@ -233,46 +285,45 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
-// Override the existing movePlayer function to handle different scenes
 function movePlayer() {
-    // Use the sliding movement system if in sliding scene
-    if (currentScene === 'sliding-scene') {
-        moveSlidingPlayer();
-        return;
-    }
-    
-    // Otherwise use the existing player movement for other scenes
+    // Select the correct player based on the current scene
     const activePlayer = currentScene === 'room-scene' ? player : secondPlayer;
-    
+
+    // Debug to check if activePlayer is correctly selected
+    console.log('Current scene:', currentScene);
+    console.log('Active player:', activePlayer ? activePlayer.id : 'not found');
+
     if (!activePlayer) {
         console.error('Active player not found!');
         return;
     }
-    
+
     const playerPos = parseInt(getComputedStyle(activePlayer).left);
     const gameWidth = document.body.clientWidth;
     const playerWidth = activePlayer.offsetWidth;
     let newLeft = playerPos;
-    
+
     if (keys.ArrowLeft) {
         newLeft = Math.max(0, playerPos - playerSpeed);
     }
     if (keys.ArrowRight) {
         newLeft = Math.min(gameWidth - playerWidth, playerPos + playerSpeed);
     }
-    
+
     activePlayer.style.left = newLeft + 'px';
-    
+
     if (!activePlayer.classList.contains('wiggle')) {
         activePlayer.classList.add('wiggle');
     }
-    
+
+    // Debug player position
+    console.log('Player position:', newLeft);
+
     // Continue if any key is held
     if (keys.ArrowLeft || keys.ArrowRight) {
         animationFrameId = requestAnimationFrame(movePlayer);
     } else {
         animationFrameId = null;
-        activePlayer.classList.remove('wiggle');
     }
 }
 
@@ -429,7 +480,8 @@ comicScene.addEventListener('click', (e) => {
 });
 
 comicNextButton.addEventListener('click', () => {
-    changeScene('second-room-scene');
+    changeScene('sliding-scene');
+    initSlidingScene(); // Initialize the sliding scene when entering
 });
 
 // Second door click event - duplicate but kept for compatibility
@@ -685,7 +737,7 @@ function setupDressingRoom() {
 document.addEventListener('DOMContentLoaded', function () {
     // Setup first room by default
     setupFirstRoomItems();
-    setupDressingRoom();
+
 
     // Setup room transition events if they exist
     const roomTransitionButtons = document.querySelectorAll('.room-transition');
@@ -700,51 +752,175 @@ document.addEventListener('DOMContentLoaded', function () {
     setupSecondRoomItems();
 });
 
-// ===== SLIDING SCENE SYSTEM =====
-// This file implements a sliding scene where the player walks from the left, 
-// but once they reach the center of the screen, the background slides instead.
 
-// ===== SLIDING SCENE ELEMENTS =====
-const slidingScene = document.getElementById('sliding-scene');
-const slidingPlayer = document.getElementById('sliding-player');
-const slidingBackground = document.getElementById('sliding-background');
-const slidingForeground = document.getElementById('sliding-foreground');
-const slidingNPCs = document.getElementById('sliding-npcs');
-const slidingItems = document.getElementById('sliding-items');
 
-// ===== SLIDING SCENE VARIABLES =====
-let isPlayerCentered = false;
-let backgroundPosition = 0;
-let playerPosition = 0;
-const screenMiddle = window.innerWidth / 2;
-const playerOffset = 150; // Half the player width to center properly
 
 // ===== SLIDING SCENE INITIALIZATION =====
 function initSlidingScene() {
+    // Calculate screen middle on initialization to handle window resizing
+    screenMiddle = window.innerWidth / 2;
+    
     // Reset positions
     playerPosition = 0;
     backgroundPosition = 0;
     isPlayerCentered = false;
+    
+    // Reset NPC completion status
+    npcsCompleted = {
+        npc1: false,
+        npc2: false,
+        npc3: false
+    };
     
     // Position elements
     slidingPlayer.style.left = playerPosition + 'px';
     slidingBackground.style.left = '0px';
     slidingForeground.style.left = '0px';
     slidingNPCs.style.left = '0px';
-    slidingItems.style.left = '0px';
+    
+    // Reset NPC appearance
+    document.querySelectorAll('.npc').forEach(npc => {
+        npc.classList.remove('completed');
+    });
     
     // Setup scene with correct display settings
-    slidingScene.style.display = 'flex';
     slidingScene.classList.add('active');
     currentScene = 'sliding-scene';
     
+    // Hide overlays
+    dialogueOverlay.classList.add('hidden');
+    itemReceivedOverlay.classList.add('hidden');
+    
     console.log('Sliding scene initialized');
+    
+    // Add event listeners for NPCs
+    setupNPCInteractions();
+}
+
+// ===== NPC INTERACTION SETUP =====
+function setupNPCInteractions() {
+    const npcs = document.querySelectorAll('.npc');
+    
+    npcs.forEach(npc => {
+        npc.addEventListener('click', () => {
+            const npcId = npc.getAttribute('data-npc');
+            const npcKey = `npc${npcId}`;
+            
+            // Don't start dialogue if already completed
+            if (npcsCompleted[npcKey]) return;
+            
+            startDialogue(npcKey, npc);
+        });
+    });
+    
+    // Set up dialogue next button
+    dialogueNext.addEventListener('click', advanceDialogue);
+    
+    // Set up item received close button
+    itemReceivedClose.addEventListener('click', () => {
+        itemReceivedOverlay.classList.add('hidden');
+        
+        // Check if all NPCs are completed
+        if (npcsCompleted.npc1 && npcsCompleted.npc2 && npcsCompleted.npc3) {
+            showFinalItem();
+        }
+    });
+}
+
+// ===== DIALOGUE SYSTEM =====
+function startDialogue(npcKey, npcElement) {
+    // Pause player movement
+    keys.ArrowLeft = false;
+    keys.ArrowRight = false;
+    cancelAnimationFrame(animationFrameId);
+    animationFrameId = null;
+    
+    // Show dialogue overlay
+    dialogueOverlay.classList.remove('hidden');
+    
+    // Set current NPC and reset dialogue index
+    currentNPC = npcKey;
+    currentDialogueIndex = 0;
+    
+    // Set portrait based on NPC
+    npcPortrait.style.backgroundImage = getComputedStyle(npcElement).backgroundImage;
+    
+    // Display first dialogue
+    updateDialogueContent();
+}
+
+function updateDialogueContent() {
+    const dialogue = npcDialogues[currentNPC][currentDialogueIndex];
+    npcName.textContent = dialogue.name;
+    dialogueText.textContent = dialogue.text;
+}
+
+function advanceDialogue() {
+    currentDialogueIndex++;
+    
+    // Check if dialogue is complete
+    if (currentDialogueIndex >= npcDialogues[currentNPC].length) {
+        completeDialogue();
+    } else {
+        updateDialogueContent();
+    }
+}
+
+function completeDialogue() {
+    // Hide dialogue overlay
+    dialogueOverlay.classList.add('hidden');
+    
+    // Mark NPC as completed
+    npcsCompleted[currentNPC] = true;
+    
+    // Update NPC appearance
+    const npcElement = document.getElementById(currentNPC);
+    if (npcElement) {
+        npcElement.classList.add('completed');
+    }
+    
+    // Show item received overlay
+    showReceivedItem(currentNPC);
+}
+
+// ===== ITEM REWARDS =====
+function showReceivedItem(npcKey) {
+    // Show item overlay
+    itemReceivedOverlay.classList.remove('hidden');
+    
+    // Set item image based on which NPC gave it
+    const pieceNumber = npcKey.replace('npc', '');
+    itemImage.src = `./asset/image/items/jigsaw_piece${pieceNumber}.png`;
+    itemDescription.textContent = `You received jigsaw piece ${pieceNumber} of 3!`;
+}
+
+function showFinalItem() {
+    // Show the final complete jigsaw
+    setTimeout(() => {
+        itemReceivedOverlay.classList.remove('hidden');
+        itemImage.src = './asset/image/items/jigsaw.png';
+        itemDescription.textContent = 'Congratulations! You have completed the jigsaw puzzle!';
+        
+        // Add button to proceed to the second room
+        const proceedButton = document.createElement('button');
+        proceedButton.textContent = 'Continue to next room';
+        proceedButton.classList.add('proceed-button');
+        itemReceivedOverlay.appendChild(proceedButton);
+        
+        proceedButton.addEventListener('click', () => {
+            itemReceivedOverlay.classList.add('hidden');
+            // Change to second room scene after completing the puzzle
+            changeScene('second-room-scene');
+            // Make sure to remove the button when closing
+            proceedButton.remove();
+        });
+    }, 1000);
 }
 
 // ===== SLIDING SCENE MOVEMENT SYSTEM =====
 function moveSlidingPlayer() {
-    // Don't proceed if we're not in the sliding scene
-    if (currentScene !== 'sliding-scene') return;
+    // Don't proceed if we're not in the sliding scene or dialogue is active
+    if (currentScene !== 'sliding-scene' || !dialogueOverlay.classList.contains('hidden')) return;
     
     // Check if player is at the center point
     const playerCenter = playerPosition + playerOffset;
@@ -767,7 +943,6 @@ function moveSlidingPlayer() {
             slidingBackground.style.left = backgroundPosition + 'px';
             slidingForeground.style.left = backgroundPosition + 'px';
             slidingNPCs.style.left = backgroundPosition + 'px';
-            slidingItems.style.left = backgroundPosition + 'px';
             
             // Keep player wiggling as they "walk"
             slidingPlayer.classList.add('wiggle');
@@ -783,7 +958,6 @@ function moveSlidingPlayer() {
             slidingBackground.style.left = backgroundPosition + 'px';
             slidingForeground.style.left = backgroundPosition + 'px';
             slidingNPCs.style.left = backgroundPosition + 'px';
-            slidingItems.style.left = backgroundPosition + 'px';
             
             // Keep player wiggling as they "walk"
             slidingPlayer.classList.add('wiggle');
@@ -818,8 +992,6 @@ function moveSlidingPlayer() {
     }
 }
 
-
-
 // ===== SCENE TRANSITION =====
 // Add a button to transition to the sliding scene
 function setupSlidingSceneTransition() {
@@ -832,7 +1004,60 @@ function setupSlidingSceneTransition() {
     }
 }
 
-// Initialize sliding scene when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    setupSlidingSceneTransition();
+// Update the main movePlayer function to call moveSlidingPlayer when in sliding scene
+function movePlayer() {
+    // Use the sliding movement system if in sliding scene
+    if (currentScene === 'sliding-scene') {
+        moveSlidingPlayer();
+        return;
+    }
+    
+    // Otherwise use the existing player movement for other scenes
+    const activePlayer = currentScene === 'room-scene' ? player : secondPlayer;
+    
+    if (!activePlayer) {
+        console.error('Active player not found!');
+        return;
+    }
+    
+    const playerPos = parseInt(getComputedStyle(activePlayer).left);
+    const gameWidth = document.body.clientWidth;
+    const playerWidth = activePlayer.offsetWidth;
+    let newLeft = playerPos;
+    
+    if (keys.ArrowLeft) {
+        newLeft = Math.max(0, playerPos - playerSpeed);
+    }
+    if (keys.ArrowRight) {
+        newLeft = Math.min(gameWidth - playerWidth, playerPos + playerSpeed);
+    }
+    
+    activePlayer.style.left = newLeft + 'px';
+    
+    if (!activePlayer.classList.contains('wiggle')) {
+        activePlayer.classList.add('wiggle');
+    }
+    
+    // Continue if any key is held
+    if (keys.ArrowLeft || keys.ArrowRight) {
+        animationFrameId = requestAnimationFrame(movePlayer);
+    } else {
+        animationFrameId = null;
+        activePlayer.classList.remove('wiggle');
+    }
+}
+
+// ===== ITEM RECEIVED OVERLAY =====
+itemReceivedClose.addEventListener('click', () => {
+    itemReceivedOverlay.classList.add('hidden');
+    
+    // Check if all NPCs are completed
+    if (npcsCompleted.npc1 && npcsCompleted.npc2 && npcsCompleted.npc3) {
+        showFinalItem();
+    }
+});
+
+// Handle window resize for responsive behavior
+window.addEventListener('resize', () => {
+    screenMiddle = window.innerWidth / 2;
 });
