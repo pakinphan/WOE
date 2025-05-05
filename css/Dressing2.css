@@ -1,39 +1,132 @@
 /* ==== CSS for Second Dressing Room ==== */
-/* This is optional if you want custom styling for the second dressing room */
-/* Otherwise it will use the same styling as the first dressing room */
+/* Complete styling for the second dressing room */
 
 /* Make sure the scene is hidden by default */
 #second-dressing-room-scene {
     display: none;
+    background-color: #1a1a1a00;
+    background-image: url('/asset/image/background/DressingRoomOceana/BG.PNG');
+    background-size: cover;
+    background-position: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Issara;
+    position: relative;
 }
 
-/* Additional styles for the second dressing room if needed */
-#second-dressing-room-scene .dressing-room-header h2 {
-    color: #f8c471; /* Different color to differentiate from first dressing room */
+/* When active, show the scene with proper flex layout */
+#second-dressing-room-scene.active {
+    display: flex;
+    opacity: 1;
 }
 
-/* Style for the second dressing room tab buttons */
+.second-dressing-room-container {
+    display: flex;
+    width: 90%;
+    height: 80%;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid #347bd300;
+    border-radius: 15px;
+    overflow: hidden;
+    z-index: 4;
+}
+
+/* Character Display Section */
+.second-character-display {
+    width: 40%;
+    height: 100%;
+    background-color: rgba(52, 123, 211, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+}
+
+.second-character-preview {
+    width: 70%;
+    height: 80%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 6;
+}
+
+#second-character-body {
+    max-width: 600px;
+    position: absolute;
+    z-index: 6;
+}
+
+#second-character-head {
+    max-width: 600px;
+    position: absolute;
+    z-index: 5;
+}
+
+/* Clothing Selection Section */
+.second-clothing-selection {
+    position: absolute;
+    top: 25%;
+    left: 45%;
+    width: 46%;
+    height: 62%;
+    background-color: rgba(231, 172, 71, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.second-cloth-foreground {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 90%;
+    height: 90%;
+    background-image: url('/asset/image/background/DressingRoomOceana/Deco1.PNG'); /* example foreground image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    pointer-events: none; /* allows clicking through foreground if needed */
+    z-index: 1;
+}
+
+.second-tabs {
+    display: flex;
+    background-color: #33333379;
+    border-radius: 12px;
+    width: 70%;
+}
+
 .second-tab-button {
-    padding: 10px 20px;
-    background-color: #d5d5d5;
+    background-color: #91414100;
+    color: white;
     border: none;
-    border-radius: 5px 5px 0 0;
+    padding: 15px 20px;
+    font-family: Issara;
+    font-size: 18px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
     transition: background-color 0.3s;
+    flex: 1;
+    border-radius: 5px 5px 0 0;
 }
 
 .second-tab-button.active {
-    background-color: #f8c471;
-    color: #fff;
+    background-color: #f8c471; /* Different color to differentiate from first dressing room */
+    color: #ffffff;
+    border-radius: 12px;
 }
 
-/* Tab content styling */
 .second-tab-content {
+    width: 80%;
     display: none;
+    height: calc(100% - 60px);
+    overflow-y: none;
+    text-align: center;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #f9f9f900;
     border-radius: 0 0 5px 5px;
 }
 
@@ -41,54 +134,98 @@
     display: block;
 }
 
-/* Clothing item styling */
+.second-items-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 80%;
+    max-height: 80%;
+    gap: 0px;
+    margin: 0 auto; /* Center the grid */
+}
+
 .second-clothing-item {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100px;
     height: 100px;
     background-size: cover;
     background-position: center;
     border: 3px solid transparent;
     border-radius: 8px;
-    cursor: pointer;
-    transition: border-color 0.3s, transform 0.2s;
 }
 
 .second-clothing-item:hover {
     transform: scale(1.05);
+    border-color: #f8c47100;
 }
 
 .second-clothing-item.selected {
     border-color: #f8c471;
+    border-width: 3px;
     box-shadow: 0 0 10px rgba(248, 196, 113, 0.7);
 }
 
-/* Next button styling */
+.second-clothing-item img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Next Button in Second Dressing Room */
 #second-dressing-next-button {
+    position: absolute;
+    bottom: 30px;
+    right: 50px;
+    border: none;
+    background-color: transparent;
+    padding: 8px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    z-index: 10;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    background-color: rgba(0, 0, 0, 0.6);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    transition: background-color 0.3s;
-}
-
-#second-dressing-next-button:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-#second-dressing-next-button span {
-    color: #f8c471;
-    font-size: 18px;
-    font-weight: bold;
-    margin-right: 10px;
+    transition: transform 0.2s ease;
 }
 
 #second-dressing-next-button img {
-    height: 24px;
+    width: 48px;
+    height: 48px;
+    vertical-align: middle;
+}
+
+#second-dressing-next-button:hover {
+    transform: scale(1.05);
+}
+
+/* Header styling if needed */
+.second-dressing-room-header h2 {
+    color: #f8c471; /* Different color to differentiate from first dressing room */
+}
+
+/* Mobile responsiveness adjustments if needed */
+@media (max-width: 768px) {
+    .second-dressing-room-container {
+        flex-direction: column;
+    }
+    
+    .second-character-display,
+    .second-clothing-selection {
+        width: 100%;
+    }
+    
+    .second-clothing-selection {
+        position: relative;
+        top: auto;
+        left: auto;
+    }
+    
+    .second-items-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
