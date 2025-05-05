@@ -218,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dressingRoomScene.classList.remove('active');
         dressingRoomScene.style.display = 'none';
         setupDressingRoom();
+        setupSecondDressingRoom();
         dressingRoomScene.classList.remove('active');
         dressingRoomScene.style.display = 'none';
         console.log('Dressing room explicitly hidden');
@@ -564,7 +565,8 @@ secondDoor.addEventListener('click', () => {
         showMessage('ยินดีด้วย! คุณผ่านเกมแล้ว!');
         setTimeout(() => {
             // Add your end game logic here, like showing an ending scene
-            changeScene('second-dressing-room-scene'); // For now, go back to home scene
+            changeScene('second-dressing-room-scene'); 
+            initSecondDressingRoom();// For now, go back to home scene
             hasKey = false;
             doorUnlocked = false;
             hasSecondKey = false;
@@ -1145,30 +1147,14 @@ function setupSlidingSceneTransition() {
     }
 }
 
-// ===== SECOND DOOR INTERACTION ===== (modify the existing secondDoor click handler)
-secondDoor.addEventListener('click', () => {
-    if (secondDoorUnlocked) {
-        showMessage('ยินดีด้วย! คุณผ่านด่านนี้แล้ว!');
-        setTimeout(() => {
-            // Change to second dressing room instead of going directly to home
-            changeScene('second-dressing-room-scene');
-            initSecondDressingRoom();
-        }, 2000);
-    } else {
-        // Show door code input overlay
-        doorCodeOverlay.style.display = 'flex';
-        doorCodeAttempt = "";
-        doorCodeDisplay.textContent = "_ _ _";
-        showMessage('ประตูล็อกอยู่ กรุณาใส่รหัสผ่าน');
-    }
-});
+
 
 // ===== SECOND DRESSING ROOM SETUP =====
 function initSecondDressingRoom() {
     console.log('Initializing second dressing room');
     // Set default character
-    secondCharacterBody.src = './asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png';
-    secondCharacterHead.src = './asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png';
+    secondCharacterBody.src = './asset/image/background/DressingRoomOceana/DressPreview/Oceana_dress_P_01.png';
+    secondCharacterHead.src = './asset/image/background/DressingRoomOceana/HeadPreview/Oceana_head_P_01.png';
 
     // Reset selections
     secondSelectedHead = '';
