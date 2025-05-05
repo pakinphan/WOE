@@ -1,157 +1,51 @@
-
-
-#sliding-scene {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.scene-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 5000px; /* Make it wider than the screen to allow scrolling */
-  height: 100%;
-  transition: left 0.05s linear;
-}
-
-#sliding-background {
-  background-image: url('./asset/image/background/walkingroom/walkingbg.png');
-  background-repeat: repeat-x;
-  z-index: 1;
-}
-
-#sliding-player {
-  position: absolute;
-  bottom: 20%;
-  left: 0;
-  width: 100px;
-  height: 200px;
-  background-image: url('./asset/');
-  background-size: contain;
-  background-repeat: no-repeat;
-  z-index: 3;
-}
-
-#sliding-npcs {
-  z-index: 2;
-}
-
-.npc {
-  position: absolute;
-  bottom: 20%;
-  width: 100px;
-  height: 200px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-
-#npc1 {
-  background-image: url('./asset/image/background/walkingroom/NPC/Marsha.PNG');
-}
-
-#npc2 {
-  background-image: url('./asset/image/character/npc2.png');
-}
-
-#npc3 {
-  background-image: url('./asset/image/character/npc3.png');
-}
-
-#dialogue-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  z-index: 10;
-}
-
-#dialogue-box {
-  width: 80%;
-  height: 200px;
-  background-color: rgba(0, 0, 0, 0.8);
-  border: 2px solid #fff;
-  border-radius: 10px;
-  margin-bottom: 50px;
-  display: flex;
-  padding: 20px;
-  color: white;
-}
-
-#npc-portrait {
-  width: 150px;
-  height: 150px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  margin-right: 20px;
-}
-
-#dialogue-content {
-  flex-grow: 1;
-}
-
-#npc-name {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-#dialogue-text {
-  font-size: 18px;
-  line-height: 1.5;
-}
-
-#dialogue-next {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.hidden {
-  display: none !important;
-}
-
-#item-received-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 11;
-}
-
-#item-received-box {
-  width: 400px;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-}
-
-#item-image {
-  width: 200px;
-  height: 200px;
-  object-fit: contain;
-  margin: 20px 0;
-}
-
-.completed {
-  opacity: 0.5;
-}
+/* Add this CSS to your style.css file */
+#blue-screen {
+    background-color: #003366;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+  }
+  
+  .blue-screen-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .blue-screen-content {
+    font-size: 24px;
+    text-align: center;
+    line-height: 2;
+    margin-bottom: 50px;
+  }
+  
+  #blue-screen-next-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    position: relative;
+    margin-top: 40px;
+  }
+  
+  #blue-screen-next-button img {
+    width: 150px;
+    height: auto;
+  }
+  
+  #blue-screen-next-button .next-button-text {
+    position: absolute;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+  }

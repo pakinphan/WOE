@@ -67,6 +67,11 @@ const clothingItems = document.querySelectorAll('.clothing-item');
 const characterBody = document.getElementById('character-body');
 const characterHead = document.getElementById('character-head');
 
+
+//blue
+const blueScreen = document.getElementById('blue-screen');
+const blueScreenNextButton = document.getElementById('blue-screen-next-button');
+
 // ===== CONTENT DATA =====
 // Array of diary pages
 const diaryPages = [
@@ -120,6 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Make sure dressing room is explicitly hidden
     const dressingRoomScene = document.getElementById('dressing-room-scene');
+    if (dressingRoomScene) {
+        setupDressingRoom();
+        dressingRoomScene.classList.remove('active');
+        dressingRoomScene.style.display = 'none';
+        console.log('Dressing room explicitly hidden');
+    }
     if (dressingRoomScene) {
         setupDressingRoom();
         dressingRoomScene.classList.remove('active');
@@ -428,9 +439,12 @@ comicScene.addEventListener('click', (e) => {
 });
 
 comicNextButton.addEventListener('click', () => {
-    changeScene('second-room-scene');
+    changeScene('blue-screen');
 });
 
+blueScreenNextButton.addEventListener('click', () => {
+    changeScene('second-room-scene');
+  });
 // Second door click event - duplicate but kept for compatibility
 door.addEventListener('click', () => {
     if (doorUnlocked) {
