@@ -69,8 +69,62 @@ const characterHead = document.getElementById('character-head');
 
 
 //blue
-const blueScreen = document.getElementById('blue-screen');
-const blueScreenNextButton = document.getElementById('blue-screen-next-button');
+// ===== SLIDING SCENE ELEMENTS =====
+const slidingScene = document.getElementById('sliding-scene');
+const slidingPlayer = document.getElementById('sliding-player');
+const slidingBackground = document.getElementById('sliding-background');
+const slidingForeground = document.getElementById('sliding-foreground');
+const slidingNPCs = document.getElementById('sliding-npcs');
+
+// ===== DIALOGUE ELEMENTS =====
+const dialogueOverlay = document.getElementById('dialogue-overlay');
+const dialogueBox = document.getElementById('dialogue-box');
+const npcPortrait = document.getElementById('npc-portrait');
+const npcName = document.getElementById('npc-name');
+const dialogueText = document.getElementById('dialogue-text');
+const dialogueNext = document.getElementById('dialogue-next');
+
+// ===== ITEM RECEIVED ELEMENTS =====
+const itemReceivedOverlay = document.getElementById('item-received-overlay');
+const itemImage = document.getElementById('item-image');
+const itemDescription = document.getElementById('item-description');
+const itemReceivedClose = document.getElementById('item-received-close');
+
+// ===== SLIDING SCENE VARIABLES =====
+let finalItemShown = false;
+let backgroundMaxWidth = 4100; // ปรับตามความกว้างจริงของภาพพื้นหลังของคุณ
+let endSceneTriggered = false; // ตัวแปรเพื่อป้องกันการทริกเกอร์ซ้ำ
+let isPlayerCentered = false;
+let backgroundPosition = 0;
+let playerPosition = 0;
+let screenMiddle;
+const playerOffset = 50; // Half the player width to center properly
+let npcsCompleted = {
+    npc1: false,
+    npc2: false,
+    npc3: false
+};
+let currentDialogueIndex = 0;
+let currentNPC = null;
+
+// NPC dialogue data
+const npcDialogues = {
+    npc1: [
+        { name: "Marsha", text: "Welcome, traveler! Our village has been waiting for someone like you." },
+        { name: "Marsha", text: "We need your help to solve an ancient puzzle that protects our sacred treasure." },
+        { name: "Marsha", text: "Here is the first piece of the jigsaw. Find the other two to unlock the secret." }
+    ],
+    npc2: [
+        { name: "Myria", text: "Ah, a seeker of the ancient puzzle, I see..." },
+        { name: "Myria", text: "Many have tried to collect all the pieces, but failed." },
+        { name: "Myria", text: "Take this piece. May fortune favor your quest." }
+    ],
+    npc3: [
+        { name: "Guardian of Secrets", text: "Halt! Only those worthy may proceed beyond this point." },
+        { name: "Guardian of Secrets", text: "You've proven your determination by finding me." },
+        { name: "Guardian of Secrets", text: "The final piece is yours. Complete the puzzle to reveal the truth." }
+    ]
+};
 
 // ===== CONTENT DATA =====
 // Array of diary pages
@@ -131,12 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dressingRoomScene.style.display = 'none';
         console.log('Dressing room explicitly hidden');
     }
-    if (dressingRoomScene) {
-        setupDressingRoom();
-        dressingRoomScene.classList.remove('active');
-        dressingRoomScene.style.display = 'none';
-        console.log('Dressing room explicitly hidden');
-    }
+
 
     // Log all scenes and their display states
     document.querySelectorAll('.scene').forEach(scene => {
@@ -218,12 +267,19 @@ nextButton.addEventListener('click', () => {
 
 // ===== PLAYER MOVEMENT =====
 document.addEventListener('keydown', (e) => {
-    // Allow movement in both room scenes
-    if (currentScene !== 'room-scene' && currentScene !== 'second-room-scene') return;
+    // Allow movement in all relevant scenes
+    if (currentScene !== 'room-scene' && currentScene !== 'second-room-scene' && currentScene !== 'sliding-scene') return;
 
     if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !keys[e.key]) {
         keys[e.key] = true;
-        if (!animationFrameId) movePlayer();
+        if (!animationFrameId) {
+            // Start the appropriate movement function based on current scene
+            if (currentScene === 'sliding-scene') {
+                moveSlidingPlayer();
+            } else {
+                movePlayer();
+            }
+        }
     }
 });
 
@@ -236,21 +292,28 @@ document.addEventListener('keyup', (e) => {
             cancelAnimationFrame(animationFrameId);
             animationFrameId = null;
 
-            const activePlayer = currentScene === 'room-scene' ? player : secondPlayer;
-            if (activePlayer) {
-                activePlayer.classList.remove('wiggle');
+            // Handle the player element based on the current scene
+            if (currentScene === 'sliding-scene') {
+                slidingPlayer.classList.remove('wiggle');
+            } else {
+                const activePlayer = currentScene === 'room-scene' ? player : secondPlayer;
+                if (activePlayer) {
+                    activePlayer.classList.remove('wiggle');
+                }
             }
         }
     }
 });
 
 function movePlayer() {
-    // Select the correct player based on the current scene
-    const activePlayer = currentScene === 'room-scene' ? player : secondPlayer;
+    // Use the sliding movement system if in sliding scene
+    if (currentScene === 'sliding-scene') {
+        moveSlidingPlayer();
+        return;
+    }
 
-    // Debug to check if activePlayer is correctly selected
-    console.log('Current scene:', currentScene);
-    console.log('Active player:', activePlayer ? activePlayer.id : 'not found');
+    // Otherwise use the existing player movement for other scenes
+    const activePlayer = currentScene === 'room-scene' ? player : secondPlayer;
 
     if (!activePlayer) {
         console.error('Active player not found!');
@@ -275,14 +338,12 @@ function movePlayer() {
         activePlayer.classList.add('wiggle');
     }
 
-    // Debug player position
-    console.log('Player position:', newLeft);
-
     // Continue if any key is held
     if (keys.ArrowLeft || keys.ArrowRight) {
         animationFrameId = requestAnimationFrame(movePlayer);
     } else {
         animationFrameId = null;
+        activePlayer.classList.remove('wiggle');
     }
 }
 
@@ -439,12 +500,11 @@ comicScene.addEventListener('click', (e) => {
 });
 
 comicNextButton.addEventListener('click', () => {
-    changeScene('blue-screen');
+    changeScene('sliding-scene');
+    initSlidingScene();
 });
 
-blueScreenNextButton.addEventListener('click', () => {
-    changeScene('second-room-scene');
-  });
+
 // Second door click event - duplicate but kept for compatibility
 door.addEventListener('click', () => {
     if (doorUnlocked) {
@@ -586,7 +646,7 @@ function initDressingRoom() {
     document.querySelectorAll('.clothing-item.selected').forEach(item => {
         item.classList.remove('selected');
     });
-    
+
     // Make sure the next button is visible
     if (dressingNextButton) {
         dressingNextButton.style.display = 'block';
@@ -594,12 +654,12 @@ function initDressingRoom() {
     } else {
         console.error('Dressing next button not found!');
     }
-    
+
     // Add event listener directly here to ensure it's set when the scene initializes
-    dressingNextButton.addEventListener('click', function() {
+    dressingNextButton.addEventListener('click', function () {
         console.log('Dressing room next button clicked');
 
-        
+
         // Use changeScene function directly instead of setTimeout + manual style changes
         setTimeout(() => {
             changeScene('comic-scene');
@@ -675,23 +735,379 @@ function setupDressingRoom() {
             dressingRoomScene.style.display = 'none';
         }, 2000);
     });
-        // Initialize with default items if needed
-        if (characterBody.src === "./asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png" || characterBody.src === window.location.href) {
-            // Set default body if none is set
-            const defaultBody = document.querySelector('.clothing-item[data-body]');
-            if (defaultBody) {
-                defaultBody.click();
-            }
+    // Initialize with default items if needed
+    if (characterBody.src === "./asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png" || characterBody.src === window.location.href) {
+        // Set default body if none is set
+        const defaultBody = document.querySelector('.clothing-item[data-body]');
+        if (defaultBody) {
+            defaultBody.click();
         }
-        
-        if (characterHead.src === "./asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png" || characterHead.src === window.location.href) {
-            // Set default head if none is set
-            const defaultHead = document.querySelector('.clothing-item[data-head]');
-            if (defaultHead) {
-                defaultHead.click();
-            }
+    }
+
+    if (characterHead.src === "./asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png" || characterHead.src === window.location.href) {
+        // Set default head if none is set
+        const defaultHead = document.querySelector('.clothing-item[data-head]');
+        if (defaultHead) {
+            defaultHead.click();
         }
+    }
 }
+
+// ===== SLIDING SCENE INITIALIZATION =====
+function initSlidingScene() {
+    // Calculate screen middle on initialization to handle window resizing
+    screenMiddle = window.innerWidth / 2;
+
+    // Reset positions
+    playerPosition = 0;
+    backgroundPosition = 0;
+    isPlayerCentered = false;
+    endSceneTriggered = false; // เพิ่มการรีเซ็ตตัวแปรนี้ด้วย
+
+    // Reset NPC completion status
+    npcsCompleted = {
+        npc1: false,
+        npc2: false,
+        npc3: false
+    };
+
+    // Position elements
+    slidingPlayer.style.left = playerPosition + 'px';
+    slidingBackground.style.left = '0px';
+    slidingForeground.style.left = '0px';
+    slidingNPCs.style.left = '0px';
+
+    // Reset NPC appearance
+    document.querySelectorAll('.npc').forEach(npc => {
+        npc.classList.remove('completed');
+    });
+
+    // Setup scene with correct display settings
+    slidingScene.classList.add('active');
+    currentScene = 'sliding-scene';
+
+    // Hide overlays
+    dialogueOverlay.classList.add('hidden');
+    itemReceivedOverlay.classList.add('hidden');
+
+    console.log('Sliding scene initialized');
+
+    // Add event listeners for NPCs
+    setupNPCInteractions();
+}
+
+// ===== NPC INTERACTION SETUP =====
+function setupNPCInteractions() {
+    const npcs = document.querySelectorAll('.npc');
+
+    npcs.forEach(npc => {
+        npc.addEventListener('click', () => {
+            const npcId = npc.getAttribute('data-npc');
+            const npcKey = `npc${npcId}`;
+
+            // Don't start dialogue if already completed
+            if (npcsCompleted[npcKey]) return;
+
+            startDialogue(npcKey, npc);
+        });
+    });
+
+    // Set up dialogue next button
+    dialogueNext.addEventListener('click', advanceDialogue);
+
+    // Set up item received close button
+    itemReceivedClose.addEventListener('click', () => {
+        itemReceivedOverlay.classList.add('hidden');
+
+        // ตรวจสอบว่าได้คุยกับ NPC ครบทุกคนหรือยัง และยังไม่ได้แสดงรางวัลสุดท้าย
+        if (npcsCompleted.npc1 && npcsCompleted.npc2 && npcsCompleted.npc3 && !finalItemShown) {
+            finalItemShown = true; // ตั้งค่าเป็น true เพื่อไม่ให้แสดงซ้ำ
+            showFinalItem(); // แสดงภาพจิ๊กซอว์เมื่อได้ครบทุกชิ้น
+        }
+    });
+}
+
+// ===== DIALOGUE SYSTEM =====
+function startDialogue(npcKey, npcElement) {
+    // Pause player movement
+    keys.ArrowLeft = false;
+    keys.ArrowRight = false;
+    cancelAnimationFrame(animationFrameId);
+    animationFrameId = null;
+
+    // Show dialogue overlay
+    dialogueOverlay.classList.remove('hidden');
+
+    // Set current NPC and reset dialogue index
+    currentNPC = npcKey;
+    currentDialogueIndex = 0;
+
+    // Set portrait based on NPC
+    npcPortrait.style.backgroundImage = getComputedStyle(npcElement).backgroundImage;
+
+    // Display first dialogue
+    updateDialogueContent();
+}
+
+function updateDialogueContent() {
+    const dialogue = npcDialogues[currentNPC][currentDialogueIndex];
+    npcName.textContent = dialogue.name;
+    dialogueText.textContent = dialogue.text;
+}
+
+function advanceDialogue() {
+    currentDialogueIndex++;
+
+    // Check if dialogue is complete
+    if (currentDialogueIndex >= npcDialogues[currentNPC].length) {
+        completeDialogue();
+    } else {
+        updateDialogueContent();
+    }
+}
+
+function completeDialogue() {
+    // Hide dialogue overlay
+    dialogueOverlay.classList.add('hidden');
+
+    // Mark NPC as completed
+    npcsCompleted[currentNPC] = true;
+
+    // Update NPC appearance
+    const npcElement = document.getElementById(currentNPC);
+    if (npcElement) {
+        npcElement.classList.add('completed');
+    }
+
+    // Show item received overlay
+    showReceivedItem(currentNPC);
+}
+
+// ===== ITEM REWARDS =====
+function showReceivedItem(npcKey) {
+    // Show item overlay
+    itemReceivedOverlay.classList.remove('hidden');
+
+    // Set item image based on which NPC gave it
+    const pieceNumber = npcKey.replace('npc', '');
+    itemImage.src = `./asset/image/items/jigsaw_piece${pieceNumber}.png`;
+    itemDescription.textContent = `คุณได้รับเศษภาพ ${pieceNumber} จาก 3!`;
+}
+
+function showFinalItem() {
+    // แสดงภาพจิ๊กซอว์ที่ประกอบเสร็จแล้ว
+    setTimeout(() => {
+        itemReceivedOverlay.classList.remove('hidden');
+        itemImage.src = './asset/image/items/jigsaw.png';
+        itemDescription.textContent = 'ยินดีด้วย! คุณได้รับชิ้นส่วนภาพครบแล้ว!';
+
+        // ลบปุ่มปิดเดิม เพื่อไม่ให้กลับไปรอบวน
+        const closeButton = document.getElementById('item-received-close');
+        if (closeButton) {
+            closeButton.style.display = 'none';
+        }
+
+        // สร้างปุ่ม "ไปด่านถัดไป" แบบใหม่
+        const nextButton = document.createElement('button');
+        nextButton.id = 'dressing-next-button';
+        nextButton.setAttribute('aria-label', 'ไปด่านถัดไป');
+
+        // เพิ่มรูปไอคอนลงในปุ่ม
+        const icon = document.createElement('img');
+        icon.src = './asset/image/ui/arrow-right.png'; // ปรับ path ตามจริง
+        icon.alt = 'Next';
+
+        nextButton.appendChild(icon);
+
+        // เพิ่ม event listener
+        nextButton.addEventListener('click', () => {
+            itemReceivedOverlay.classList.add('hidden');
+            completeSlideScene();
+        });
+
+        // เพิ่มปุ่มเข้าไปในโอเวอร์เลย์
+        itemReceivedOverlay.appendChild(nextButton);
+    }, 1000);
+}
+
+function showFinalItem() {
+    // แสดงภาพจิ๊กซอว์ที่ประกอบเสร็จแล้ว
+    setTimeout(() => {
+        itemReceivedOverlay.classList.remove('hidden');
+        itemImage.src = './asset/image/items/jigsaw.png';
+        itemDescription.textContent = 'ยินดีด้วย! คุณได้รับชิ้นส่วนภาพครบแล้ว!';
+
+        // ลบปุ่มปิดเดิม เพื่อไม่ให้กลับไปรอบวน
+        const closeButton = document.getElementById('item-received-close');
+        if (closeButton) {
+            closeButton.style.display = 'none';
+        }
+
+        // สร้างปุ่ม "ไปด่านถัดไป" แบบใหม่
+        const nextButton = document.createElement('button');
+        nextButton.id = 'sliding-next-button';
+        nextButton.setAttribute('aria-label', 'ไปด่านถัดไป');
+
+        // เพิ่มข้อความก่อนไอคอน
+        const text = document.createElement('span');
+        text.textContent = 'ไปต่อ';
+        text.style.marginRight = '10px'; //   
+        // Apply styles
+        text.style.padding = '8px 8px';
+        text.style.color = 'white';
+        text.style.fontSize = '20px';
+        text.style.fontWeight = 'bold';
+        text.style.textShadow = '1px 1px 2px black';
+        text.style.display = 'inline-block';
+        text.style.verticalAlign = 'middle';
+        text.style.fontFamily = 'Issara'; // Make sure the Issara font is loaded
+        text.style.marginRight = '10px';  // Spacing before the icon (optional)
+        const icon = document.createElement('img');
+        icon.src = './asset/image/Button/next yellow.png';
+        icon.alt = 'Next';
+
+        nextButton.appendChild(text);
+        nextButton.appendChild(icon);
+
+        // เพิ่ม event listener
+        nextButton.addEventListener('click', () => {
+            itemReceivedOverlay.classList.add('hidden');
+            completeSlideScene();
+        });
+
+        // เพิ่มปุ่มเข้าไปในโอเวอร์เลย์
+        itemReceivedOverlay.appendChild(nextButton);
+    }, 1000);
+}
+
+// ===== SLIDING SCENE MOVEMENT SYSTEM =====
+function moveSlidingPlayer() {
+    // Don't proceed if we're not in the sliding scene or dialogue is active
+    if (currentScene !== 'sliding-scene' || !dialogueOverlay.classList.contains('hidden')) return;
+
+    // Check if player is at the center point
+    const playerCenter = playerPosition + playerOffset;
+    isPlayerCentered = playerCenter >= screenMiddle;
+
+    // ตรวจสอบว่าถึงจุดสุดท้ายของ background หรือยัง
+    const backgroundEndReached = Math.abs(backgroundPosition) >= (backgroundMaxWidth - window.innerWidth);
+
+    // Move player right
+    if (keys.ArrowRight) {
+        if (!isPlayerCentered) {
+            // Player moves until reaching center
+            playerPosition = Math.min(screenMiddle - playerOffset, playerPosition + playerSpeed);
+            slidingPlayer.style.left = playerPosition + 'px';
+
+            // Add wiggle effect while moving
+            if (!slidingPlayer.classList.contains('wiggle')) {
+                slidingPlayer.classList.add('wiggle');
+            }
+        } else {
+            // Background and NPCs move instead of player
+            if (!backgroundEndReached) {
+                // ยังไม่ถึงจุดสุดท้าย เลื่อน background ตามปกติ
+                backgroundPosition -= playerSpeed;
+                slidingBackground.style.left = backgroundPosition + 'px';
+                slidingForeground.style.left = backgroundPosition + 'px';
+                slidingNPCs.style.left = backgroundPosition + 'px';
+
+                // Keep player wiggling as they "walk"
+                slidingPlayer.classList.add('wiggle');
+            } else {
+                // ถึงจุดสุดท้ายแล้ว ตรวจสอบว่าผู้เล่นสะสมของครบแล้วหรือไม่
+                if (npcsCompleted.npc1 && npcsCompleted.npc2 && npcsCompleted.npc3) {
+                    // ผู้เล่นสะสมไอเทมครบแล้ว แสดงฉากจบหรือไปฉากถัดไป
+                    if (!endSceneTriggered) {
+                        endSceneTriggered = true;
+                        completeSlideScene();
+                    }
+                } else {
+                    // ผู้เล่นยังเก็บไอเทมไม่ครบ แสดงข้อความแจ้งเตือน
+                    showMessage('คุณต้องพูดคุยกับตัวละครทั้งหมดก่อนไปต่อ!', 3000);
+                }
+            }
+        }
+    }
+
+    // Move player left
+    if (keys.ArrowLeft) {
+        if (isPlayerCentered && backgroundPosition < 0) {
+            // Move background right instead of player if we're centered
+            backgroundPosition += playerSpeed;
+            backgroundPosition = Math.min(0, backgroundPosition);
+            slidingBackground.style.left = backgroundPosition + 'px';
+            slidingForeground.style.left = backgroundPosition + 'px';
+            slidingNPCs.style.left = backgroundPosition + 'px';
+
+            // Keep player wiggling as they "walk"
+            slidingPlayer.classList.add('wiggle');
+        } else {
+            // Player moves left directly
+            playerPosition = Math.max(0, playerPosition - playerSpeed);
+            slidingPlayer.style.left = playerPosition + 'px';
+
+            // Reset centered flag if player moves back from center
+            if (playerPosition + playerOffset < screenMiddle) {
+                isPlayerCentered = false;
+            }
+
+            // Add wiggle effect while moving
+            if (!slidingPlayer.classList.contains('wiggle')) {
+                slidingPlayer.classList.add('wiggle');
+            }
+        }
+    }
+
+    // Stop wiggle if no movement keys are pressed
+    if (!keys.ArrowLeft && !keys.ArrowRight) {
+        slidingPlayer.classList.remove('wiggle');
+    }
+
+    // Continue animation if still moving
+    if (keys.ArrowLeft || keys.ArrowRight) {
+        animationFrameId = requestAnimationFrame(moveSlidingPlayer);
+    } else {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+        // Make sure wiggle is removed when animation stops
+        slidingPlayer.classList.remove('wiggle');
+    }
+}
+
+// เพิ่มฟังก์ชันนี้เข้าไปในโค้ด
+function completeSlideScene() {
+    // แสดงข้อความยินดี
+    showMessage('ยินดีด้วย! คุณผ่านด่านนี้แล้ว!', 3000);
+
+    // รีเซ็ตตัวแปรสำหรับการเล่นรอบถัดไป
+    finalItemShown = false;
+    npcsCompleted = {
+        npc1: false,
+        npc2: false,
+        npc3: false
+    };
+
+    // รอสักครู่แล้วเปลี่ยนไปยังฉากถัดไป
+    setTimeout(() => {
+        // เปลี่ยนไปยังฉากถัดไป (อาจเป็นฉากอื่นที่คุณต้องการ)
+        changeScene('second-room-scene'); // หรือฉากอื่นที่คุณต้องการไป
+    }, 4000);
+}
+
+// ===== SCENE TRANSITION =====
+// Add a button to transition to the sliding scene
+function setupSlidingSceneTransition() {
+    const transitionButton = document.getElementById('sliding-scene-transition');
+    if (transitionButton) {
+        transitionButton.addEventListener('click', () => {
+            changeScene('sliding-scene');
+            initSlidingScene();
+        });
+    }
+}
+
+
 
 // ===== INITIALIZATION =====
 // Call this when the page loads
@@ -699,7 +1115,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Setup first room by default
     setupFirstRoomItems();
     setupDressingRoom();
-
+    setupSlidingSceneTransition();
     // Setup room transition events if they exist
     const roomTransitionButtons = document.querySelectorAll('.room-transition');
     roomTransitionButtons.forEach(button => {

@@ -13,7 +13,7 @@
     <div id="container">
         <!-- Home Scene -->
         <div id="home-scene" class="scene active">
-            Welcome to Adventure Game - Click to Start
+            Welcome to Whisper Of Envy - Click to Start
         </div>
 
         <!-- Cutscene 1 - Video -->
@@ -140,17 +140,37 @@
 
 
 <!-- Blue Screen Transition Scene -->
-<div id="blue-screen" class="scene">
-    <div class="blue-screen-container">
-      <div class="blue-screen-content">
-        <p>ตารางสอบประจำปี 2545</p>
-        <p>วันที่ 5 เดือน 6 ปี 2545</p>
-        <p>ห้อง 565</p>
+<div id="sliding-scene" class="scene">
+    <div id="sliding-background" class="scene-layer">
+      <!-- Background image set by CSS -->
+    </div>
+    <div id="sliding-npcs" class="scene-layer">
+      <div id="npc1" class="npc" data-npc="1" style="left: 500px;"></div>
+      <div id="npc2" class="npc" data-npc="2" style="left: 1600px;"></div>
+      <div id="npc3" class="npc" data-npc="3" style="left: 2800px;"></div>
+    </div>
+    <div id="sliding-player" class="player"></div>
+    <div id="sliding-foreground" class="scene-layer">
+
+    </div>
+    <div id="dialogue-overlay" class="hidden">
+        <div id="npc-portrait" style="margin-top: 10%;"></div>
+      <div id="dialogue-box">
+
+        <div id="dialogue-content">
+          <p id="npc-name">NPC Name</p>
+          <p id="dialogue-text">Dialogue text goes here...</p>
+        </div>
+        <button id="dialogue-next">Next</button>
       </div>
-      <button id="blue-screen-next-button">
-        <span class="next-button-text">ไปต่อ</span>
-        <img src="./asset/image/Button/next yellow.png" alt="Next" />
-      </button>
+    </div>
+    <div id="item-received-overlay" class="hidden">
+      <div id="item-received-box">
+        <h2>ได้รับเศษภาพ!</h2>
+        <img id="item-image" src="" alt="Item Image">
+        <p id="item-description">คุณได้รับเศษภาพ!</p>
+        <button id="item-received-close">Close</button>
+      </div>
     </div>
   </div>
 
