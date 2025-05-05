@@ -1,3 +1,20 @@
+// ===== SCENE ELEMENTS =====
+// Add the second dressing room scene element (add this to the existing scene elements section)
+const secondDressingRoomScene = document.getElementById('second-dressing-room-scene');
+
+// ===== SECOND DRESSING ROOM ELEMENTS =====
+const secondDressingNextButton = document.getElementById('second-dressing-next-button');
+const secondTabButtons = document.querySelectorAll('.second-tab-button');
+const secondTabContents = document.querySelectorAll('.second-tab-content');
+const secondClothingItems = document.querySelectorAll('.second-clothing-item');
+const secondCharacterBody = document.getElementById('second-character-body');
+const secondCharacterHead = document.getElementById('second-character-head');
+
+// ===== CHARACTER CUSTOMIZATION (update existing section) =====
+// Selected items tracking for second dressing room
+let secondSelectedHead = '';
+let secondSelectedBody = '';
+
 // ===== GAME VARIABLES =====
 let currentScene = 'home-scene';
 let hasKey = false;
@@ -60,6 +77,7 @@ const comicPanels = document.querySelectorAll('.comic-panel');
 const comicInstruction = document.querySelector('.comic-instruction');
 
 // ===== DRESSING ROOM ELEMENTS =====
+
 const dressingNextButton = document.getElementById('dressing-next-button');
 const tabButtons = document.querySelectorAll('.tab-button');
 const tabContents = document.querySelectorAll('.tab-content');
@@ -177,15 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Home scene element not found!');
     }
 
-    // Make sure dressing room is explicitly hidden
-    const dressingRoomScene = document.getElementById('dressing-room-scene');
-    if (dressingRoomScene) {
-        setupDressingRoom();
-        dressingRoomScene.classList.remove('active');
-        dressingRoomScene.style.display = 'none';
-        console.log('Dressing room explicitly hidden');
-    }
-
 
     // Log all scenes and their display states
     document.querySelectorAll('.scene').forEach(scene => {
@@ -202,6 +211,19 @@ document.addEventListener('DOMContentLoaded', () => {
         videoPlayer.dispatchEvent(videoEndedEvent);
     }, 2000);
 
+    // Make sure dressing room is explicitly hidden
+
+    if (dressingRoomScene) {
+        
+        dressingRoomScene.classList.remove('active');
+        dressingRoomScene.style.display = 'none';
+        setupDressingRoom();
+        dressingRoomScene.classList.remove('active');
+        dressingRoomScene.style.display = 'none';
+        console.log('Dressing room explicitly hidden');
+
+    }
+
     // Show key in the box
     keyItem.style.display = 'block';
 
@@ -211,6 +233,22 @@ document.addEventListener('DOMContentLoaded', () => {
     boxContent.style.display = 'none';
     gameMessage.style.display = 'none';
     doorCodeOverlay.style.display = 'none';
+
+    // Initialize the scenes and event listeners but don't set up the dressing room yet
+    setupFirstRoomItems();
+    setupSecondRoomItems();
+    setupDressingRoom();
+    setupSlidingSceneTransition();
+    setupSecondDressingRoom();
+    
+    // Setup room transition events if they exist
+    const roomTransitionButtons = document.querySelectorAll('.room-transition');
+    roomTransitionButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetRoom = parseInt(button.getAttribute('data-room'));
+            switchRoom(targetRoom);
+        });
+    });
 
     console.log('Game initialized, current scene:', currentScene);
 });
@@ -472,7 +510,7 @@ door.addEventListener('click', () => {
         setTimeout(() => {
             changeScene('dressing-room-scene');
             initDressingRoom();
-        }, 2000);
+        }, 1000);
     } else {
         showMessage('ประตูล็อกอยู่ คุณต้องหาบางอย่างเพื่อปลดล็อค');
     }
@@ -513,7 +551,7 @@ door.addEventListener('click', () => {
         // For now, just reset to home for demonstration
         setTimeout(() => {
             changeScene('dressing-room-scene');
-        }, 2000);
+        }, 1000);
     } else {
         showMessage('ประตูล็อกอยู่ คุณต้องหาบางอย่างเพื่อปลดล็อค');
     }
@@ -526,7 +564,7 @@ secondDoor.addEventListener('click', () => {
         showMessage('ยินดีด้วย! คุณผ่านเกมแล้ว!');
         setTimeout(() => {
             // Add your end game logic here, like showing an ending scene
-            changeScene('home-scene'); // For now, go back to home scene
+            changeScene('second-dressing-room-scene'); // For now, go back to home scene
             hasKey = false;
             doorUnlocked = false;
             hasSecondKey = false;
@@ -1107,25 +1145,135 @@ function setupSlidingSceneTransition() {
     }
 }
 
+// ===== SECOND DOOR INTERACTION ===== (modify the existing secondDoor click handler)
+secondDoor.addEventListener('click', () => {
+    if (secondDoorUnlocked) {
+        showMessage('ยินดีด้วย! คุณผ่านด่านนี้แล้ว!');
+        setTimeout(() => {
+            // Change to second dressing room instead of going directly to home
+            changeScene('second-dressing-room-scene');
+            initSecondDressingRoom();
+        }, 2000);
+    } else {
+        // Show door code input overlay
+        doorCodeOverlay.style.display = 'flex';
+        doorCodeAttempt = "";
+        doorCodeDisplay.textContent = "_ _ _";
+        showMessage('ประตูล็อกอยู่ กรุณาใส่รหัสผ่าน');
+    }
+});
 
+// ===== SECOND DRESSING ROOM SETUP =====
+function initSecondDressingRoom() {
+    console.log('Initializing second dressing room');
+    // Set default character
+    secondCharacterBody.src = './asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png';
+    secondCharacterHead.src = './asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png';
 
-// ===== INITIALIZATION =====
-// Call this when the page loads
-document.addEventListener('DOMContentLoaded', function () {
-    // Setup first room by default
-    setupFirstRoomItems();
-    setupDressingRoom();
-    setupSlidingSceneTransition();
-    // Setup room transition events if they exist
-    const roomTransitionButtons = document.querySelectorAll('.room-transition');
-    roomTransitionButtons.forEach(button => {
+    // Reset selections
+    secondSelectedHead = '';
+    secondSelectedBody = '';
+
+    // Remove selected class from all items
+    document.querySelectorAll('.second-clothing-item.selected').forEach(item => {
+        item.classList.remove('selected');
+    });
+
+    // Make sure the next button is visible
+    if (secondDressingNextButton) {
+        secondDressingNextButton.style.display = 'block';
+        console.log('Second dressing room next button is visible');
+    } else {
+        console.error('Second dressing next button not found!');
+    }
+
+    // Add event listener directly here to ensure it's set when the scene initializes
+    secondDressingNextButton.addEventListener('click', function () {
+        console.log('Second dressing room next button clicked');
+
+        // Transition to the end scene or back to home
+        setTimeout(() => {
+            // You can create a new end scene or just go back to home
+            showMessage('ยินดีด้วย! คุณเล่นจบเกมแล้ว!');
+            setTimeout(() => {
+                changeScene('home-scene');
+                // Reset game state
+                hasKey = false;
+                doorUnlocked = false;
+                hasSecondKey = false;
+                secondDoorUnlocked = false;
+            }, 3000);
+        }, 1000);
+    });
+}
+
+// ===== SECOND DRESSING ROOM FUNCTIONALITY =====
+function setupSecondDressingRoom() {
+    // Tab switching functionality
+    secondTabButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const targetRoom = parseInt(button.getAttribute('data-room'));
-            switchRoom(targetRoom);
+            // Remove active class from all buttons and contents
+            secondTabButtons.forEach(btn => btn.classList.remove('active'));
+            secondTabContents.forEach(content => content.classList.remove('active'));
+
+            // Add active class to clicked button and its content
+            button.classList.add('active');
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
         });
     });
 
-    // Alternatively, set up both rooms' items right away
-    setupSecondRoomItems();
-});
+    // Clothing item selection
+    secondClothingItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // Check if it's a head or body item
+            const headPath = item.getAttribute('data-head');
+            const bodyPath = item.getAttribute('data-body');
+
+            if (headPath) {
+                // Deselect previously selected head items
+                document.querySelectorAll('.second-clothing-item[data-head].selected').forEach(elem => {
+                    elem.classList.remove('selected');
+                });
+
+                // Select this item and update character
+                item.classList.add('selected');
+                secondSelectedHead = headPath;
+                secondCharacterHead.src = headPath;
+                secondCharacterHead.style.display = 'block';
+                console.log("Updated second head to:", headPath);
+            } else if (bodyPath) {
+                // Deselect previously selected body items
+                document.querySelectorAll('.second-clothing-item[data-body].selected').forEach(elem => {
+                    elem.classList.remove('selected');
+                });
+
+                // Select this item and update character
+                item.classList.add('selected');
+                secondSelectedBody = bodyPath;
+                secondCharacterBody.src = bodyPath;
+                console.log("Updated second body to:", bodyPath);
+            }
+        });
+    });
+
+    // Initialize with default items if needed
+    if (secondCharacterBody.src === "./asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png" || secondCharacterBody.src === window.location.href) {
+        // Set default body if none is set
+        const defaultBody = document.querySelector('.second-clothing-item[data-body]');
+        if (defaultBody) {
+            defaultBody.click();
+        }
+    }
+
+    if (secondCharacterHead.src === "./asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png" || secondCharacterHead.src === window.location.href) {
+        // Set default head if none is set
+        const defaultHead = document.querySelector('.second-clothing-item[data-head]');
+        if (defaultHead) {
+            defaultHead.click();
+        }
+    }
+}
+
+
 

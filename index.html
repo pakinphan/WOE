@@ -7,6 +7,7 @@
     <title>Whisper Of Envy</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/Npc.css">
+    <link rel="stylesheet" href="./css/Dressing2.css">
 </head>
 
 <body>
@@ -191,6 +192,65 @@
             <div id="second-door"></div>
 
             
+        </div>
+
+        <div id="second-dressing-room-scene" class="scene">
+            <div class="dressing-room-container">
+                <div class="dressing-room-header">
+                    <h2>เลือกตัวละคร</h2>
+                </div>
+                
+                <div class="dressing-room-content">
+                    <!-- Character Preview -->
+                    <div class="character-preview">
+                        <div class="character-display">
+                            <img id="second-character-body" src="./asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png" alt="Character Body">
+                            <img id="second-character-head" src="./asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png" alt="Character Head">
+                        </div>
+                        <div class="character-name">
+                            <input type="text" placeholder="ชื่อตัวละคร" maxlength="10">
+                        </div>
+                    </div>
+                    
+                    <!-- Clothing Options -->
+                    <div class="clothing-options">
+                        <!-- Tab Menu -->
+                        <div class="tab-menu">
+                            <button class="second-tab-button active" data-tab="second-head-tab">หัว</button>
+                            <button class="second-tab-button" data-tab="second-body-tab">เสื้อผ้า</button>
+                        </div>
+                        
+                        <!-- Tab Content -->
+                        <div class="tab-contents">
+                            <!-- Head Tab -->
+                            <div id="second-head-tab" class="second-tab-content active">
+                                <div class="clothing-grid">
+                                    <div class="second-clothing-item" data-head="./asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png" style="background-image: url('./asset/image/background/DressingRoomNelly/HeadBox/Nelly_head_B_01.png')"></div>
+                                    <div class="second-clothing-item" data-head="./asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_02.png" style="background-image: url('./asset/image/background/DressingRoomNelly/HeadBox/Nelly_head_B_02.png')"></div>
+                                    <div class="second-clothing-item" data-head="./asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_03.png" style="background-image: url('./asset/image/background/DressingRoomNelly/HeadBox/Nelly_head_B_03.png')"></div>
+                                    <div class="second-clothing-item" data-head="./asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_04.png" style="background-image: url('./asset/image/background/DressingRoomNelly/HeadBox/Nelly_head_B_04.png')"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Body Tab -->
+                            <div id="second-body-tab" class="second-tab-content">
+                                <div class="clothing-grid">
+                                    <div class="second-clothing-item" data-body="./asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png" style="background-image: url('./asset/image/background/DressingRoomNelly/DressBox/Nelly_dress_B_01.png')"></div>
+                                    <div class="second-clothing-item" data-body="./asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_02.png" style="background-image: url('./asset/image/background/DressingRoomNelly/DressBox/Nelly_dress_B_02.png')"></div>
+                                    <div class="second-clothing-item" data-body="./asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_03.png" style="background-image: url('./asset/image/background/DressingRoomNelly/DressBox/Nelly_dress_B_03.png')"></div>
+                                    <div class="second-clothing-item" data-body="./asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_04.png" style="background-image: url('./asset/image/background/DressingRoomNelly/DressBox/Nelly_dress_B_04.png')"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Next Button -->
+                <button id="second-dressing-next-button" class="navigation-button" aria-label="ไปด่านถัดไป">
+                    <span>ไปต่อ</span>
+                    <img src="./asset/image/Button/next yellow.png" alt="Next">
+                </button>
+            </div>
         </div>
         <!-- Item overlay -->
         <div id="item-overlay">
