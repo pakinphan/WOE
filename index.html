@@ -137,6 +137,50 @@
             <div class="comic-instruction">คลิกเพื่อเปิดเผยเรื่องราว</div>
         </div>
 
+        <!-- Add this to your HTML file -->
+<div id="sliding-scene" class="scene">
+    <div id="sliding-background" class="sliding-layer">
+        <!-- Background image or elements -->
+        <div class="sliding-bg-image"></div>
+    </div>
+    
+    <div id="sliding-npcs" class="sliding-layer">
+        <!-- Add NPCs here -->
+        <div class="npc" style="position: absolute; left: 800px; top: 300px;">
+            <img src="/api/placeholder/100/200" alt="NPC">
+        </div>
+        <div class="npc" style="position: absolute; left: 1200px; top: 320px;">
+            <img src="/api/placeholder/100/200" alt="NPC">
+        </div>
+        <div class="npc" style="position: absolute; left: 1600px; top: 280px;">
+            <img src="/api/placeholder/100/200" alt="NPC">
+        </div>
+    </div>
+    
+    <div id="sliding-items" class="sliding-layer">
+        <!-- Add interactive items here -->
+        <div class="sliding-item" style="position: absolute; left: 600px; top: 400px;">
+            <img src="/api/placeholder/80/80" alt="Item">
+        </div>
+        <div class="sliding-item" style="position: absolute; left: 1400px; top: 380px;">
+            <img src="/api/placeholder/80/80" alt="Item">
+        </div>
+    </div>
+    
+    <div id="sliding-player">
+        <!-- Player character -->
+        <img src="/api/placeholder/150/300" alt="Player">
+    </div>
+    
+    <div id="sliding-foreground" class="sliding-layer">
+        <!-- Foreground elements that appear in front of the player -->
+        <div class="foreground-element" style="position: absolute; bottom: 0; width: 100%; height: 100px;"></div>
+    </div>
+</div>
+
+<!-- Add this button to your navigation UI or a specific scene -->
+<button id="sliding-scene-transition" class="scene-transition-button">Go to Sliding Scene</button>
+
         <!-- Second Room Scene -->
         <div id="second-room-scene" class="scene">
             <div id="second-player"

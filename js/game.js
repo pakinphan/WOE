@@ -233,45 +233,46 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
+// Override the existing movePlayer function to handle different scenes
 function movePlayer() {
-    // Select the correct player based on the current scene
+    // Use the sliding movement system if in sliding scene
+    if (currentScene === 'sliding-scene') {
+        moveSlidingPlayer();
+        return;
+    }
+    
+    // Otherwise use the existing player movement for other scenes
     const activePlayer = currentScene === 'room-scene' ? player : secondPlayer;
-
-    // Debug to check if activePlayer is correctly selected
-    console.log('Current scene:', currentScene);
-    console.log('Active player:', activePlayer ? activePlayer.id : 'not found');
-
+    
     if (!activePlayer) {
         console.error('Active player not found!');
         return;
     }
-
+    
     const playerPos = parseInt(getComputedStyle(activePlayer).left);
     const gameWidth = document.body.clientWidth;
     const playerWidth = activePlayer.offsetWidth;
     let newLeft = playerPos;
-
+    
     if (keys.ArrowLeft) {
         newLeft = Math.max(0, playerPos - playerSpeed);
     }
     if (keys.ArrowRight) {
         newLeft = Math.min(gameWidth - playerWidth, playerPos + playerSpeed);
     }
-
+    
     activePlayer.style.left = newLeft + 'px';
-
+    
     if (!activePlayer.classList.contains('wiggle')) {
         activePlayer.classList.add('wiggle');
     }
-
-    // Debug player position
-    console.log('Player position:', newLeft);
-
+    
     // Continue if any key is held
     if (keys.ArrowLeft || keys.ArrowRight) {
         animationFrameId = requestAnimationFrame(movePlayer);
     } else {
         animationFrameId = null;
+        activePlayer.classList.remove('wiggle');
     }
 }
 
@@ -699,3 +700,139 @@ document.addEventListener('DOMContentLoaded', function () {
     setupSecondRoomItems();
 });
 
+// ===== SLIDING SCENE SYSTEM =====
+// This file implements a sliding scene where the player walks from the left, 
+// but once they reach the center of the screen, the background slides instead.
+
+// ===== SLIDING SCENE ELEMENTS =====
+const slidingScene = document.getElementById('sliding-scene');
+const slidingPlayer = document.getElementById('sliding-player');
+const slidingBackground = document.getElementById('sliding-background');
+const slidingForeground = document.getElementById('sliding-foreground');
+const slidingNPCs = document.getElementById('sliding-npcs');
+const slidingItems = document.getElementById('sliding-items');
+
+// ===== SLIDING SCENE VARIABLES =====
+let isPlayerCentered = false;
+let backgroundPosition = 0;
+let playerPosition = 0;
+const screenMiddle = window.innerWidth / 2;
+const playerOffset = 150; // Half the player width to center properly
+
+// ===== SLIDING SCENE INITIALIZATION =====
+function initSlidingScene() {
+    // Reset positions
+    playerPosition = 0;
+    backgroundPosition = 0;
+    isPlayerCentered = false;
+    
+    // Position elements
+    slidingPlayer.style.left = playerPosition + 'px';
+    slidingBackground.style.left = '0px';
+    slidingForeground.style.left = '0px';
+    slidingNPCs.style.left = '0px';
+    slidingItems.style.left = '0px';
+    
+    // Setup scene with correct display settings
+    slidingScene.style.display = 'flex';
+    slidingScene.classList.add('active');
+    currentScene = 'sliding-scene';
+    
+    console.log('Sliding scene initialized');
+}
+
+// ===== SLIDING SCENE MOVEMENT SYSTEM =====
+function moveSlidingPlayer() {
+    // Don't proceed if we're not in the sliding scene
+    if (currentScene !== 'sliding-scene') return;
+    
+    // Check if player is at the center point
+    const playerCenter = playerPosition + playerOffset;
+    isPlayerCentered = playerCenter >= screenMiddle;
+    
+    // Move player right
+    if (keys.ArrowRight) {
+        if (!isPlayerCentered) {
+            // Player moves until reaching center
+            playerPosition = Math.min(screenMiddle - playerOffset, playerPosition + playerSpeed);
+            slidingPlayer.style.left = playerPosition + 'px';
+            
+            // Add wiggle effect while moving
+            if (!slidingPlayer.classList.contains('wiggle')) {
+                slidingPlayer.classList.add('wiggle');
+            }
+        } else {
+            // Background and NPCs move instead of player
+            backgroundPosition -= playerSpeed;
+            slidingBackground.style.left = backgroundPosition + 'px';
+            slidingForeground.style.left = backgroundPosition + 'px';
+            slidingNPCs.style.left = backgroundPosition + 'px';
+            slidingItems.style.left = backgroundPosition + 'px';
+            
+            // Keep player wiggling as they "walk"
+            slidingPlayer.classList.add('wiggle');
+        }
+    }
+    
+    // Move player left
+    if (keys.ArrowLeft) {
+        if (isPlayerCentered && backgroundPosition < 0) {
+            // Move background right instead of player if we're centered
+            backgroundPosition += playerSpeed;
+            backgroundPosition = Math.min(0, backgroundPosition);
+            slidingBackground.style.left = backgroundPosition + 'px';
+            slidingForeground.style.left = backgroundPosition + 'px';
+            slidingNPCs.style.left = backgroundPosition + 'px';
+            slidingItems.style.left = backgroundPosition + 'px';
+            
+            // Keep player wiggling as they "walk"
+            slidingPlayer.classList.add('wiggle');
+        } else {
+            // Player moves left directly
+            playerPosition = Math.max(0, playerPosition - playerSpeed);
+            slidingPlayer.style.left = playerPosition + 'px';
+            
+            // Reset centered flag if player moves back from center
+            if (playerPosition + playerOffset < screenMiddle) {
+                isPlayerCentered = false;
+            }
+            
+            // Add wiggle effect while moving
+            if (!slidingPlayer.classList.contains('wiggle')) {
+                slidingPlayer.classList.add('wiggle');
+            }
+        }
+    }
+    
+    // Stop wiggle if no movement keys are pressed
+    if (!keys.ArrowLeft && !keys.ArrowRight) {
+        slidingPlayer.classList.remove('wiggle');
+    }
+    
+    // Continue animation if still moving
+    if (keys.ArrowLeft || keys.ArrowRight) {
+        animationFrameId = requestAnimationFrame(moveSlidingPlayer);
+    } else {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+}
+
+
+
+// ===== SCENE TRANSITION =====
+// Add a button to transition to the sliding scene
+function setupSlidingSceneTransition() {
+    const transitionButton = document.getElementById('sliding-scene-transition');
+    if (transitionButton) {
+        transitionButton.addEventListener('click', () => {
+            changeScene('sliding-scene');
+            initSlidingScene();
+        });
+    }
+}
+
+// Initialize sliding scene when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    setupSlidingSceneTransition();
+});
