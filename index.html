@@ -155,7 +155,8 @@
 
     </div>
     <div id="dialogue-overlay" class="hidden">
-        <div id="npc-portrait" style="margin-top: 10%;"></div>
+        <div id="npc-portrait" style="margin-top: 10%;">  </div>
+
       <div id="dialogue-box">
 
         <div id="dialogue-content">
@@ -257,6 +258,47 @@
         <span class="next-button-text">ไปต่อ</span>
         <img src="./asset/image/Button/next yellow.png" alt="Next" />
     </button>
+</div>
+<!-- Jigsaw Puzzle Scene -->
+<div id="jigsaw-scene" class="scene">
+    <div class="scene-container">
+        <h2 class="scene-title">เรียงต่อจิ๊กซอว์</h2>
+        
+        <!-- Main jigsaw container - where pieces can be dragged -->
+        <div id="jigsaw-container" class="jigsaw-container">
+            <!-- Jigsaw pieces that can be dragged -->
+            <div class="jigsaw-piece" data-piece-id="piece1" style="background-image: url('./asset/image/items/jigsaw_piece1.png');"></div>
+            <div class="jigsaw-piece" data-piece-id="piece2" style="background-image: url('./asset/image/items/jigsaw_piece2.png');"></div>
+            <div class="jigsaw-piece" data-piece-id="piece3" style="background-image: url('./asset/image/items/jigsaw_piece3.png');"></div>
+            
+            <!-- Jigsaw board with drop zones -->
+            <div class="jigsaw-board">
+                <!-- Drop zones for each piece -->
+                <div class="jigsaw-drop-zone" data-zone-id="piece1"></div>
+                <div class="jigsaw-drop-zone" data-zone-id="piece2"></div>
+                <div class="jigsaw-drop-zone" data-zone-id="piece3"></div>
+            </div>
+            
+            <!-- Full image that appears when puzzle is complete -->
+            <div id="jigsaw-revealed-image" class="jigsaw-revealed-image" style="background-image: url('./asset/image/items/jigsaw.png');"></div>
+        </div>
+        
+        <!-- Success message -->
+        <div id="jigsaw-success" class="jigsaw-success">
+            <h3>ยอดเยี่ยม!</h3>
+            <p>คุณประกอบภาพจิ๊กซอว์สำเร็จแล้ว</p>
+        </div>
+        
+        <!-- Next button (appears after completion) -->
+        <button id="jigsaw-next-button" class="next-button" aria-label="ไปต่อ">
+            <span>ไปต่อ</span>
+            <img src="./asset/image/Button/next yellow.png" alt="Next">
+        </button>
+    </div>
+    
+    <!-- Sound effects for jigsaw game -->
+    <audio id="jigsaw-place-sound" src="./asset/sound/place_sound.mp3" preload="auto"></audio>
+    <audio id="jigsaw-complete-sound" src="./asset/sound/complete_sound.mp3" preload="auto"></audio>
 </div>
         <!-- Item overlay -->
         <div id="item-overlay">

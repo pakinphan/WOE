@@ -90,9 +90,10 @@
     background: linear-gradient(to bottom, #b5ffff, #e0f7fa);
     border-radius: 40px;
     margin-bottom: 50px;
+    border: 2px solid #00957f;
     color: #347bd3;
     padding: 20px 40px;
-    filter: drop-shadow(0px 30px 0px #ffffff67);
+    filter: drop-shadow(0px 30px 0px #00957f);
     position: relative;
   }
 
@@ -197,20 +198,20 @@
     opacity: 0.5;
   }
 
-  #sliding-foreground-layer {
+  .sliding-foreground-layer {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-
-    background-image: url('/asset/image/background/walkingroom/NPC/Marsha.PNG');
+    border-radius: 16px;
+    background-image: url('/asset/image/background/walkingroom/BG_npctalking_all.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
 
     pointer-events: none; /* allows clicking through foreground if needed */
-    z-index: 15;
+    z-index: 0;
 }
 
 /* Next Button in Dressing Room */

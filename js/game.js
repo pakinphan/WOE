@@ -128,19 +128,33 @@ let currentNPC = null;
 // NPC dialogue data
 const npcDialogues = {
     npc1: [
-        { name: "Marsha", text: "Welcome, traveler! Our village has been waiting for someone like you." },
-        { name: "Marsha", text: "We need your help to solve an ancient puzzle that protects our sacred treasure." },
-        { name: "Marsha", text: "Here is the first piece of the jigsaw. Find the other two to unlock the secret." }
+        { name: "Marsha", text: "ฉันเพิ่งกลับมาจากการไปพักผ่อนส่วนตัวมาน่ะ" },
+        { name: "Marsha", text: "สร้อยมุกอันนี้ฉันเพิ่งซื้อมา ไม่แพงมากหรอก แต่พวกเธอคงซื้อไม่ไหว" },
+        { name: "Marsha", text: "สำหรับงานเทศกาลจันทร์สีฟ้า ฉันก็จ้างให้คนมาดูแลความเรียบร้อยทั้งหมด" },
+        { name: "Marsha", text: "ทุกอย่างในชีวิตฉันล้วนสมบูรณ์แบบอยู่แล้ว แค่มีเงิน" },
+        { name: "Oceana", text: "เธอรวยมากเลยนี่ ทำไมฉันไม่รวยบ้างนะ จะได้มีชุดดี ๆ ใส่" },
+        { name: "Oceana", text: "ตอนนี้ชีวิตฉันก็ไม่ได้ลำบาก แต่อยากมีมากกว่านี้จริงๆ" },
+        { name: "Oceana", text: "ฉันต้องการใส่ชุดแพง ๆ แบบนั้น" }
     ],
     npc2: [
-        { name: "Myria", text: "Ah, a seeker of the ancient puzzle, I see..." },
-        { name: "Myria", text: "Many have tried to collect all the pieces, but failed." },
-        { name: "Myria", text: "Take this piece. May fortune favor your quest." }
+        { name: "Myria", text: "ฉันเป็นหมึกพิเศษกว่าหมึกทั่วไป ไม่เหมือนหมึกตัวอื่น ๆ หรอกนะ" },
+        { name: "Myria", text: "ดูผิวฉันสิ มีผิวสีเหลืองสดใส" },
+        { name: "Myria", text: "สีของฉันน่ะทั้งสดใสและเฉิดฉายมากเลยนะ" },
+        { name: "Myria", text: "หมึกที่มีสีเหมือนฉันน่ะ หายากและมีน้อย ไม่เหมือนหมึกทั่ว ๆ ไปที่ไม่มีอะไรเด่น" },
+        { name: "Oceana", text: "เป็นหมึกเหมือนกันแท้ ๆ แต่ดูโดดเด่นจัง" },
+        { name: "Oceana", text: "หมึกที่หายาก ฉันก็อยากจะเป็นแบบนั้น" },
+        { name: "Oceana", text: "ฉันตอนนี้ทั้งน่าเกลียดและหม่นหมอง" },
+        { name: "Oceana", text: "ฉันจะทำยังไงกับผิวของฉันดีล่ะ พวกมันน่าเกลียดจริง ๆ ฉันไม่อยากเห็นสีพวกนี้แล้ว" }
+
     ],
     npc3: [
-        { name: "Guardian of Secrets", text: "Halt! Only those worthy may proceed beyond this point." },
-        { name: "Guardian of Secrets", text: "You've proven your determination by finding me." },
-        { name: "Guardian of Secrets", text: "The final piece is yours. Complete the puzzle to reveal the truth." }
+        { name: "Nelly", text: "ทำไมเธอถึงดูเศร้าจังล่ะ มางานแบบนี้ต้องมั่นใจนะ" },
+        { name: "Nelly", text: "เธอกำลังเปรียบเทียบตัวเองกับคนอื่นอยู่แน่เลย" },
+        { name: "Nelly", text: "เธอเองก็มีดีนะ แต่ถ้าไม่พอใจในตอนนี้ ทำไมเธอไม่พัฒนาตัวเองขึ้นล่ะ" },
+        { name: "Nelly", text: "อย่ามั่วแต่มาด้อยค่าตัวเองเลย ไปทำสิ่งที่เธอต้องการเถอะ" },
+        { name: "Oceana", text: "เธอที่มีแต่คนอิจฉาแต่ก็มาให้กำลังใจฉัน" },
+        { name: "Oceana", text: "ฉันคิดว่าเธอก็พูดไปอย่างนั้น แต่ฉันก็อยากจะลองดู" },
+        { name: "Oceana", text: "ฉันรู้สึกอิจฉาจนอยู่เฉย ๆ ไม่ได้แล้ว"}
     ]
 };
 
@@ -162,6 +176,49 @@ let animationFrameId = null;
 // Selected items tracking
 let selectedHead = '';
 let selectedBody = '';
+
+// ===== SCENE ELEMENTS (Add to existing section) =====
+const jigsawScene = document.getElementById('jigsaw-scene');
+const jigsawContainer = document.getElementById('jigsaw-container');
+const jigsawPieces = document.querySelectorAll('.jigsaw-piece');
+const jigsawSuccess = document.getElementById('jigsaw-success');
+const jigsawNextButton = document.getElementById('jigsaw-next-button');
+const jigsawRevealedImage = document.getElementById('jigsaw-revealed-image');
+
+// ===== JIGSAW GAME VARIABLES =====
+let jigsawComplete = false;
+let placedPieces = {
+    piece1: false,
+    piece2: false,
+    piece3: false
+};
+
+// ===== JIGSAW SCENE INITIALIZATION =====
+function initJigsawScene() {
+    console.log('Initializing jigsaw scene');
+    
+    // Reset jigsaw state
+    jigsawComplete = false;
+    placedPieces = {
+        piece1: false,
+        piece2: false,
+        piece3: false
+    };
+    
+    // Hide success message and revealed image initially
+    if (jigsawSuccess) jigsawSuccess.style.display = 'none';
+    if (jigsawRevealedImage) jigsawRevealedImage.style.display = 'none';
+    if (jigsawNextButton) jigsawNextButton.style.display = 'none';
+    
+    // Reset positions of jigsaw pieces
+    resetJigsawPieces();
+    
+    // Setup drag and drop for jigsaw pieces
+    setupJigsawInteractions();
+    
+    // Show instruction message
+    showMessage('เรียงต่อภาพจิ๊กซอว์ที่คุณได้รับมาให้สมบูรณ์!', 5000);
+}
 
 // ===== INITIALIZATION FUNCTIONS =====
 function checkElements() {
@@ -400,7 +457,7 @@ items.forEach((item) => {
 
             currentItem.onclick = () => {
                 boxContent.style.display = 'flex';
-                showMessage('โอ๊ะ!! เจอรูปภาพข้างใน');
+                showMessage('นี่เป็นฉันวัยเด็กน่ะ ตอนนั้นทั้งขี้อายแล้วก็ไม่มั่นใจในตัวเองเลย');
             };
         } else if (item.id === 'item2') { // ไอเทม 2
             currentItem.style.backgroundImage = "url('./asset/image/background/BigRoomNelly/Item/Board2.PNG')"; // เปลี่ยนภาพเฉพาะใน overlay
@@ -409,7 +466,10 @@ items.forEach((item) => {
             currentItem.style.height = '500px';
             currentItem.onclick = null;
             boxContent.style.display = 'none';
-            showMessage('คุณพบกระดาน');
+            showMessage('นี่เป็นบอร์ดที่ฉันทำเองเลย สร้างแรงบันดาลใจ');
+            setTimeout(() => {
+                showMessage('ดูพวกเขาจากอินเตอร์เน็ตมาแล้วอิจฉามาก ๆ เลยอยากจะเป็นให้ได้น่ะ');
+            }, 3000); // 2000 มิลลิวินาที = 2 วินาที
         } else {
             currentItem.style.backgroundImage = getComputedStyle(item).backgroundImage;
             currentItem.style.backgroundSize = 'cover';
@@ -417,7 +477,7 @@ items.forEach((item) => {
             currentItem.style.height = '500px';
             currentItem.onclick = null;
             boxContent.style.display = 'none';
-            showMessage('คุณพบไอเทม แต่ไม่มีอะไรพิเศษ');
+            showMessage('ดูยายทวดของฉันสิ เธอคือไอดอลของฉันเลยล่ะ');
         }
     });
 });
@@ -478,7 +538,7 @@ keyImage.addEventListener('click', () => {
     imageOverlay.style.display = 'flex';
     overlayImage.src = "./asset/image/background/BigRoomNelly/Item/picinbox2.PNG";
     imageToggled = false;
-    showMessage('โอ๊ะ!! มีอีกภาพนึง');
+    showMessage('นี่ไงของที่ฉันหาอยู่ ฉันพร้อมแต่งตัวไปงานแล้ว');
 });
 
 // คลิกภาพใหญ่เพื่อสลับภาพและปลดล็อค
@@ -488,7 +548,7 @@ overlayImage.addEventListener('click', () => {
         imageToggled = true;
         hasKey = true;
         doorUnlocked = true;
-        showMessage('คุณเจอรูปพิเศษ! ประตูปลดล็อคแล้ว');
+        showMessage('ประตูปลดล็อคแล้ว!!');
         imageOverlay.style.display = 'none';
         itemOverlay.style.display = 'none';
     }
@@ -513,7 +573,10 @@ door.addEventListener('click', () => {
             initDressingRoom();
         }, 1000);
     } else {
-        showMessage('ประตูล็อกอยู่ คุณต้องหาบางอย่างเพื่อปลดล็อค');
+        showMessage('ฉันต้องการเครื่องประดับที่ส่งต่อมาตั้งแต่รุ่นยายทวดก่อน..!');
+        setTimeout(() => {
+            showMessage('ฉันไม่สามารถแต่งตัวได้ ฉันหากิ๊บติดผมอยู่');
+        }, 3000); // 2000 มิลลิวินาที = 2 วินาที
     }
 });
 
@@ -545,18 +608,6 @@ comicNextButton.addEventListener('click', () => {
 
 
 // Second door click event - duplicate but kept for compatibility
-door.addEventListener('click', () => {
-    if (doorUnlocked) {
-        showMessage('ไปด่านต่อไปได้เลย!');
-        // Add code to transition to next level
-        // For now, just reset to home for demonstration
-        setTimeout(() => {
-            changeScene('dressing-room-scene');
-        }, 1000);
-    } else {
-        showMessage('ประตูล็อกอยู่ คุณต้องหาบางอย่างเพื่อปลดล็อค');
-    }
-});
 
 // ===== SECOND ROOM DOOR INTERACTION =====
 // Door click event for second room
@@ -877,6 +928,15 @@ function startDialogue(npcKey, npcElement) {
 
     // Show dialogue overlay
     dialogueOverlay.classList.remove('hidden');
+    
+    // Make sure the sliding-foreground-layer exists, create if not
+    let foregroundLayer = dialogueOverlay.querySelector('.sliding-foreground-layer');
+    if (!foregroundLayer) {
+        foregroundLayer = document.createElement('div');
+        foregroundLayer.className = 'sliding-foreground-layer';
+        // Insert as the first child of the dialogue overlay
+        dialogueOverlay.insertBefore(foregroundLayer, dialogueOverlay.firstChild);
+    }
 
     // Set current NPC and reset dialogue index
     currentNPC = npcKey;
@@ -930,7 +990,7 @@ function showReceivedItem(npcKey) {
 
     // Set item image based on which NPC gave it
     const pieceNumber = npcKey.replace('npc', '');
-    itemImage.src = `./asset/image/items/jigsaw_piece${pieceNumber}.png`;
+    itemImage.src = `./asset/image/background/walkingroom/jigsawItem1/Puzzle${pieceNumber}.png`;
     itemDescription.textContent = `คุณได้รับเศษภาพ ${pieceNumber} จาก 3!`;
 }
 
@@ -1180,10 +1240,10 @@ function initSecondDressingRoom() {
         // Transition to the end scene or back to home
         setTimeout(() => {
             // You can create a new end scene or just go back to home
-            showMessage('ยินดีด้วย! คุณเล่นจบเกมแล้ว!');
+            showMessage('ไปห้องต่อไปกันเถอะ!');
             setTimeout(() => {
-                changeScene('home-scene');
-                // Reset game state
+                changeScene('jigsaw-scene');
+                initJigsawScene();
                 hasKey = false;
                 doorUnlocked = false;
                 hasSecondKey = false;
@@ -1261,5 +1321,297 @@ function setupSecondDressingRoom() {
     }
 }
 
+// ===== JIGSAW PIECE RESET =====
+function resetJigsawPieces() {
+    // Remove all pieces from drop zones and return to starting positions
+    document.querySelectorAll('.jigsaw-piece').forEach(piece => {
+        // Remove from any drop zones
+        if (piece.parentElement.classList.contains('jigsaw-drop-zone')) {
+            const pieceClone = piece.cloneNode(true);
+            jigsawContainer.appendChild(pieceClone);
+            piece.remove();
+            setupPieceDraggable(pieceClone);
+        }
+        
+        // Reset visual states
+        piece.classList.remove('placed');
+        
+        // Randomize starting positions within the container area
+        const containerRect = jigsawContainer.getBoundingClientRect();
+        const pieceWidth = piece.offsetWidth;
+        const pieceHeight = piece.offsetHeight;
+        
+        // Calculate random position within container boundaries
+        const maxX = containerRect.width - pieceWidth;
+        const maxY = containerRect.height - pieceHeight;
+        
+        // Set random position
+        piece.style.position = 'absolute';
+        piece.style.left = `${Math.random() * maxX}px`;
+        piece.style.top = `${Math.random() * maxY}px`;
+    });
+}
 
+// ===== JIGSAW INTERACTIONS SETUP =====
+function setupJigsawInteractions() {
+    // Setup draggable pieces
+    document.querySelectorAll('.jigsaw-piece').forEach(piece => {
+        setupPieceDraggable(piece);
+    });
+    
+    // Setup drop zones
+    document.querySelectorAll('.jigsaw-drop-zone').forEach(zone => {
+        setupDropZone(zone);
+    });
+}
+
+// Make a piece draggable
+function setupPieceDraggable(piece) {
+    let isDragging = false;
+    let offsetX, offsetY;
+    
+    // Mouse down event to start dragging
+    piece.addEventListener('mousedown', startDrag);
+    piece.addEventListener('touchstart', handleTouchStart, { passive: false });
+    
+    function startDrag(e) {
+        e.preventDefault();
+        
+        // Bring piece to front during drag
+        piece.style.zIndex = '100';
+        
+        // Calculate offset from mouse position to piece corner
+        const pieceRect = piece.getBoundingClientRect();
+        offsetX = e.clientX - pieceRect.left;
+        offsetY = e.clientY - pieceRect.top;
+        
+        isDragging = true;
+        
+        // Add global mouse move and up listeners
+        document.addEventListener('mousemove', doDrag);
+        document.addEventListener('mouseup', stopDrag);
+        
+        // Add grabbing cursor
+        piece.style.cursor = 'grabbing';
+    }
+    
+    function handleTouchStart(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        
+        // Bring piece to front during drag
+        piece.style.zIndex = '100';
+        
+        // Calculate offset from touch position to piece corner
+        const pieceRect = piece.getBoundingClientRect();
+        offsetX = touch.clientX - pieceRect.left;
+        offsetY = touch.clientY - pieceRect.top;
+        
+        isDragging = true;
+        
+        // Add global touch move and end listeners
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
+        document.addEventListener('touchend', handleTouchEnd);
+    }
+    
+    function doDrag(e) {
+        if (!isDragging) return;
+        
+        const containerRect = jigsawContainer.getBoundingClientRect();
+        
+        // Calculate new position relative to container
+        let newX = e.clientX - containerRect.left - offsetX;
+        let newY = e.clientY - containerRect.top - offsetY;
+        
+        // Constrain to container boundaries
+        newX = Math.max(0, Math.min(newX, containerRect.width - piece.offsetWidth));
+        newY = Math.max(0, Math.min(newY, containerRect.height - piece.offsetHeight));
+        
+        // Update position
+        piece.style.left = `${newX}px`;
+        piece.style.top = `${newY}px`;
+    }
+    
+    function handleTouchMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        
+        const touch = e.touches[0];
+        const containerRect = jigsawContainer.getBoundingClientRect();
+        
+        // Calculate new position relative to container
+        let newX = touch.clientX - containerRect.left - offsetX;
+        let newY = touch.clientY - containerRect.top - offsetY;
+        
+        // Constrain to container boundaries
+        newX = Math.max(0, Math.min(newX, containerRect.width - piece.offsetWidth));
+        newY = Math.max(0, Math.min(newY, containerRect.height - piece.offsetHeight));
+        
+        // Update position
+        piece.style.left = `${newX}px`;
+        piece.style.top = `${newY}px`;
+    }
+    
+    function stopDrag() {
+        if (!isDragging) return;
+        
+        isDragging = false;
+        
+        // Reset z-index
+        piece.style.zIndex = '10';
+        
+        // Check if piece is over any drop zone
+        checkDropZones(piece);
+        
+        // Remove global listeners
+        document.removeEventListener('mousemove', doDrag);
+        document.removeEventListener('mouseup', stopDrag);
+        
+        // Reset cursor
+        piece.style.cursor = 'grab';
+    }
+    
+    function handleTouchEnd() {
+        if (!isDragging) return;
+        
+        isDragging = false;
+        
+        // Reset z-index
+        piece.style.zIndex = '10';
+        
+        // Check if piece is over any drop zone
+        checkDropZones(piece);
+        
+        // Remove global listeners
+        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchend', handleTouchEnd);
+    }
+    
+    // Initial cursor style
+    piece.style.cursor = 'grab';
+}
+
+// Setup drop zone behavior
+function setupDropZone(zone) {
+    // Visual feedback on hover - handled by CSS
+    zone.classList.add('drop-zone-ready');
+}
+
+// Check if a piece is over its correct drop zone
+function checkDropZones(piece) {
+    const pieceId = piece.getAttribute('data-piece-id');
+    const pieceRect = piece.getBoundingClientRect();
+    
+    // Get center point of piece
+    const pieceCenterX = pieceRect.left + pieceRect.width / 2;
+    const pieceCenterY = pieceRect.top + pieceRect.height / 2;
+    
+    // Check all drop zones
+    let placed = false;
+    document.querySelectorAll('.jigsaw-drop-zone').forEach(zone => {
+        const zoneId = zone.getAttribute('data-zone-id');
+        const zoneRect = zone.getBoundingClientRect();
+        
+        // Check if piece center is within this zone
+        if (
+            pieceCenterX >= zoneRect.left &&
+            pieceCenterX <= zoneRect.right &&
+            pieceCenterY >= zoneRect.top &&
+            pieceCenterY <= zoneRect.bottom
+        ) {
+            // Check if this is the correct zone for this piece
+            if (pieceId === zoneId) {
+                placePieceInZone(piece, zone);
+                placed = true;
+                
+                // Mark piece as placed
+                placedPieces[pieceId] = true;
+                
+                // Check if puzzle is complete
+                checkJigsawCompletion();
+            } else {
+                // Wrong zone - shake the piece
+                piece.classList.add('shake');
+                setTimeout(() => {
+                    piece.classList.remove('shake');
+                }, 500);
+            }
+        }
+    });
+    
+    return placed;
+}
+
+// Place a piece in its drop zone
+function placePieceInZone(piece, zone) {
+    // Clone piece and add to zone
+    const pieceClone = piece.cloneNode(true);
+    zone.appendChild(pieceClone);
+    
+    // Style the placed piece
+    pieceClone.style.position = 'relative';
+    pieceClone.style.left = '0';
+    pieceClone.style.top = '0';
+    pieceClone.classList.add('placed');
+    
+    // Remove original piece
+    piece.remove();
+    
+    // Play sound effect
+    const placementSound = document.getElementById('jigsaw-place-sound');
+    if (placementSound) {
+        placementSound.currentTime = 0;
+        placementSound.play();
+    }
+}
+
+// Check if the jigsaw puzzle is complete
+function checkJigsawCompletion() {
+    if (placedPieces.piece1 && placedPieces.piece2 && placedPieces.piece3) {
+        jigsawComplete = true;
+        
+        // Show success animation with slight delay
+        setTimeout(() => {
+            // Show success message
+            if (jigsawSuccess) jigsawSuccess.style.display = 'block';
+            
+            // Show full image with fade-in effect
+            if (jigsawRevealedImage) {
+                jigsawRevealedImage.style.display = 'block';
+                jigsawRevealedImage.classList.add('fade-in');
+            }
+            
+            // Show next button
+            if (jigsawNextButton) {
+                jigsawNextButton.style.display = 'block';
+            }
+            
+            // Play completion sound
+            const completionSound = document.getElementById('jigsaw-complete-sound');
+            if (completionSound) {
+                completionSound.play();
+            }
+            
+            showMessage('ยินดีด้วย! คุณประกอบภาพจิ๊กซอว์สำเร็จแล้ว!', 5000);
+        }, 1000);
+    }
+}
+
+// ===== EVENT LISTENERS =====
+// Add a listener for the jigsaw next button
+if (jigsawNextButton) {
+    jigsawNextButton.addEventListener('click', () => {
+        // Transition to the home scene or end scene
+        showMessage('ขอบคุณที่เล่นเกม!', 3000);
+        
+        setTimeout(() => {
+            // Change to home scene and reset game state
+            changeScene('home-scene');
+            hasKey = false;
+            doorUnlocked = false;
+            hasSecondKey = false;
+            secondDoorUnlocked = false;
+        }, 3000);
+    });
+}
 
