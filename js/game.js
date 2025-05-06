@@ -193,32 +193,10 @@ let placedPieces = {
     piece3: false
 };
 
-// ===== JIGSAW SCENE INITIALIZATION =====
-function initJigsawScene() {
-    console.log('Initializing jigsaw scene');
-    
-    // Reset jigsaw state
-    jigsawComplete = false;
-    placedPieces = {
-        piece1: false,
-        piece2: false,
-        piece3: false
-    };
-    
-    // Hide success message and revealed image initially
-    if (jigsawSuccess) jigsawSuccess.style.display = 'none';
-    if (jigsawRevealedImage) jigsawRevealedImage.style.display = 'none';
-    if (jigsawNextButton) jigsawNextButton.style.display = 'none';
-    
-    // Reset positions of jigsaw pieces
-    resetJigsawPieces();
-    
-    // Setup drag and drop for jigsaw pieces
-    setupJigsawInteractions();
-    
-    // Show instruction message
-    showMessage('เรียงต่อภาพจิ๊กซอว์ที่คุณได้รับมาให้สมบูรณ์!', 5000);
-}
+// ===== ADD TO SCENE ELEMENTS SECTION =====
+const cutscene2 = document.getElementById('cutscene-2');
+const cutscene2VideoPlayer = document.getElementById('cutscene2-video-player');
+const cutscene2NextButton = document.getElementById('cutscene2-next-button');
 
 // ===== INITIALIZATION FUNCTIONS =====
 function checkElements() {
@@ -262,11 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
     videoPlayer.src = "./asset/video/Repo.mp4";
 
     // For testing only - simulate video end after 2 seconds
-    // Remove this in production
-    setTimeout(() => {
-        const videoEndedEvent = new Event('ended');
-        videoPlayer.dispatchEvent(videoEndedEvent);
-    }, 2000);
 
     // Make sure dressing room is explicitly hidden
 
@@ -281,6 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Dressing room explicitly hidden');
 
     }
+
+    
 
     // Show key in the box
     keyItem.style.display = 'block';
@@ -298,6 +273,22 @@ document.addEventListener('DOMContentLoaded', () => {
     setupDressingRoom();
     setupSlidingSceneTransition();
     setupSecondDressingRoom();
+    initializeCutscene2();
+
+    if (cutscene2) {
+        cutscene2.classList.remove('active');
+        cutscene2.style.display = 'none';
+        
+        // Hide the next button initially
+        if (cutscene2NextButton) {
+            cutscene2NextButton.style.display = 'none';
+        }
+        
+        // Set video source if needed
+        if (cutscene2VideoPlayer) {
+            cutscene2VideoPlayer.src = "./asset/video/2.mp4"; // Update with your actual video path
+        }
+    }
     
     // Setup room transition events if they exist
     const roomTransitionButtons = document.querySelectorAll('.room-transition');
@@ -613,7 +604,7 @@ comicNextButton.addEventListener('click', () => {
 // Door click event for second room
 secondDoor.addEventListener('click', () => {
     if (secondDoorUnlocked) {
-        showMessage('ยินดีด้วย! คุณผ่านเกมแล้ว!');
+        showMessage('ไปแต่งตัวกันเถอะ!');
         setTimeout(() => {
             // Add your end game logic here, like showing an ending scene
             changeScene('second-dressing-room-scene'); 
@@ -1178,7 +1169,7 @@ function moveSlidingPlayer() {
 // เพิ่มฟังก์ชันนี้เข้าไปในโค้ด
 function completeSlideScene() {
     // แสดงข้อความยินดี
-    showMessage('ยินดีด้วย! คุณผ่านด่านนี้แล้ว!', 3000);
+    showMessage('ไปห้องถัดไปกันเถอะ!', 3000);
 
     // รีเซ็ตตัวแปรสำหรับการเล่นรอบถัดไป
     finalItemShown = false;
@@ -1350,6 +1341,33 @@ function resetJigsawPieces() {
         piece.style.left = `${Math.random() * maxX}px`;
         piece.style.top = `${Math.random() * maxY}px`;
     });
+}
+
+// ===== JIGSAW SCENE INITIALIZATION =====
+function initJigsawScene() {
+    console.log('Initializing jigsaw scene');
+    
+    // Reset jigsaw state
+    jigsawComplete = false;
+    placedPieces = {
+        piece1: false,
+        piece2: false,
+        piece3: false
+    };
+    
+    // Hide success message and revealed image initially
+    if (jigsawSuccess) jigsawSuccess.style.display = 'none';
+    if (jigsawRevealedImage) jigsawRevealedImage.style.display = 'none';
+    if (jigsawNextButton) jigsawNextButton.style.display = 'none';
+    
+    // Reset positions of jigsaw pieces
+    resetJigsawPieces();
+    
+    // Setup drag and drop for jigsaw pieces
+    setupJigsawInteractions();
+    
+    // Show instruction message
+    showMessage('เรียงต่อภาพจิ๊กซอว์ที่คุณได้รับมาให้สมบูรณ์!', 5000);
 }
 
 // ===== JIGSAW INTERACTIONS SETUP =====
@@ -1549,7 +1567,7 @@ function placePieceInZone(piece, zone) {
     zone.appendChild(pieceClone);
     
     // Style the placed piece
-    pieceClone.style.position = 'relative';
+    pieceClone.style.position = 'absolute';
     pieceClone.style.left = '0';
     pieceClone.style.top = '0';
     pieceClone.classList.add('placed');
@@ -1601,17 +1619,83 @@ function checkJigsawCompletion() {
 // Add a listener for the jigsaw next button
 if (jigsawNextButton) {
     jigsawNextButton.addEventListener('click', () => {
-        // Transition to the home scene or end scene
-        showMessage('ขอบคุณที่เล่นเกม!', 3000);
+        console.log('Jigsaw next button clicked, transitioning to cutscene-2');
         
-        setTimeout(() => {
-            // Change to home scene and reset game state
-            changeScene('home-scene');
-            hasKey = false;
-            doorUnlocked = false;
-            hasSecondKey = false;
-            secondDoorUnlocked = false;
-        }, 3000);
+        // Hide all scenes first (to be safe)
+        document.querySelectorAll('.scene').forEach(scene => {
+            scene.classList.remove('active');
+            scene.style.display = 'none';
+        });
+        
+        // Show cutscene-2
+        const cutscene2 = document.getElementById('cutscene-2');
+        if (cutscene2) {
+            cutscene2.classList.add('active');
+            cutscene2.style.display = 'flex';
+            currentScene = 'cutscene-2';
+            console.log('Cutscene 2 activated');
+            
+            // Play the video if it exists
+            if (cutscene2VideoPlayer) {
+                cutscene2VideoPlayer.play().catch(e => {
+                    console.error('Video play error:', e);
+                });
+            } else {
+                console.error('cutscene2VideoPlayer not found');
+            }
+        } else {
+            console.error('cutscene-2 element not found!');
+        }
+
+        // Reset game state if needed
+        hasKey = false;
+        doorUnlocked = false;
+        hasSecondKey = false;
+        secondDoorUnlocked = false;
     });
 }
+// ===== CUTSCENE 2 VIDEO EVENT LISTENERS =====
+// Make sure cutscene2VideoPlayer exists before adding event listeners
+if (cutscene2VideoPlayer) {
+    // When the video ends, show the next button
+    cutscene2VideoPlayer.addEventListener('ended', () => {
+        console.log('Cutscene 2 video ended');
+        if (cutscene2NextButton) {
+            cutscene2NextButton.style.display = 'block';
+        } else {
+            console.error('cutscene2NextButton not found');
+        }
+    });
+} else {
+    console.log('Warning: cutscene2VideoPlayer not found during initialization');
+}
 
+function initializeCutscene2() {
+    console.log('Initializing cutscene 2');
+    const cutscene2 = document.getElementById('cutscene-2');
+    const cutscene2VideoPlayer = document.getElementById('cutscene2-video-player');
+    const cutscene2NextButton = document.getElementById('cutscene2-next-button');
+    
+    if (cutscene2) {
+        cutscene2.classList.remove('active');
+        cutscene2.style.display = 'none';
+        
+        // Hide the next button initially
+        if (cutscene2NextButton) {
+            cutscene2NextButton.style.display = 'none';
+            console.log('Cutscene 2 next button hidden');
+        } else {
+            console.error('cutscene2NextButton element not found!');
+        }
+        
+        // Set video source if needed
+        if (cutscene2VideoPlayer) {
+            cutscene2VideoPlayer.src = "./asset/video/Repo.mp4"; // Update with correct path if needed
+            console.log('Cutscene 2 video source set');
+        } else {
+            console.error('cutscene2VideoPlayer element not found!');
+        }
+    } else {
+        console.error('cutscene-2 scene element not found!');
+    }
+}

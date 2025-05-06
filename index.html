@@ -8,13 +8,15 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/Npc.css">
     <link rel="stylesheet" href="./css/Dressing2.css">
+    <link rel="stylesheet" href="./css/Puzzle.css">
+    <link rel="stylesheet" href="./css/Cutscene2.css">
 </head>
 
 <body>
     <div id="container">
         <!-- Home Scene -->
         <div id="home-scene" class="scene active">
-            Welcome to Whisper Of Envy - Click to Start
+            Click to Start
         </div>
 
         <!-- Cutscene 1 - Video -->
@@ -168,9 +170,9 @@
     </div>
     <div id="item-received-overlay" class="hidden">
       <div id="item-received-box">
-        <h2>ได้รับเศษภาพ!</h2>
+        <h2>ยินดีด้วย!</h2>
         <img id="item-image" src="" alt="Item Image">
-        <p id="item-description">คุณได้รับเศษภาพ!</p>
+        <p id="item-description">คุณได้รับเศษภาพครบทั้งหมดแล้ว!</p>
         <button id="item-received-close">Close</button>
       </div>
     </div>
@@ -262,14 +264,14 @@
 <!-- Jigsaw Puzzle Scene -->
 <div id="jigsaw-scene" class="scene">
     <div class="scene-container">
-        <h2 class="scene-title">เรียงต่อจิ๊กซอว์</h2>
+        <h2 class="scene-title">ประกอบรูปภาพเข้าด้วยกัน</h2>
         
         <!-- Main jigsaw container - where pieces can be dragged -->
         <div id="jigsaw-container" class="jigsaw-container">
             <!-- Jigsaw pieces that can be dragged -->
-            <div class="jigsaw-piece" data-piece-id="piece1" style="background-image: url('./asset/image/items/jigsaw_piece1.png');"></div>
-            <div class="jigsaw-piece" data-piece-id="piece2" style="background-image: url('./asset/image/items/jigsaw_piece2.png');"></div>
-            <div class="jigsaw-piece" data-piece-id="piece3" style="background-image: url('./asset/image/items/jigsaw_piece3.png');"></div>
+            <div class="jigsaw-piece" data-piece-id="piece1" style="background-image: url('./asset/image/background/walkingroom/jigsawItem1/Puzzle1.png');"></div>
+            <div class="jigsaw-piece" data-piece-id="piece2" style="background-image: url('./asset/image/background/walkingroom/jigsawItem1/Puzzle2.png');"></div>
+            <div class="jigsaw-piece" data-piece-id="piece3" style="background-image: url('./asset/image/background/walkingroom/jigsawItem1/Puzzle3.png');"></div>
             
             <!-- Jigsaw board with drop zones -->
             <div class="jigsaw-board">
@@ -280,7 +282,7 @@
             </div>
             
             <!-- Full image that appears when puzzle is complete -->
-            <div id="jigsaw-revealed-image" class="jigsaw-revealed-image" style="background-image: url('./asset/image/items/jigsaw.png');"></div>
+            <div id="jigsaw-revealed-image" class="jigsaw-revealed-image" style="background-image: url('/asset/image/background/walkingroom/jigsawItem1/PuzzleComplete.png');"></div>
         </div>
         
         <!-- Success message -->
@@ -299,6 +301,19 @@
     <!-- Sound effects for jigsaw game -->
     <audio id="jigsaw-place-sound" src="./asset/sound/place_sound.mp3" preload="auto"></audio>
     <audio id="jigsaw-complete-sound" src="./asset/sound/complete_sound.mp3" preload="auto"></audio>
+</div>
+
+<div id="cutscene-2" class="scene">
+    <div id="video-container">
+        <video id="cutscene2-video-player" muted>
+            <source src="./asset/video/Cutscene2.mp4" type="video/mp4">
+        </video>
+        <div id="cutscene2-next-button">
+            <span class="next-button-text">ไปต่อ</span>
+            <img src="./asset/image/Button/next yellow.png" alt="Next" />
+
+        </div>
+    </div>
 </div>
         <!-- Item overlay -->
         <div id="item-overlay">
