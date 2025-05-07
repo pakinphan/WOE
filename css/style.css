@@ -643,7 +643,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background-image: url('/WOE/asset/image/background/BigRoomOceana/floor.png'); /* example foreground image */
+    background-image: url('/WOE/asset/image/background/BigRoomOceana/floor.PNG'); /* example foreground image */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
