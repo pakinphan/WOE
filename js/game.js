@@ -1567,7 +1567,7 @@ function checkJigsawCompletion() {
 
             // Show success message
             if (jigsawSuccess) 
-                setTimeout(() => {jigsawSuccess.style.display = 'block';},2000);
+                setTimeout(() => {jigsawSuccess.style.display = 'block';},1000);
             setTimeout(() => {
             // Show full image with fade-in effect
             if (jigsawRevealedImage) {
@@ -1602,7 +1602,7 @@ function checkJigsawCompletion() {
                 }
                 
                 showMessage('ชุดฉันไม่ต้องแพงก็ได้นี่ ถ้าฉันใส่แล้วสวย!', 3000);
-            }, 5000); // Short delay before switching to cutscene
+            }, 7000); // Short delay before switching to cutscene
         }, 1000);
     }
 }
