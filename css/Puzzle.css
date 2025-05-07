@@ -210,6 +210,18 @@
     vertical-align: middle;
 }
 
+.jigsaw-next-button-text {
+    padding: 8px 8px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px black;
+    display: inline-block;
+    vertical-align: middle;
+    font-family: Issara;
+    
+}
+
 /* Animations */
 @keyframes fadeIn {
     from { opacity: 0; }

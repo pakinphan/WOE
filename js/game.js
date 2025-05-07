@@ -125,6 +125,11 @@ let npcsCompleted = {
 let currentDialogueIndex = 0;
 let currentNPC = null;
 
+// ===== ADD TO SCENE ELEMENTS SECTION =====
+const cutscene2 = document.getElementById('cutscene-2');
+const cutscene2VideoPlayer = document.getElementById('cutscene2-video-player');
+const cutscene2NextButton = document.getElementById('cutscene2-next-button');
+
 // NPC dialogue data
 const npcDialogues = {
     npc1: [
@@ -169,7 +174,7 @@ const diaryPages = [
 // ===== MOVEMENT CONTROLS =====
 // Player movement
 let keys = { ArrowLeft: false, ArrowRight: false };
-let playerSpeed = 4; // Your speed
+let playerSpeed = 5; // Your speed
 let animationFrameId = null;
 
 // ===== CHARACTER CUSTOMIZATION =====
@@ -193,10 +198,7 @@ let placedPieces = {
     piece3: false
 };
 
-// ===== ADD TO SCENE ELEMENTS SECTION =====
-const cutscene2 = document.getElementById('cutscene-2');
-const cutscene2VideoPlayer = document.getElementById('cutscene2-video-player');
-const cutscene2NextButton = document.getElementById('cutscene2-next-button');
+
 
 // ===== INITIALIZATION FUNCTIONS =====
 function checkElements() {
@@ -238,9 +240,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize video
     videoPlayer.src = "./asset/video/Repo.mp4";
-
+    cutscene2VideoPlayer.src = "./asset/video/1.mp4"; // Update with your actual video path
     // For testing only - simulate video end after 2 seconds
-
+    if (cutscene2VideoPlayer) {
+        cutscene2VideoPlayer.addEventListener('ended', () => {
+            console.log('Video ended, showing next button'); // Debug logging
+            if (cutscene2NextButton) {
+                cutscene2NextButton.style.display = 'block';
+            }
+        });
+    }
+    
+    // Click event for the next button after cutscene 2
+    if (cutscene2NextButton) {
+        cutscene2NextButton.addEventListener('click', () => {
+            // Determine which scene should come after cutscene 2
+            changeScene('home-scene'); // Replace with the appropriate next scene
+            
+            // Reset the button display state for next time
+            cutscene2NextButton.style.display = 'none';
+        });
+    }
     // Make sure dressing room is explicitly hidden
 
     if (dressingRoomScene) {
@@ -273,22 +293,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupDressingRoom();
     setupSlidingSceneTransition();
     setupSecondDressingRoom();
-    initializeCutscene2();
 
-    if (cutscene2) {
-        cutscene2.classList.remove('active');
-        cutscene2.style.display = 'none';
-        
-        // Hide the next button initially
-        if (cutscene2NextButton) {
-            cutscene2NextButton.style.display = 'none';
-        }
-        
-        // Set video source if needed
-        if (cutscene2VideoPlayer) {
-            cutscene2VideoPlayer.src = "./asset/video/2.mp4"; // Update with your actual video path
-        }
-    }
+
     
     // Setup room transition events if they exist
     const roomTransitionButtons = document.querySelectorAll('.room-transition');
@@ -1599,103 +1605,71 @@ function checkJigsawCompletion() {
                 jigsawRevealedImage.classList.add('fade-in');
             }
             
-            // Show next button
-            if (jigsawNextButton) {
-                jigsawNextButton.style.display = 'block';
-            }
-            
             // Play completion sound
             const completionSound = document.getElementById('jigsaw-complete-sound');
             if (completionSound) {
                 completionSound.play();
             }
             
-            showMessage('ยินดีด้วย! คุณประกอบภาพจิ๊กซอว์สำเร็จแล้ว!', 5000);
+            // Show next button for a moment to allow user to see the completed puzzle
+            if (jigsawNextButton) {
+                jigsawNextButton.style.display = 'block';
+            }
+            
+            // Transition to cutscene after a short delay
+            setTimeout(() => {
+                changeScene('cutscene-2');
+                
+                // Make sure next button is hidden when entering cutscene
+                if (cutscene2NextButton) {
+                    cutscene2NextButton.style.display = 'none';
+                }
+                
+                // Play the video and let the 'ended' event handle showing the button
+                if (cutscene2VideoPlayer) {
+                    cutscene2VideoPlayer.currentTime = 0; // Reset video position
+                    cutscene2VideoPlayer.play();
+                }
+                
+                showMessage('ยินดีด้วย! คุณประกอบภาพจิ๊กซอว์สำเร็จแล้ว!', 4000);
+            }, 5000); // Short delay before switching to cutscene
         }, 1000);
     }
 }
 
-// ===== EVENT LISTENERS =====
-// Add a listener for the jigsaw next button
-if (jigsawNextButton) {
-    jigsawNextButton.addEventListener('click', () => {
-        console.log('Jigsaw next button clicked, transitioning to cutscene-2');
-        
-        // Hide all scenes first (to be safe)
-        document.querySelectorAll('.scene').forEach(scene => {
-            scene.classList.remove('active');
-            scene.style.display = 'none';
-        });
-        
-        // Show cutscene-2
-        const cutscene2 = document.getElementById('cutscene-2');
-        if (cutscene2) {
-            cutscene2.classList.add('active');
-            cutscene2.style.display = 'flex';
-            currentScene = 'cutscene-2';
-            console.log('Cutscene 2 activated');
-            
-            // Play the video if it exists
-            if (cutscene2VideoPlayer) {
-                cutscene2VideoPlayer.play().catch(e => {
-                    console.error('Video play error:', e);
-                });
-            } else {
-                console.error('cutscene2VideoPlayer not found');
-            }
-        } else {
-            console.error('cutscene-2 element not found!');
-        }
-
-        // Reset game state if needed
-        hasKey = false;
-        doorUnlocked = false;
-        hasSecondKey = false;
-        secondDoorUnlocked = false;
-    });
-}
-// ===== CUTSCENE 2 VIDEO EVENT LISTENERS =====
-// Make sure cutscene2VideoPlayer exists before adding event listeners
-if (cutscene2VideoPlayer) {
-    // When the video ends, show the next button
-    cutscene2VideoPlayer.addEventListener('ended', () => {
-        console.log('Cutscene 2 video ended');
-        if (cutscene2NextButton) {
-            cutscene2NextButton.style.display = 'block';
-        } else {
-            console.error('cutscene2NextButton not found');
-        }
-    });
-} else {
-    console.log('Warning: cutscene2VideoPlayer not found during initialization');
-}
-
-function initializeCutscene2() {
-    console.log('Initializing cutscene 2');
-    const cutscene2 = document.getElementById('cutscene-2');
-    const cutscene2VideoPlayer = document.getElementById('cutscene2-video-player');
-    const cutscene2NextButton = document.getElementById('cutscene2-next-button');
+// Update the handleJigsawNextButtonClick function
+// function handleJigsawNextButtonClick() {
+//     console.log('Jigsaw next button clicked, transitioning to cutscene-2');
+//     changeScene('cutscene-2');
     
-    if (cutscene2) {
-        cutscene2.classList.remove('active');
-        cutscene2.style.display = 'none';
+//     // Start playing the video
+//     if (cutscene2VideoPlayer) {
+//         cutscene2VideoPlayer.play();
         
-        // Hide the next button initially
-        if (cutscene2NextButton) {
-            cutscene2NextButton.style.display = 'none';
-            console.log('Cutscene 2 next button hidden');
-        } else {
-            console.error('cutscene2NextButton element not found!');
-        }
-        
-        // Set video source if needed
-        if (cutscene2VideoPlayer) {
-            cutscene2VideoPlayer.src = "./asset/video/Repo.mp4"; // Update with correct path if needed
-            console.log('Cutscene 2 video source set');
-        } else {
-            console.error('cutscene2VideoPlayer element not found!');
-        }
-    } else {
-        console.error('cutscene-2 scene element not found!');
-    }
-}
+//         // Hide the next button until video ends
+//         if (cutscene2NextButton) {
+//             cutscene2NextButton.style.display = 'none';
+//         }
+//     }
+// }
+
+// jigsawNextButton.addEventListener('click', () => {
+//     // Transition from jigsaw scene to the second cutscene
+//     changeScene('cutscene-2');
+//     // Start playing the video automatically
+//     cutscene2VideoPlayer.play();
+// });
+
+// cutscene2VideoPlayer.addEventListener('ended', () => {
+//     cutscene2NextButton.style.display = 'block';
+// });
+
+// // Click event for the next button after cutscene 2
+// cutscene2NextButton.addEventListener('click', () => {
+//     // Determine which scene should come after cutscene 2
+//     // This could be the sliding scene or any other scene in your game flow
+//     changeScene('home-scene'); // Replace with the appropriate next scene
+    
+//     // Reset the button display state for next time
+//     cutscene2NextButton.style.display = 'none';
+// });

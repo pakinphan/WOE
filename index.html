@@ -292,7 +292,7 @@
         </div>
         
         <!-- Next button (appears after completion) -->
-        <button id="jigsaw-next-button" class="next-button" aria-label="ไปต่อ">
+        <button id="jigsaw-next-button" class="jigsaw-next-button-text" aria-label="ไปต่อ">
             <span>ไปต่อ</span>
             <img src="./asset/image/Button/next yellow.png" alt="Next">
         </button>
@@ -303,16 +303,11 @@
     <audio id="jigsaw-complete-sound" src="./asset/sound/complete_sound.mp3" preload="auto"></audio>
 </div>
 
+<!-- Cutscene 2 Scene -->
 <div id="cutscene-2" class="scene">
-    <div id="video-container">
-        <video id="cutscene2-video-player" muted>
-            <source src="./asset/video/Cutscene2.mp4" type="video/mp4">
-        </video>
-        <div id="cutscene2-next-button">
-            <span class="next-button-text">ไปต่อ</span>
-            <img src="./asset/image/Button/next yellow.png" alt="Next" />
-
-        </div>
+    <div class="video-container">
+        <video id="cutscene2-video-player" src="./asset/video/1.mp4"></video>
+        <button id="cutscene2-next-button" class="next-button">Next</button>
     </div>
 </div>
         <!-- Item overlay -->
