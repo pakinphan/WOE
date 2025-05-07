@@ -5,7 +5,7 @@
 #second-dressing-room-scene {
     display: none;
     background-color: #1a1a1a00;
-    background-image: url('/asset/image/background/DressingRoomOceana/BG.PNG');
+    background-image: url('/WOE/asset/image/background/DressingRoomOceana/BG.PNG');
     background-size: cover;
     background-position: center;
     flex-direction: column;
@@ -85,7 +85,7 @@
     left: 10%;
     width: 90%;
     height: 90%;
-    background-image: url('/asset/image/background/DressingRoomOceana/Deco2.PNG'); /* example foreground image */
+    background-image: url('/WOE/asset/image/background/DressingRoomOceana/Deco2.PNG'); /* example foreground image */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
