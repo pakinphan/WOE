@@ -20,7 +20,7 @@
     left: 0;
     width: 4511px; /* Make this wider than screen */
     height: 100%;
-    background-image: url('/WOE/asset/image/background/walkingroom/walkingbg.png');
+    background-image: url('./asset/image/background/walkingroom/walkingbg.png');
     background-repeat: repeat-x;
     background-position: center;
     
@@ -36,7 +36,7 @@
     height: 450px;
     z-index: 10;
 
-    background-image: url('/WOE/asset/image/character/Oceana/Oceana.png');
+    background-image: url('/WOE/asset\image\character\Oceana\Oceana.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
