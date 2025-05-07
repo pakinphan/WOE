@@ -494,7 +494,7 @@ secondRoomItems.forEach((item) => {
             currentItem.style.height = '60vh';
             currentItem.onclick = null;
             boxContent.style.display = 'none';
-            showMessage('โอ๊ะ!! ในภาพมีตัวเลข 5 ช่างแปลกจัง');
+            showMessage('อันนี้เป็นรูปฉันกับเพื่อน ฉันดูแย่มาก เลยไม่อยากจะเห็นมันน่ะ');
         } else if (item.id === 'second-item2') {
             // Initialize diary viewing
             diaryPageCount = 0;
@@ -504,7 +504,7 @@ secondRoomItems.forEach((item) => {
             currentItem.style.height = '60vh';
             currentItem.onclick = handleDiaryClick;
             boxContent.style.display = 'none';
-            showMessage('คุณพบไดอารี่ ลองคลิกเพื่ออ่านต่อ');
+            showMessage('ฉันบันทึกสิ่งที่ฉันรู้สึกมาตลอดเลยน่ะ ฉันชอบเขียนมันนะ');
         } else {
             currentItem.style.backgroundImage = getComputedStyle(item).backgroundImage;
             currentItem.style.backgroundSize = 'cover';
@@ -527,7 +527,7 @@ function handleDiaryClick() {
     if (diaryPageCount === 0) {
         showMessage('หน้าแรกของไดอารี่...');
     } else if (diaryPageCount === 1) {
-        showMessage('');
+        showMessage('อิจฉาจัง');
     } else if (diaryPageCount === 2) {
         showMessage('เลข 565 งั้นหรอ??');
     }
@@ -614,7 +614,7 @@ comicNextButton.addEventListener('click', () => {
 // Door click event for second room
 secondDoor.addEventListener('click', () => {
     if (secondDoorUnlocked) {
-        showMessage('ไปแต่งตัวกันเถอะ!');
+        showMessage('ฉันไม่มั่นใจเลย ว่าฉันควรไปมั้ย!');
         setTimeout(() => {
             // Add your end game logic here, like showing an ending scene
             changeScene('second-dressing-room-scene'); 
@@ -629,7 +629,7 @@ secondDoor.addEventListener('click', () => {
         doorCodeOverlay.style.display = 'flex';
         doorCodeAttempt = "";
         doorCodeDisplay.textContent = "_ _ _";
-        showMessage('ประตูล็อกอยู่ กรุณาใส่รหัสผ่าน');
+        showMessage('ฉันลืมรหัสไปเลย แต่ฉันจดไว้อยู่นะ');
     }
 });
 
@@ -690,7 +690,7 @@ function checkDoorCode() {
             doorCodeAttempt = "";
             updateDoorCodeDisplay();
         }, 500);
-        showMessage('รหัสผ่านไม่ถูกต้อง ลองอีกครั้ง');
+        showMessage('รหัสผ่านไม่ถูกต้อง ฉันจดไว้ที่ไหนนะ');
     }
 }
 
@@ -1090,7 +1090,7 @@ function moveSlidingPlayer() {
                     }
                 } else {
                     // ผู้เล่นยังเก็บไอเทมไม่ครบ แสดงข้อความแจ้งเตือน
-                    showMessage('คุณต้องพูดคุยกับตัวละครทั้งหมดก่อนไปต่อ!', 3000);
+                    showMessage('ชั้นยังคุยไม่ครบทุกคนเลย!', 3000);
                 }
             }
         }
@@ -1144,7 +1144,7 @@ function moveSlidingPlayer() {
 // เพิ่มฟังก์ชันนี้เข้าไปในโค้ด
 function completeSlideScene() {
     // แสดงข้อความยินดี
-    showMessage('ไปห้องถัดไปกันเถอะ!', 3000);
+    showMessage('ชุดฉันดูแย่ไปหมด!', 3000);
 
     // รีเซ็ตตัวแปรสำหรับการเล่นรอบถัดไป
     finalItemShown = false;
@@ -1342,7 +1342,7 @@ function initJigsawScene() {
     setupJigsawInteractions();
     
     // Show instruction message
-    showMessage('เรียงต่อภาพจิ๊กซอว์ที่คุณได้รับมาให้สมบูรณ์!', 5000);
+    showMessage('เรียงต่อชิ้นส่วนภาพที่คุณได้รับมาให้สมบูรณ์!', 5000);
 }
 
 // ===== JIGSAW INTERACTIONS SETUP =====
@@ -1601,7 +1601,7 @@ function checkJigsawCompletion() {
                     cutscene2VideoPlayer.play();
                 }
                 
-                showMessage('ยินดีด้วย! คุณประกอบภาพจิ๊กซอว์สำเร็จแล้ว!', 3000);
+                showMessage('ชุดฉันไม่ต้องแพงก็ได้นี่ ถ้าฉันใส่แล้วสวย!', 3000);
             }, 5000); // Short delay before switching to cutscene
         }, 1000);
     }
