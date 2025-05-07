@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize video
     videoPlayer.src = "./asset/video/Repo.mp4";
-    cutscene2VideoPlayer.src = "./asset/video/1.mp4"; // Update with your actual video path
+    cutscene2VideoPlayer.src = "./asset/video/Repo.mp4"; // Update with your actual video path
     // For testing only - simulate video end after 2 seconds
     if (cutscene2VideoPlayer) {
         cutscene2VideoPlayer.addEventListener('ended', () => {
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cutscene2NextButton.addEventListener('click', () => {
             // Determine which scene should come after cutscene 2
             changeScene('home-scene'); // Replace with the appropriate next scene
-            
+            location.reload();
             // Reset the button display state for next time
             cutscene2NextButton.style.display = 'none';
         });
@@ -449,6 +449,7 @@ items.forEach((item) => {
         if (item.id === 'item3') { // กล่อง
             currentItem.style.backgroundImage = "url('./asset/image/background/BigRoomNelly/Item/ToyOpen.PNG')"; // เปลี่ยนภาพกล่อง
             currentItem.style.backgroundSize = 'cover';
+            currentItem.style.backgroundPosition = 'center';
             currentItem.style.width = '60vw';
             currentItem.style.height = '85vh';
 
@@ -459,6 +460,7 @@ items.forEach((item) => {
         } else if (item.id === 'item2') { // ไอเทม 2
             currentItem.style.backgroundImage = "url('./asset/image/background/BigRoomNelly/Item/Board2.PNG')"; // เปลี่ยนภาพเฉพาะใน overlay
             currentItem.style.backgroundSize = 'cover';
+            currentItem.style.backgroundPosition = 'center';
             currentItem.style.width = '500px';
             currentItem.style.height = '500px';
             currentItem.onclick = null;
@@ -470,6 +472,7 @@ items.forEach((item) => {
         } else {
             currentItem.style.backgroundImage = getComputedStyle(item).backgroundImage;
             currentItem.style.backgroundSize = 'cover';
+            currentItem.style.backgroundPosition = 'center';
             currentItem.style.width = '500px';
             currentItem.style.height = '500px';
             currentItem.onclick = null;
@@ -487,8 +490,8 @@ secondRoomItems.forEach((item) => {
         if (item.id === 'second-item1') {
             currentItem.style.backgroundImage = "url('./asset/image/background/BigRoomOceana/Pic.PNG')";
             currentItem.style.backgroundSize = 'cover';
-
-            currentItem.style.height = '500px';
+            currentItem.style.backgroundPosition = 'center';
+            currentItem.style.height = '60vh';
             currentItem.onclick = null;
             boxContent.style.display = 'none';
             showMessage('โอ๊ะ!! ในภาพมีตัวเลข 5 ช่างแปลกจัง');
@@ -497,15 +500,16 @@ secondRoomItems.forEach((item) => {
             diaryPageCount = 0;
             currentItem.style.backgroundImage = `url('${diaryPages[diaryPageCount]}')`;
             currentItem.style.backgroundSize = 'cover';
-            currentItem.style.height = '500px';
+            currentItem.style.backgroundPosition = 'center';
+            currentItem.style.height = '60vh';
             currentItem.onclick = handleDiaryClick;
             boxContent.style.display = 'none';
             showMessage('คุณพบไดอารี่ ลองคลิกเพื่ออ่านต่อ');
         } else {
             currentItem.style.backgroundImage = getComputedStyle(item).backgroundImage;
             currentItem.style.backgroundSize = 'cover';
-            currentItem.style.width = '500px';
-            currentItem.style.height = '500px';
+            currentItem.style.width = '60vw';
+            currentItem.style.height = '85vh';
             currentItem.onclick = null;
             boxContent.style.display = 'none';
             showMessage('คุณพบไอเทม แต่ไม่มีอะไรพิเศษ');
@@ -991,47 +995,12 @@ function showReceivedItem(npcKey) {
     itemDescription.textContent = `คุณได้รับเศษภาพ ${pieceNumber} จาก 3!`;
 }
 
-function showFinalItem() {
-    // แสดงภาพจิ๊กซอว์ที่ประกอบเสร็จแล้ว
-    setTimeout(() => {
-        itemReceivedOverlay.classList.remove('hidden');
-        itemImage.src = './asset/image/items/jigsaw.png';
-        itemDescription.textContent = 'ยินดีด้วย! คุณได้รับชิ้นส่วนภาพครบแล้ว!';
-
-        // ลบปุ่มปิดเดิม เพื่อไม่ให้กลับไปรอบวน
-        const closeButton = document.getElementById('item-received-close');
-        if (closeButton) {
-            closeButton.style.display = 'none';
-        }
-
-        // สร้างปุ่ม "ไปด่านถัดไป" แบบใหม่
-        const nextButton = document.createElement('button');
-        nextButton.id = 'dressing-next-button';
-        nextButton.setAttribute('aria-label', 'ไปด่านถัดไป');
-
-        // เพิ่มรูปไอคอนลงในปุ่ม
-        const icon = document.createElement('img');
-        icon.src = './asset/image/ui/arrow-right.png'; // ปรับ path ตามจริง
-        icon.alt = 'Next';
-
-        nextButton.appendChild(icon);
-
-        // เพิ่ม event listener
-        nextButton.addEventListener('click', () => {
-            itemReceivedOverlay.classList.add('hidden');
-            completeSlideScene();
-        });
-
-        // เพิ่มปุ่มเข้าไปในโอเวอร์เลย์
-        itemReceivedOverlay.appendChild(nextButton);
-    }, 1000);
-}
 
 function showFinalItem() {
     // แสดงภาพจิ๊กซอว์ที่ประกอบเสร็จแล้ว
     setTimeout(() => {
         itemReceivedOverlay.classList.remove('hidden');
-        itemImage.src = './asset/image/items/jigsaw.png';
+        itemImage.src = './asset/image/background/walkingroom/jigsawItem1/Puzzle4.png';
         itemDescription.textContent = 'ยินดีด้วย! คุณได้รับชิ้นส่วนภาพครบแล้ว!';
 
         // ลบปุ่มปิดเดิม เพื่อไม่ให้กลับไปรอบวน
@@ -1595,10 +1564,11 @@ function checkJigsawCompletion() {
         jigsawComplete = true;
         
         // Show success animation with slight delay
-        setTimeout(() => {
+
             // Show success message
-            if (jigsawSuccess) jigsawSuccess.style.display = 'block';
-            
+            if (jigsawSuccess) 
+                setTimeout(() => {jigsawSuccess.style.display = 'block';},2000);
+            setTimeout(() => {
             // Show full image with fade-in effect
             if (jigsawRevealedImage) {
                 jigsawRevealedImage.style.display = 'block';
@@ -1631,7 +1601,7 @@ function checkJigsawCompletion() {
                     cutscene2VideoPlayer.play();
                 }
                 
-                showMessage('ยินดีด้วย! คุณประกอบภาพจิ๊กซอว์สำเร็จแล้ว!', 4000);
+                showMessage('ยินดีด้วย! คุณประกอบภาพจิ๊กซอว์สำเร็จแล้ว!', 3000);
             }, 5000); // Short delay before switching to cutscene
         }, 1000);
     }

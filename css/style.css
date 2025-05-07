@@ -27,6 +27,8 @@ body {
     overflow: hidden;
 }
 
+
+
 #container {
     position: relative;
     width: 100vw;
@@ -55,15 +57,23 @@ body {
 
 /* Home Scene */
 #home-scene {
-    background-image: url('/asset/image/background/Cover\ .png');
+    background-image: url('/asset/image/background/Cover.png');
     
     background-size: cover;      /* Cover the entire div, may crop */
     background-repeat: no-repeat;
     background-position: center center;
     font-size: 2rem;
-    text-align: center;
+
     cursor: pointer;
     padding: 2rem;
+}
+
+
+#startText{
+    position: absolute;
+    top: 76%;
+    left: 57%;
+    transform: rotate(-12deg); /* Adjust angle as needed */
 }
 
 #home-scene:hover {
@@ -353,7 +363,7 @@ body {
 }
 
 #current-item {
-    width: 80vw;
+    width: 60vw;
     height: 70vh;
     display: flex;
     justify-content: center;

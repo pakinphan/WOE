@@ -16,7 +16,7 @@
     <div id="container">
         <!-- Home Scene -->
         <div id="home-scene" class="scene active">
-            Click to Start
+            <div id="startText">Click to Start</div>
         </div>
 
         <!-- Cutscene 1 - Video -->
@@ -42,77 +42,93 @@
             <div class="item box" id="item3"></div>
             <div id="door"></div>
 
-            
-        </div>
-
-<!-- Dressing Room Scene -->
-<div id="dressing-room-scene" class="scene">
-    <div class="cloth-foreground"></div>
-    <div class="dressing-room-container">
-        <!-- Character Display Section (Left) -->
-        <div class="character-display">
-            <div id="character-preview" class="character-preview">
-                <!-- Character will appear here -->
-                <img id="character-body" src="./asset/image/character/Nelly/Nelly.PNG" alt="Character Body">
-                <img id="character-head" src="" alt="Character Head" style="display: none;">
-            </div>
-        </div>
-        
-        <!-- Clothing Selection Section (Right) -->
-        <div class="clothing-selection">
-            <div class="tabs">
-                <button class="tab-button active" data-tab="head-tab">ทรงผม</button>
-                <button class="tab-button" data-tab="body-tab">ชุด</button>
-            </div>
-        
-            <div id="head-tab" class="tab-content active">
-                <div class="items-grid">
-                    <div class="clothing-item" data-head="asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png">
-                        <img src="./asset/image/background/DressingRoomNelly/Head/Nelly_head_01.png" alt="Head 1">
-                    </div>
-                    <div class="clothing-item" data-head="asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_02.png">
-                        <img src="./asset/image/background/DressingRoomNelly/Head/Nelly_head_02.png" alt="Head 2">
-                    </div>
-                    <div class="clothing-item" data-head="asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_03.png">
-                        <img src="./asset/image/background/DressingRoomNelly/Head/Nelly_head_03.png" alt="Head 3">
-                    </div>
-                    <div class="clothing-item" data-head="asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_04.png">
-                        <img src="./asset/image/background/DressingRoomNelly/Head/Nelly_head_04.png" alt="Head 4">
-                    </div>
-                    <!-- Add more head options as needed -->
-                </div>
-            </div>
-            
-            <div id="body-tab" class="tab-content">
-                <div class="items-grid">
-                    <div class="clothing-item" data-body="asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png">
-                        <img src="./asset/image/background/DressingRoomNelly/Dress/Nelly_dress_01.png" alt="Body 1">
-                    </div>
-                    <div class="clothing-item" data-body="asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_02.png">
-                        <img src="./asset/image/background/DressingRoomNelly/Dress/Nelly_dress_02.png" alt="Body 2">
-                    </div>
-                    <div class="clothing-item" data-body="asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_03.png">
-                        <img src="./asset/image/background/DressingRoomNelly/Dress/Nelly_dress_03.png" alt="Body 3">
-                    </div>
-                    <div class="clothing-item" data-body="asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_04.png">
-                        <img src="./asset/image/background/DressingRoomNelly/Dress/Nelly_dress_04.png" alt="Body 4">
-
-                    <!-- Add more body options as needed -->
-                </div>
-
-
-                </div>
-            </div>
 
         </div>
-    </div>
-    
-    <!-- Next Button - Always visible -->
-    <button id="dressing-next-button">
-        <span class="next-button-text">ไปต่อ</span>
-        <img src="./asset/image/Button/next yellow.png" alt="Next" />
-    </button>
-</div>
+
+        <!-- Dressing Room Scene -->
+        <div id="dressing-room-scene" class="scene">
+            <div class="cloth-foreground"></div>
+            <div class="dressing-room-container">
+                <!-- Character Display Section (Left) -->
+                <div class="character-display">
+                    <div id="character-preview" class="character-preview">
+                        <!-- Character will appear here -->
+                        <img id="character-body" src="./asset/image/character/Nelly/Nelly.PNG" alt="Character Body">
+                        <img id="character-head" src="" alt="Character Head" style="display: none;">
+                    </div>
+                </div>
+
+                <!-- Clothing Selection Section (Right) -->
+                <div class="clothing-selection">
+                    <div class="tabs">
+                        <button class="tab-button active" data-tab="head-tab">ทรงผม</button>
+                        <button class="tab-button" data-tab="body-tab">ชุด</button>
+                    </div>
+
+                    <div id="head-tab" class="tab-content active">
+                        <div class="items-grid">
+                            <div class="clothing-item"
+                                data-head="asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_01.png">
+                                <img src="./asset/image/background/DressingRoomNelly/Head/Nelly_head_01.png"
+                                    alt="Head 1">
+                            </div>
+                            <div class="clothing-item"
+                                data-head="asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_02.png">
+                                <img src="./asset/image/background/DressingRoomNelly/Head/Nelly_head_02.png"
+                                    alt="Head 2">
+                            </div>
+                            <div class="clothing-item"
+                                data-head="asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_03.png">
+                                <img src="./asset/image/background/DressingRoomNelly/Head/Nelly_head_03.png"
+                                    alt="Head 3">
+                            </div>
+                            <div class="clothing-item"
+                                data-head="asset/image/background/DressingRoomNelly/HeadPreview/Nelly_head_P_04.png">
+                                <img src="./asset/image/background/DressingRoomNelly/Head/Nelly_head_04.png"
+                                    alt="Head 4">
+                            </div>
+                            <!-- Add more head options as needed -->
+                        </div>
+                    </div>
+
+                    <div id="body-tab" class="tab-content">
+                        <div class="items-grid">
+                            <div class="clothing-item"
+                                data-body="asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_01.png">
+                                <img src="./asset/image/background/DressingRoomNelly/Dress/Nelly_dress_01.png"
+                                    alt="Body 1">
+                            </div>
+                            <div class="clothing-item"
+                                data-body="asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_02.png">
+                                <img src="./asset/image/background/DressingRoomNelly/Dress/Nelly_dress_02.png"
+                                    alt="Body 2">
+                            </div>
+                            <div class="clothing-item"
+                                data-body="asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_03.png">
+                                <img src="./asset/image/background/DressingRoomNelly/Dress/Nelly_dress_03.png"
+                                    alt="Body 3">
+                            </div>
+                            <div class="clothing-item"
+                                data-body="asset/image/background/DressingRoomNelly/DressPreview/Nelly_dress_P_04.png">
+                                <img src="./asset/image/background/DressingRoomNelly/Dress/Nelly_dress_04.png"
+                                    alt="Body 4">
+
+                                <!-- Add more body options as needed -->
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Next Button - Always visible -->
+            <button id="dressing-next-button">
+                <span class="next-button-text">ไปต่อ</span>
+                <img src="./asset/image/Button/next yellow.png" alt="Next" />
+            </button>
+        </div>
 
 
         <!-- Comic Scene (New) -->
@@ -142,41 +158,42 @@
         </div>
 
 
-<!-- Blue Screen Transition Scene -->
-<div id="sliding-scene" class="scene">
-    <div id="sliding-background" class="scene-layer">
-      <!-- Background image set by CSS -->
-    </div>
-    <div id="sliding-npcs" class="scene-layer">
-      <div id="npc1" class="npc" data-npc="1" style="left: 500px;"></div>
-      <div id="npc2" class="npc" data-npc="2" style="left: 1600px;"></div>
-      <div id="npc3" class="npc" data-npc="3" style="left: 2800px;"></div>
-    </div>
-    <div id="sliding-player" class="player"></div>
-    <div id="sliding-foreground" class="scene-layer">
+        <!-- Blue Screen Transition Scene -->
+        <div id="sliding-scene" class="scene">
+            <div id="sliding-background" class="scene-layer">
+                <!-- Background image set by CSS -->
+            </div>
+            <div id="sliding-npcs" class="scene-layer">
+                <div id="npc1" class="npc" data-npc="1" style="left: 500px;"></div>
+                <div id="npc2" class="npc" data-npc="2" style="left: 1600px;"></div>
+                <div id="npc3" class="npc" data-npc="3" style="left: 2800px;"></div>
+            </div>
+            <div id="sliding-player" class="player"></div>
+            <div id="sliding-foreground" class="scene-layer">
 
-    </div>
-    <div id="dialogue-overlay" class="hidden">
-        <div id="npc-portrait" style="margin-top: 10%;">  </div>
+            </div>
+            <div id="dialogue-overlay" class="hidden">
+                <div id="npc-portrait" style="margin-top: 10%;"> </div>
 
-      <div id="dialogue-box">
+                <div id="dialogue-box">
 
-        <div id="dialogue-content">
-          <p id="npc-name">NPC Name</p>
-          <p id="dialogue-text">Dialogue text goes here...</p>
+                    <div id="dialogue-content">
+                        <p id="npc-name">NPC Name</p>
+                        <p id="dialogue-text">Dialogue text goes here...</p>
+                    </div>
+                    <button id="dialogue-next">Next</button>
+                </div>
+            </div>
+            <div id="item-received-overlay" class="hidden">
+                <div id="item-received-box">
+                    <h2>ยินดีด้วย!</h2>
+                    <img id="item-image" src="./asset/image/background/walkingroom/jigsawItem1/Puzzle4.png"
+                        alt="Item Image">
+                    <p id="item-description">คุณได้รับเศษภาพครบทั้งหมดแล้ว!</p>
+                    <button id="item-received-close">Close</button>
+                </div>
+            </div>
         </div>
-        <button id="dialogue-next">Next</button>
-      </div>
-    </div>
-    <div id="item-received-overlay" class="hidden">
-      <div id="item-received-box">
-        <h2>ยินดีด้วย!</h2>
-        <img id="item-image" src="" alt="Item Image">
-        <p id="item-description">คุณได้รับเศษภาพครบทั้งหมดแล้ว!</p>
-        <button id="item-received-close">Close</button>
-      </div>
-    </div>
-  </div>
 
         <!-- Second Room Scene -->
         <div id="second-room-scene" class="scene">
@@ -194,122 +211,149 @@
             <!-- Door in the second room -->
             <div id="second-door"></div>
 
-            
+
         </div>
 
-<!-- Second Dressing Room Scene -->
-<div id="second-dressing-room-scene" class="scene">
-    <div class="second-cloth-foreground"></div>
-    <div class="second-dressing-room-container">
-        <!-- Character Display Section (Left) -->
-        <div class="second-character-display">
-            <div id="second-character-preview" class="second-character-preview">
-                <!-- Character will appear here -->
-                <img id="second-character-body" src="./asset/image/character/Oceana/Oceana.PNG" alt="Character Body">
-                <img id="second-character-head" src="" alt="Character Head" style="display: none;">
-            </div>
-        </div>
-        
-        <!-- Clothing Selection Section (Right) -->
-        <div class="second-clothing-selection">
-            <div class="second-tabs">
-                <button class="second-tab-button active" data-tab="second-head-tab">ทรงผม</button>
-                <button class="second-tab-button" data-tab="second-body-tab">ชุด</button>
-            </div>
-        
-            <div id="second-head-tab" class="second-tab-content active">
-                <div class="second-items-grid">
-                    <div class="second-clothing-item" data-head="asset/image/background/DressingRoomOceana/HeadPreview/Oceana_head_P_01.png">
-                        <img src="./asset/image/background/DressingRoomOceana/Head/Oceana_head_01.png" alt="Head 1">
+        <!-- Second Dressing Room Scene -->
+        <div id="second-dressing-room-scene" class="scene">
+            <div class="second-cloth-foreground"></div>
+            <div class="second-dressing-room-container">
+                <!-- Character Display Section (Left) -->
+                <div class="second-character-display">
+                    <div id="second-character-preview" class="second-character-preview">
+                        <!-- Character will appear here -->
+                        <img id="second-character-body" src="./asset/image/character/Oceana/Oceana.PNG"
+                            alt="Character Body">
+                        <img id="second-character-head" src="" alt="Character Head" style="display: none;">
                     </div>
-                    <div class="second-clothing-item" data-head="asset/image/background/DressingRoomOceana/HeadPreview/Oceana_head_P_02.png">
-                        <img src="./asset/image/background/DressingRoomOceana/Head/Oceana_head_02.png" alt="Head 2">
-                    </div>
-                    <div class="second-clothing-item" data-head="asset/image/background/DressingRoomOceana/HeadPreview/Oceana_head_P_03.png">
-                        <img src="./asset/image/background/DressingRoomOceana/Head/Oceana_head_03.png" alt="Head 3">
-                    </div>
-                    <div class="second-clothing-item" data-head="asset/image/background/DressingRoomOceana/HeadPreview/Oceana_head_P_04.png">
-                        <img src="./asset/image/background/DressingRoomOceana/Head/Oceana_head_04.png" alt="Head 4">
-                    </div>
-                    <!-- Add more head options as needed -->
                 </div>
-            </div>
-            
-            <div id="second-body-tab" class="second-tab-content">
-                <div class="second-items-grid">
-                    <div class="second-clothing-item" data-body="asset/image/background/DressingRoomOceana/DressPreview/Oceana_dress_P_01.png">
-                        <img src="./asset/image/background/DressingRoomOceana/Dress/Oceana_dress_01.png" alt="Body 1">
-                    </div>
-                    <div class="second-clothing-item" data-body="asset/image/background/DressingRoomOceana/DressPreview/Oceana_dress_P_02.png">
-                        <img src="./asset/image/background/DressingRoomOceana/Dress/Oceana_dress_02.png" alt="Body 2">
-                    </div>
-                    <div class="second-clothing-item" data-body="asset/image/background/DressingRoomOceana/DressPreview/Oceana_dress_P_03.png">
-                        <img src="./asset/image/background/DressingRoomOceana/Dress/Oceana_dress_03.png" alt="Body 3">
-                    </div>
-                    <div class="second-clothing-item" data-body="asset/image/background/DressingRoomOceana/DressPreview/Oceana_dress_P_04.png">
-                        <img src="./asset/image/background/DressingRoomOceana/Dress/Oceana_dress_04.png" alt="Body 4">
-                    </div>
-                    <!-- Add more body options as needed -->
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Next Button - Always visible -->
-    <button id="second-dressing-next-button">
-        <span class="next-button-text">ไปต่อ</span>
-        <img src="./asset/image/Button/next yellow.png" alt="Next" />
-    </button>
-</div>
-<!-- Jigsaw Puzzle Scene -->
-<div id="jigsaw-scene" class="scene">
-    <div class="scene-container">
-        <h2 class="scene-title">ประกอบรูปภาพเข้าด้วยกัน</h2>
-        
-        <!-- Main jigsaw container - where pieces can be dragged -->
-        <div id="jigsaw-container" class="jigsaw-container">
-            <!-- Jigsaw pieces that can be dragged -->
-            <div class="jigsaw-piece" data-piece-id="piece1" style="background-image: url('./asset/image/background/walkingroom/jigsawItem1/Puzzle1.png');"></div>
-            <div class="jigsaw-piece" data-piece-id="piece2" style="background-image: url('./asset/image/background/walkingroom/jigsawItem1/Puzzle2.png');"></div>
-            <div class="jigsaw-piece" data-piece-id="piece3" style="background-image: url('./asset/image/background/walkingroom/jigsawItem1/Puzzle3.png');"></div>
-            
-            <!-- Jigsaw board with drop zones -->
-            <div class="jigsaw-board">
-                <!-- Drop zones for each piece -->
-                <div class="jigsaw-drop-zone" data-zone-id="piece1"></div>
-                <div class="jigsaw-drop-zone" data-zone-id="piece2"></div>
-                <div class="jigsaw-drop-zone" data-zone-id="piece3"></div>
-            </div>
-            
-            <!-- Full image that appears when puzzle is complete -->
-            <div id="jigsaw-revealed-image" class="jigsaw-revealed-image" style="background-image: url('/asset/image/background/walkingroom/jigsawItem1/PuzzleComplete.png');"></div>
-        </div>
-        
-        <!-- Success message -->
-        <div id="jigsaw-success" class="jigsaw-success">
-            <h3>ยอดเยี่ยม!</h3>
-            <p>คุณประกอบภาพจิ๊กซอว์สำเร็จแล้ว</p>
-        </div>
-        
-        <!-- Next button (appears after completion) -->
-        <button id="jigsaw-next-button" class="jigsaw-next-button-text" aria-label="ไปต่อ">
-            <span>ไปต่อ</span>
-            <img src="./asset/image/Button/next yellow.png" alt="Next">
-        </button>
-    </div>
-    
-    <!-- Sound effects for jigsaw game -->
-    <audio id="jigsaw-place-sound" src="./asset/sound/place_sound.mp3" preload="auto"></audio>
-    <audio id="jigsaw-complete-sound" src="./asset/sound/complete_sound.mp3" preload="auto"></audio>
-</div>
 
-<!-- Cutscene 2 Scene -->
-<div id="cutscene-2" class="scene">
-    <div class="video-container">
-        <video id="cutscene2-video-player" src="./asset/video/1.mp4"></video>
-        <button id="cutscene2-next-button" class="next-button">Next</button>
-    </div>
-</div>
+                <!-- Clothing Selection Section (Right) -->
+                <div class="second-clothing-selection">
+                    <div class="second-tabs">
+                        <button class="second-tab-button active" data-tab="second-head-tab">ทรงผม</button>
+                        <button class="second-tab-button" data-tab="second-body-tab">ชุด</button>
+                    </div>
+
+                    <div id="second-head-tab" class="second-tab-content active">
+                        <div class="second-items-grid">
+                            <div class="second-clothing-item"
+                                data-head="asset/image/background/DressingRoomOceana/HeadPreview/Oceana_head_P_01.png">
+                                <img src="./asset/image/background/DressingRoomOceana/Head/Oceana_head_01.png"
+                                    alt="Head 1">
+                            </div>
+                            <div class="second-clothing-item"
+                                data-head="asset/image/background/DressingRoomOceana/HeadPreview/Oceana_head_P_02.png">
+                                <img src="./asset/image/background/DressingRoomOceana/Head/Oceana_head_02.png"
+                                    alt="Head 2">
+                            </div>
+                            <div class="second-clothing-item"
+                                data-head="asset/image/background/DressingRoomOceana/HeadPreview/Oceana_head_P_03.png">
+                                <img src="./asset/image/background/DressingRoomOceana/Head/Oceana_head_03.png"
+                                    alt="Head 3">
+                            </div>
+                            <div class="second-clothing-item"
+                                data-head="asset/image/background/DressingRoomOceana/HeadPreview/Oceana_head_P_04.png">
+                                <img src="./asset/image/background/DressingRoomOceana/Head/Oceana_head_04.png"
+                                    alt="Head 4">
+                            </div>
+                            <!-- Add more head options as needed -->
+                        </div>
+                    </div>
+
+                    <div id="second-body-tab" class="second-tab-content">
+                        <div class="second-items-grid">
+                            <div class="second-clothing-item"
+                                data-body="asset/image/background/DressingRoomOceana/DressPreview/Oceana_dress_P_01.png">
+                                <img src="./asset/image/background/DressingRoomOceana/Dress/Oceana_dress_01.png"
+                                    alt="Body 1">
+                            </div>
+                            <div class="second-clothing-item"
+                                data-body="asset/image/background/DressingRoomOceana/DressPreview/Oceana_dress_P_02.png">
+                                <img src="./asset/image/background/DressingRoomOceana/Dress/Oceana_dress_02.png"
+                                    alt="Body 2">
+                            </div>
+                            <div class="second-clothing-item"
+                                data-body="asset/image/background/DressingRoomOceana/DressPreview/Oceana_dress_P_03.png">
+                                <img src="./asset/image/background/DressingRoomOceana/Dress/Oceana_dress_03.png"
+                                    alt="Body 3">
+                            </div>
+                            <div class="second-clothing-item"
+                                data-body="asset/image/background/DressingRoomOceana/DressPreview/Oceana_dress_P_04.png">
+                                <img src="./asset/image/background/DressingRoomOceana/Dress/Oceana_dress_04.png"
+                                    alt="Body 4">
+                            </div>
+                            <!-- Add more body options as needed -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Button - Always visible -->
+            <button id="second-dressing-next-button">
+                <span class="next-button-text">ไปต่อ</span>
+                <img src="./asset/image/Button/next yellow.png" alt="Next" />
+            </button>
+        </div>
+        <!-- Jigsaw Puzzle Scene -->
+        <div id="jigsaw-scene" class="scene">
+            <div class="scene-container">
+                <h2 class="scene-title">ประกอบรูปภาพเข้าด้วยกัน</h2>
+
+                <!-- Main jigsaw container - where pieces can be dragged -->
+                <div id="jigsaw-container" class="jigsaw-container">
+                    <!-- Jigsaw pieces that can be dragged -->
+                    <div class="jigsaw-piece" data-piece-id="piece1"
+                        style="background-image: url('./asset/image/background/walkingroom/jigsawItem1/Puzzle1.png');">
+                    </div>
+                    <div class="jigsaw-piece" data-piece-id="piece2"
+                        style="background-image: url('./asset/image/background/walkingroom/jigsawItem1/Puzzle2.png');">
+                    </div>
+                    <div class="jigsaw-piece" data-piece-id="piece3"
+                        style="background-image: url('./asset/image/background/walkingroom/jigsawItem1/Puzzle3.png');">
+                    </div>
+
+                    <!-- Jigsaw board with drop zones -->
+                    <div class="jigsaw-board">
+                        <!-- Drop zones for each piece -->
+                        <div class="jigsaw-drop-zone" data-zone-id="piece1"></div>
+                        <div class="jigsaw-drop-zone" data-zone-id="piece2"></div>
+                        <div class="jigsaw-drop-zone" data-zone-id="piece3"></div>
+                    </div>
+
+                    <!-- Full image that appears when puzzle is complete -->
+                    <div id="jigsaw-revealed-image" class="jigsaw-revealed-image"
+                        style="background-image: url('/asset/image/background/walkingroom/jigsawItem1/PuzzleComplete.png');">
+                    </div>
+                </div>
+
+                <!-- Success message -->
+                <div id="jigsaw-success" class="jigsaw-success">
+                    <h3>ยอดเยี่ยม!</h3>
+                    <p>คุณประกอบภาพสำเร็จแล้ว</p>
+                </div>
+
+                <!-- Next button (appears after completion) -->
+                <button id="jigsaw-next-button" class="jigsaw-next-button-text" aria-label="ไปต่อ">
+                    <span class="next-button-text">ไปต่อ</span>
+                    <img src="./asset/image/Button/next yellow.png" alt="Next">
+                </button>
+            </div>
+
+            <!-- Sound effects for jigsaw game -->
+            <audio id="jigsaw-place-sound" src="./asset/sound/place_sound.mp3" preload="auto"></audio>
+            <audio id="jigsaw-complete-sound" src="./asset/sound/complete_sound.mp3" preload="auto"></audio>
+        </div>
+
+        <!-- Cutscene 2 Scene -->
+        <div id="cutscene-2" class="scene">
+            <div class="video-container">
+                <video id="cutscene2-video-player" src="./asset/video/1.mp4"></video>
+                <button id="cutscene2-next-button" class="next-button"> 
+                    <span class="next-button-text">จบเกม</span>
+                    <img src="./asset/image/Button/next.png" alt="Next"></button>
+            </div>
+        </div>
         <!-- Item overlay -->
         <div id="item-overlay">
             <div id="item-display">

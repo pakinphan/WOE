@@ -145,10 +145,10 @@
 
 .jigsaw-success {
     position: absolute;
-    top: 16%;
+    top: 50%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #e7ac4700;
+    background-color: #00000000;
     color: #ffffff;
     padding: 15px 30px;
     border-radius: 12px;
@@ -163,12 +163,14 @@
     font-family: 'Issara', sans-serif;
     font-size: 1.8rem;
     margin: 0 0 5px 0;
+    text-shadow: 1px 1px 2px black;
 }
 
 .jigsaw-success p {
     font-family: 'Issara', sans-serif;
     font-size: 1.2rem;
     margin: 0;
+    text-shadow: 1px 1px 2px black;
 }
 
 /* Button that appears after completion */
