@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize video
     videoPlayer.src = "./asset/video/Repo.mp4";
-    cutscene2VideoPlayer.src = "./asset/video/Repo.mp4"; // Update with your actual video path
+    cutscene2VideoPlayer.src = "./asset/video/cutscene end.mp4"; // Update with your actual video path
     // For testing only - simulate video end after 2 seconds
     if (cutscene2VideoPlayer) {
         cutscene2VideoPlayer.addEventListener('ended', () => {
