@@ -2,43 +2,44 @@
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 10000; /* Ensure it's above all other elements */
-    pointer-events: none; /* Make the overlay itself not block clicks */
+    z-index: 10000;
+    pointer-events: none;
 }
 
 #reload-button {
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    border: 2px solid #f8c471;
-    border-radius: 50px;
-    padding: 10px 15px;
-    font-size: 16px;
+    background: none;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: Arial, sans-serif;
-    pointer-events: auto; /* Make the button clickable */
+    pointer-events: auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.2s ease;
 }
 
-#reload-button:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-    border-color: #fff;
-    transform: scale(1.05);
+.reload-icon {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-#reload-button:active {
+#reload-button:hover .reload-icon {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+#reload-button:active .reload-icon {
     transform: scale(0.95);
 }
 
-/* Responsive styles */
+/* Responsive */
 @media (max-width: 768px) {
-    #reload-button {
-        font-size: 14px;
-        padding: 8px 12px;
+    .reload-icon {
+        width: 32px;
+        height: 32px;
     }
-    
+
     #reload-overlay {
         top: 10px;
         right: 10px;

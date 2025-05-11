@@ -1611,23 +1611,28 @@ function createReloadButton() {
     // Create the overlay container
     const reloadOverlay = document.createElement('div');
     reloadOverlay.id = 'reload-overlay';
-    
+
     // Create the reload button
     const reloadButton = document.createElement('button');
     reloadButton.id = 'reload-button';
-    reloadButton.innerHTML = '↻ เริ่มใหม่'; // Restart in Thai
-    
-    // Add click event listener to reload the page
+
+    // Create the image element
+    const reloadIcon = document.createElement('img');
+    reloadIcon.src = './asset/image/Information .png'; // Replace with your actual image path or URL
+    reloadIcon.alt = 'Reload';
+    reloadIcon.className = 'reload-icon';
+
+    // Add click event
     reloadButton.addEventListener('click', () => {
         location.reload();
     });
-    
-    // Append the button to the overlay
+
+    // Append icon to button, and button to overlay
+    reloadButton.appendChild(reloadIcon);
     reloadOverlay.appendChild(reloadButton);
-    
-    // Append the overlay to the body
     document.body.appendChild(reloadOverlay);
 }
+
 
 
 // Update the handleJigsawNextButtonClick function
