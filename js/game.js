@@ -1633,7 +1633,16 @@ function createReloadButton() {
     document.body.appendChild(reloadOverlay);
 }
 
-
+// Add background music to the page
+function addBackgroundMusic() {
+    const audio = document.createElement('audio');
+    audio.id = 'bg-music';
+    audio.src = './asset/Song/ES_One Toast Too Much - Stationary Sign.mp3'; // Replace with your music file path
+    audio.loop = true;
+    audio.autoplay = true;
+    audio.volume = 0.5; // Adjust volume if needed
+    document.body.appendChild(audio);
+}
 
 // Update the handleJigsawNextButtonClick function
 // function handleJigsawNextButtonClick() {
