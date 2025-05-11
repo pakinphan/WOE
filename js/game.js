@@ -356,6 +356,7 @@ videoPlayer.addEventListener('ended', () => {
 // Next button click event
 nextButton.addEventListener('click', () => {
     changeScene('room-scene');
+    showMessage('กดลูกศร ซ้าย-ขวา เพื่อเดิน', 5000);
 });
 
 // ===== PLAYER MOVEMENT =====
@@ -577,7 +578,7 @@ door.addEventListener('click', () => {
         showMessage('ฉันต้องการเครื่องประดับที่ส่งต่อมาตั้งแต่รุ่นยายทวดก่อน..!');
         setTimeout(() => {
             showMessage('ฉันไม่สามารถแต่งตัวได้ ฉันหากิ๊บติดผมอยู่');
-        }, 3000); // 2000 มิลลิวินาที = 2 วินาที
+        }, 3000);
     }
 });
 
@@ -847,6 +848,7 @@ function setupDressingRoom() {
 
 // ===== SLIDING SCENE INITIALIZATION =====
 function initSlidingScene() {
+        showMessage('พูดคุยกับทุกคน เพื่อเก็บชิ้นส่วนภาพ', 5000);
     // Calculate screen middle on initialization to handle window resizing
     screenMiddle = window.innerWidth / 2;
 
@@ -1178,6 +1180,7 @@ function setupSlidingSceneTransition() {
 // ===== SECOND DRESSING ROOM SETUP =====
 function initSecondDressingRoom() {
     console.log('Initializing second dressing room');
+    
     // Set default character
     secondCharacterBody.src = './asset/image/background/DressingRoomOceana/DressPreview/Oceana_dress_P_01.png';
     secondCharacterHead.src = './asset/image/background/DressingRoomOceana/HeadPreview/Oceana_head_P_01.png';
@@ -1633,16 +1636,7 @@ function createReloadButton() {
     document.body.appendChild(reloadOverlay);
 }
 
-// Add background music to the page
-function addBackgroundMusic() {
-    const audio = document.createElement('audio');
-    audio.id = 'bg-music';
-    audio.src = './asset/Song/song.mp3'; // Replace with your music file path
-    audio.loop = true;
-    audio.autoplay = true;
-    audio.volume = 0.5; // Adjust volume if needed
-    document.body.appendChild(audio);
-}
+
 
 // Update the handleJigsawNextButtonClick function
 // function handleJigsawNextButtonClick() {
