@@ -214,7 +214,7 @@ function checkElements() {
 // Make sure all scenes are hidden except the home scene at startup
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded");
-
+    createReloadButton();
     // First, hide ALL scenes by both removing active class and setting display none
     document.querySelectorAll('.scene').forEach(scene => {
         scene.classList.remove('active');
@@ -1606,6 +1606,29 @@ function checkJigsawCompletion() {
         }, 1000);
     }
 }
+
+function createReloadButton() {
+    // Create the overlay container
+    const reloadOverlay = document.createElement('div');
+    reloadOverlay.id = 'reload-overlay';
+    
+    // Create the reload button
+    const reloadButton = document.createElement('button');
+    reloadButton.id = 'reload-button';
+    reloadButton.innerHTML = '↻ เริ่มใหม่'; // Restart in Thai
+    
+    // Add click event listener to reload the page
+    reloadButton.addEventListener('click', () => {
+        location.reload();
+    });
+    
+    // Append the button to the overlay
+    reloadOverlay.appendChild(reloadButton);
+    
+    // Append the overlay to the body
+    document.body.appendChild(reloadOverlay);
+}
+
 
 // Update the handleJigsawNextButtonClick function
 // function handleJigsawNextButtonClick() {

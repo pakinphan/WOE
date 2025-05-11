@@ -1,0 +1,46 @@
+#reload-overlay {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000; /* Ensure it's above all other elements */
+    pointer-events: none; /* Make the overlay itself not block clicks */
+}
+
+#reload-button {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: 2px solid #f8c471;
+    border-radius: 50px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: Arial, sans-serif;
+    pointer-events: auto; /* Make the button clickable */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#reload-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-color: #fff;
+    transform: scale(1.05);
+}
+
+#reload-button:active {
+    transform: scale(0.95);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    #reload-button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+    
+    #reload-overlay {
+        top: 10px;
+        right: 10px;
+    }
+}
