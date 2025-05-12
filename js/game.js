@@ -167,7 +167,7 @@ const npcDialogues = {
 // Array of diary pages
 const diaryPages = [
     "./asset/image/background/BigRoomOceana/Diary1.PNG",
-    "./asset/image/background/BigRoomOceana/Diary2.PNG",
+    "./asset/image/background/BigRoomOceana/Diary2.png",
     "./asset/image/background/BigRoomOceana/Diary3.PNG"
 ];
 
