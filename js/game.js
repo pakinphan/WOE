@@ -9,6 +9,7 @@ const secondTabContents = document.querySelectorAll('.second-tab-content');
 const secondClothingItems = document.querySelectorAll('.second-clothing-item');
 const secondCharacterBody = document.getElementById('second-character-body');
 const secondCharacterHead = document.getElementById('second-character-head');
+const bgMusic = document.getElementById('bgMusic');
 
 // ===== CHARACTER CUSTOMIZATION (update existing section) =====
 // Selected items tracking for second dressing room
@@ -346,6 +347,7 @@ function showMessage(message, duration = 3000) {
 // Home scene click event
 homeScene.addEventListener('click', () => {
     changeScene('cutscene-1');
+    bgMusic.play();
 });
 
 // Video ended event

@@ -14,14 +14,14 @@
 </head>
 
 <body>
-    <audio id="bgMusic" src="./asset/Song/song.mp3"  autoplay loop hidden></audio>
+      <audio id="bgMusic" src="./asset/Song/song.mp3" autoplay loop hidden></audio>
     <div id="container">
-        <div id="reload-overlay">
-            <button id="reload-button">
-                <img src="./asset/image/Information .png" alt="Reload" class="reload-icon" />
-            </button>
-        </div>
-
+<div id="reload-overlay">
+    <button id="reload-button">
+        <img src="./asset/image/Information .png" alt="Reload" class="reload-icon" />
+    </button>
+</div>
+    
         <!-- Home Scene -->
         <div id="home-scene" class="scene active">
             <div id="startText">Click to Start</div>
@@ -357,7 +357,7 @@
         <div id="cutscene-2" class="scene">
             <div class="video-container">
                 <video id="cutscene2-video-player" src="./asset/video/1.mp4"></video>
-                <button id="cutscene2-next-button" class="next-button">
+                <button id="cutscene2-next-button" class="next-button"> 
                     <span class="next-button-text">จบเกม</span>
                     <img src="./asset/image/Button/next.png" alt="Next"></button>
             </div>
@@ -421,14 +421,6 @@
     </div>
 
     <script src="./js/game.js"></script>
-    <script>
-        window.addEventListener('click', function () {
-          const bgMusic = document.getElementById('bgMusic');
-          if (bgMusic.paused) {
-            bgMusic.play();
-          }
-        }, { once: true }); // only trigger once
-      </script>
 </body>
 
 </html>
