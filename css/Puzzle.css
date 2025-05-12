@@ -2,7 +2,7 @@
 
 /* Jigsaw puzzle scene styles */
 #jigsaw-scene {
-    background-image: url('/WOE/asset/image/background/DressingRoomOceana/BG.PNG');
+    background-image: url('/asset/image/background/DressingRoomOceana/BG.PNG');
     background-size: cover;
     background-position: center;
     display: none; /* Hidden by default */

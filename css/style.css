@@ -11,7 +11,7 @@
 
 @font-face {
     font-family: Issara;
-    src: url(../asset//Font/FC\ Issara\ Rounded\ Non-commercial.ttf);
+    src: url(../asset/Font/FC\ Issara\ Rounded\ Non-commercial.ttf);
   }
 
 body {
@@ -57,7 +57,7 @@ body {
 
 /* Home Scene */
 #home-scene {
-    background-image: url('/WOE/asset/image/background/Cover.png');
+    background-image: url('/asset/image/background/Cover.png');
     
     background-size: cover;      /* Cover the entire div, may crop */
     background-repeat: no-repeat;
@@ -200,7 +200,7 @@ body {
     width: 100%;
     height: 100%;
     position: relative;
-    background-image: url('/WOE/asset/image/background/BigRoomNelly/BG.PNG');
+    background-image: url('/asset/image/background/BigRoomNelly/BG.PNG');
     
     background-size: cover;      /* Cover the entire div, may crop */
     background-repeat: no-repeat;
@@ -214,7 +214,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background-image: url('/WOE/asset/image/background/BigRoomNelly/Reserve/DecoCorner.png'); /* example foreground image */
+    background-image: url('/asset/image/background/BigRoomNelly/Reserve/DecoCorner.png'); /* example foreground image */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -230,7 +230,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background-image: url('/WOE/asset/image/background/BigRoomNelly/Reserve/Floor.png'); /* example foreground image */
+    background-image: url('/asset/image/background/BigRoomNelly/Reserve/Floor.png'); /* example foreground image */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -260,6 +260,11 @@ body {
     width: 50px;
     height: 50px;
     cursor: pointer;
+    transition: transform 0.3s ease; /* Smooth animation */
+}
+
+.item:hover {
+    transform: scale(1.1); /* Make item 30% bigger */
 }
 
 #item1 {
@@ -268,7 +273,11 @@ body {
     aspect-ratio: 1 / 1;
     width: 16%;
     height: 30%;
-    background-image: url('/WOE/asset//image/background/BigRoomNelly/Item/Hang-pic.png');
+    filter: drop-shadow(2px 2px 0 #e7ad47)
+            drop-shadow(-2px 2px 0 white)
+            drop-shadow(2px -2px 0 white)
+            drop-shadow(-2px -2px 0 white);
+    background-image: url('/asset/image/background/BigRoomNelly/Item/Hang-pic.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -282,7 +291,11 @@ body {
     aspect-ratio: 1 / 1;
     width: 16%;
     height: 30%;
-    background-image: url('/WOE/asset/image/background/BigRoomNelly/Item/Board.PNG');
+        filter: drop-shadow(2px 2px 0 #e7ad47)
+            drop-shadow(-2px 2px 0 white)
+            drop-shadow(2px -2px 0 white)
+            drop-shadow(-2px -2px 0 white);
+    background-image: url('/asset/image/background/BigRoomNelly/Item/Board.PNG');
     background-size: cover;
     background-repeat: no-repeat;
     z-index: 9;
@@ -295,7 +308,11 @@ body {
     aspect-ratio: 1 / 1;
     width: 20%;
     height: 35%;
-    background-image: url('/WOE/asset/image/background/BigRoomNelly/Item/Toy.PNG');
+        filter: drop-shadow(2px 2px 0 #e7ad47)
+            drop-shadow(-2px 2px 0 white)
+            drop-shadow(2px -2px 0 white)
+            drop-shadow(-2px -2px 0 white);
+    background-image: url('/asset/image/background/BigRoomNelly/Item/Toy.PNG');
     background-size: cover;
     background-repeat: no-repeat;
     z-index: 9;
@@ -308,7 +325,7 @@ body {
     aspect-ratio: 1 / 1;
     width: 40%;
     height: 80%;
-    background-image: url('/WOE/asset/image/background/BigRoomNelly/Item/Door.PNG');
+    background-image: url('/asset/image/background/BigRoomNelly/Item/Door.PNG');
     background-size: cover;
     background-repeat: no-repeat;
     z-index: 7;
@@ -457,7 +474,7 @@ body {
 #comic-scene {
     width: 100%;
     height: 100%;
-    background-color: #080808;
+    background-color: #ebeef5;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -481,22 +498,22 @@ body {
 }
 
 .comic-panel:nth-child(1) {
-    transform: translate(4vw, 0);
+    transform: translate(5vw, 0vw);
     z-index: 1;
 }
 
 .comic-panel:nth-child(2) {
-    transform: translate(-5vw, 0);
+    transform: translate(-7vw, -1vw);
     z-index: 2;
 }
 
 .comic-panel:nth-child(3) {
-    transform: translate(4vw, 0.5vw);
+    transform: translate(8vw, -1vw);
     z-index: 3;
 }
 
 .comic-panel:nth-child(4) {
-    transform: translate(-4vw, 1vw);
+    transform: translate(-2vw, -2vw);
     z-index: 4;
 }
 
@@ -535,7 +552,7 @@ body {
     width: 100%;
     text-align: center;
     font-size: 16px;
-    color: #fff;
+    color: #000000;
 }
 
 
@@ -547,7 +564,7 @@ body {
     height: 100%;
     position: relative;
     background-color: #222; /* Temporary background color */
-    background-image: url('/WOE/asset/image/background/BigRoomOceana/BG.jpg');
+    background-image: url('/asset/image/background/BigRoomOceana/BG.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -571,6 +588,11 @@ body {
     position: absolute;
     cursor: pointer;
     z-index: 9;
+    transition: transform 0.3s ease; /* Smooth animation */
+}
+
+.second-room-item:hover {
+    transform: scale(1.1); /* Make item 30% bigger */
 }
 
 #second-item1 {
@@ -579,7 +601,11 @@ body {
     aspect-ratio: 1 / 1;
     width: 16%;
     height: 22%;
-    background-image: url('/WOE/asset/image/background/BigRoomOceana/Pic.PNG');
+             filter: drop-shadow(2px 2px 0 #e7ad47)
+            drop-shadow(-2px 2px 0 white)
+            drop-shadow(2px -2px 0 white)
+            drop-shadow(-2px -2px 0 white);
+    background-image: url('/asset/image/background/BigRoomOceana/Pic.PNG');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -591,7 +617,11 @@ body {
     left: 16%;
     width: 23%;
     height: 25%;
-    background-image: url('/WOE/asset/image/background/BigRoomOceana/Diary.PNG');
+            filter: drop-shadow(2px 2px 0 #e7ad47)
+            drop-shadow(-2px 2px 0 white)
+            drop-shadow(2px -2px 0 white)
+            drop-shadow(-2px -2px 0 white);
+    background-image: url('/asset/image/background/BigRoomOceana/Diary.PNG');
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -601,7 +631,7 @@ body {
     right: 15%;
     width: 0px;
     height: 0px;
-    background-image: url('/WOE/asset/image/background/SecondRoom/Item/Desk.PNG');
+    background-image: url('/asset/image/background/SecondRoom/Item/Desk.PNG');
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -613,7 +643,7 @@ body {
     aspect-ratio: 1 / 1;
     width: 28%;
     height: 56%;
-    background-image: url('/WOE/asset/image/background/BigRoomOceana/Door.PNG');
+    background-image: url('/asset/image/background/BigRoomOceana/Door.PNG');
     background-size: cover;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -627,7 +657,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background-image: url('/WOE/asset/image/background/BigRoomOceana/foreGround.PNG'); /* example foreground image */
+    background-image: url('/asset/image/background/BigRoomOceana/foreGround.PNG'); /* example foreground image */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -643,7 +673,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background-image: url('/WOE/asset/image/background/BigRoomOceana/floor2.PNG'); /* example foreground image */
+    background-image: url('/asset/image/background/BigRoomOceana/floor2.PNG'); /* example foreground image */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -659,7 +689,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background-image: url('/WOE/asset/image/background/BigRoomOceana/Particle.png'); /* example foreground image */
+    background-image: url('/asset/image/background/BigRoomOceana/Particle.png'); /* example foreground image */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -839,7 +869,7 @@ body {
 /* Dressing Room Styles */
 #dressing-room-scene {
     background-color: #1a1a1a00;
-    background-image: url('/WOE/asset/image/background/DressingRoomNelly/BG.PNG');
+    background-image: url('/asset/image/background/DressingRoomNelly/BG.PNG');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -914,7 +944,7 @@ body {
     left: 10%;
     width: 90%;
     height: 90%;
-    background-image: url('/WOE/asset/image/background/DressingRoomNelly/Deco1.PNG'); /* example foreground image */
+    background-image: url('/asset/image/background/DressingRoomNelly/Deco1.PNG'); /* example foreground image */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
