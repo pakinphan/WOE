@@ -494,7 +494,8 @@ secondRoomItems.forEach((item) => {
             currentItem.style.backgroundImage = "url('./asset/image/background/BigRoomOceana/Pic.PNG')";
             currentItem.style.backgroundSize = 'cover';
             currentItem.style.backgroundPosition = 'center';
-            currentItem.style.height = '60vh';
+            currentItem.style.width = '750px';
+            currentItem.style.height = '500px';
             currentItem.onclick = null;
             boxContent.style.display = 'none';
             showMessage('อันนี้เป็นรูปฉันกับเพื่อน ฉันดูแย่มาก เลยไม่อยากจะเห็นมันน่ะ');
@@ -504,7 +505,8 @@ secondRoomItems.forEach((item) => {
             currentItem.style.backgroundImage = `url('${diaryPages[diaryPageCount]}')`;
             currentItem.style.backgroundSize = 'cover';
             currentItem.style.backgroundPosition = 'center';
-            currentItem.style.height = '60vh';
+            currentItem.style.width = '750px';
+            currentItem.style.height = '500px';
             currentItem.onclick = handleDiaryClick;
             boxContent.style.display = 'none';
             showMessage('ฉันบันทึกสิ่งที่ฉันรู้สึกมาตลอดเลยน่ะ ฉันชอบเขียนมันนะ');
